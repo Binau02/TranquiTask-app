@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="#9C27B0" /> <!-- Couleur de fond lorsqu'appuyé -->
+            <corners android:radius="20dp" /> <!-- Rayon pour les coins arrondis -->
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/white" /> <!-- Couleur de fond par défaut -->
+            <corners android:radius="20dp" /> <!-- Rayon pour les coins arrondis -->
+        </shape>
+    </item>
+</selector>

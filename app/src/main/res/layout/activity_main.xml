@@ -29,7 +29,9 @@
         app:itemTextColor="@color/bottom_navigation_text_color"
         app:itemIconTint="@color/bottom_navigation_text_color"
         app:itemActiveIndicatorStyle="@style/Theme.TranquiTaskApp"
-        app:menu="@menu/bottom_nav"
-        tools:ignore="VisualLintBottomNav" />
+        app:menu="@menu/bottom_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--app:itemIconTintActive="@color/orange"
+    app:itemIconTintInactive="@color/white"-->

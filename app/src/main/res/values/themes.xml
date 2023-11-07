@@ -1,9 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.TranquiTaskApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
+
+    <style name="roundedimageview" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50dp</item>
+        <item name="color">@color/white</item>
+    </style>
+
+
 
     <style name="Theme.TranquiTaskApp" parent="Base.Theme.TranquiTaskApp" />
 </resources>
