@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TranquiTask app</string>
+    <string name="home">Accueil</string>
+    <string name="leaderboard">Classement</string>
+    <string name="profile">Profil</string>
+    <string name="friends">Amis</string>
+</resources>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TranquiTask app</string>
+    <string name="home">Home</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="profile">Profile</string>
+    <string name="friends">Friends</string>
 </resources>
