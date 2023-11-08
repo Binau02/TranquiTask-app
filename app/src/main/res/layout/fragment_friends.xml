@@ -12,23 +12,41 @@
         android:layout_marginStart="168dp"
         android:layout_marginTop="104dp"
         android:text="Amis"
-        android:textSize="30dp"
+        android:textSize="35dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/plus"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        app:srcCompat="@drawable/add"
-        tools:layout_editor_absoluteX="313dp"
-        tools:layout_editor_absoluteY="67dp" />
+        android:id="@+id/add_friend"
+        android:layout_width="66dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="36dp"
+        android:src="@drawable/baseline_group_add_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/image_profile"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/friendButton"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/profile_icon"
-        tools:layout_editor_absoluteX="270dp"
-        tools:layout_editor_absoluteY="120dp" />
+        android:background="@drawable/rounded_button"
+        android:text="Amis"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/newFriendButton"
+        app:layout_constraintEnd_toStartOf="@+id/newFriendButton" />
+
+    <Button
+        android:id="@+id/newFriendButton"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="196dp"
+        android:layout_marginEnd="45dp"
+        android:background="@drawable/rounded_button"
+        android:text="Demandes d'ami"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
