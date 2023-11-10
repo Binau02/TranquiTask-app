@@ -39,21 +39,11 @@
         app:srcCompat="@drawable/soleil_nuage" />
 
     <ImageView
-        android:id="@+id/tree"
-        android:layout_width="202dp"
-        android:layout_height="229dp"
-        android:layout_marginStart="232dp"
-        android:layout_marginBottom="64dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/arbre_removebg" />
-
-    <ImageView
         android:id="@+id/house"
         android:layout_width="253dp"
         android:layout_height="225dp"
         android:layout_marginStart="4dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="92dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/maison2_removebg" />
@@ -63,10 +53,20 @@
         android:layout_width="445dp"
         android:layout_height="248dp"
         android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="21dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/herbe_removebg" />
+
+    <ImageView
+        android:id="@+id/tree"
+        android:layout_width="202dp"
+        android:layout_height="229dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/arbre_removebg" />
 
     <Button
         android:id="@+id/button_modif"
@@ -112,6 +112,13 @@
         android:text="Boutique"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="100dp" />
 
     <ImageView
         android:id="@+id/frame"
