@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="308dp"
+        android:layout_height="59dp"
+        android:contentDescription="Saisie de la tâche à ajouter"
+        android:gravity="center"
+        android:text="@string/add_task"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textNameTask"
+        android:layout_width="127dp"
+        android:layout_height="46dp"
+        android:gravity="start|left|center_vertical"
+        android:text="Nom de la tâche"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/editTextNameTask"
+        app:layout_constraintTop_toTopOf="@+id/editTextNameTask" />
+
+    <TextView
+        android:id="@+id/textCategory"
+        android:layout_width="127dp"
+        android:layout_height="46dp"
+        android:gravity="start|left|center_vertical"
+        android:text="Catégorie"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/editTextCategory"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNameTask" />
+
+    <TextView
+        android:id="@+id/textDeadline"
+        android:layout_width="127dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="40dp"
+        android:gravity="start|left|center_vertical"
+        android:text="Deadline"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.366" />
+
+    <EditText
+        android:id="@+id/editTextDeadline"
+        android:layout_width="163dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:contentDescription="Sélectionner la date"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="01/01/1999"
+        android:inputType="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textDeadline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.371" />
+
+    <ImageView
+        android:id="@+id/imageViewCalendar"
+        android:layout_width="28dp"
+        android:layout_height="31dp"
+        android:contentDescription="Ouvrir le calendrier"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.425"
+        app:layout_constraintStart_toEndOf="@+id/editTextDeadline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38" />
+
+    <TextView
+        android:id="@+id/textDivisibleTask"
+        android:layout_width="127dp"
+        android:layout_height="46dp"
+        android:gravity="start|left|center_vertical"
+        android:text="Tâche divisible"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.455" />
+
+    <TextView
+        android:id="@+id/textConcentration"
+        android:layout_width="252dp"
+        android:layout_height="49dp"
+        android:gravity="start|left|center_vertical"
+        android:text="Tâche demandant de la concentration ?"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.283"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.549" />
+
+    <TextView
+        android:id="@+id/textTime2"
+        android:layout_width="335dp"
+        android:layout_height="32dp"
+        android:gravity="start|left|center_vertical"
+        android:text="Durée de la tâche                                 : "
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.592"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.632" />
+
+    <TextView
+        android:id="@+id/textPriority"
+        android:layout_width="335dp"
+        android:layout_height="32dp"
+        android:gravity="start|left|center_vertical"
+        android:text="Priorité de la tâche"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.592"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.69" />
+
+    <EditText
+        android:id="@+id/editTextNameTask"
+        android:layout_width="320dp"
+        android:layout_height="81dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.13"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/editTextCategory"
+        android:layout_width="311dp"
+        android:layout_height="75dp"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.43"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.253"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <CheckBox
+        android:id="@+id/checkBoxConcentration"
+        android:layout_width="30dp"
+        android:layout_height="33dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.929"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.547" />
+
+    <CheckBox
+        android:id="@+id/checkBoxDivisible"
+        android:layout_width="28dp"
+        android:layout_height="34dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.447" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="321dp"
+        android:layout_height="57dp"
+        android:text="@string/Save"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.816" />
+
+    <EditText
+        android:id="@+id/editTextTime"
+        android:layout_width="36dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:inputType="time"
+        tools:layout_editor_absoluteX="249dp"
+        tools:layout_editor_absoluteY="432dp" />
+
+    <EditText
+        android:id="@+id/editTextTime2"
+        android:layout_width="36dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:inputType="time"
+        tools:layout_editor_absoluteX="304dp"
+        tools:layout_editor_absoluteY="432dp" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="144dp"
+        android:layout_height="24dp"
+        tools:layout_editor_absoluteX="238dp"
+        tools:layout_editor_absoluteY="483dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
