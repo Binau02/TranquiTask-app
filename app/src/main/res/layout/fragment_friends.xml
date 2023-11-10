@@ -85,8 +85,10 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:divider="@drawable/layout_gap"
+            android:showDividers="middle"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp">
 
             <include layout="@layout/pseudo_row" />
 
