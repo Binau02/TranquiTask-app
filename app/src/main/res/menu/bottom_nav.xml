@@ -10,6 +10,10 @@
         android:id="@+id/leaderboard"
         android:icon="@drawable/leaderboard_icon"/>
 
+    <item android:title="Add task"
+        android:id="@+id/add_task"
+        android:icon="@drawable/add"/>
+
     <item
         android:title="@string/profile"
         android:id="@+id/profile"
