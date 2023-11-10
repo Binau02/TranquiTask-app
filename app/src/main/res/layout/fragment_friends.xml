@@ -21,8 +21,8 @@
         android:id="@+id/add_friend"
         android:layout_width="49dp"
         android:layout_height="47dp"
-        android:layout_marginTop="77dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="32dp"
         android:src="@drawable/baseline_group_add_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,6 +51,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/friendButton"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/notificationBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/round_notification"
+        android:gravity="center"
+        android:minWidth="24dp"
+        android:minHeight="24dp"
+        android:padding="4dp"
+        android:text="3"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/newFriendButton"
+        app:layout_constraintEnd_toEndOf="@+id/newFriendButton"
+        app:layout_constraintTop_toTopOf="@+id/newFriendButton"
+        app:layout_constraintVertical_bias="0.291" />
 
     <ScrollView
         android:id="@+id/scrollView2"
