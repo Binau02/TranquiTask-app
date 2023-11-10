@@ -4,4 +4,7 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="profile">Profile</string>
     <string name="friends">Friends</string>
+    <string name="Save">Save </string>
+    <string name="add_task">Add a new task</string>
+
 </resources>
