@@ -17,10 +17,10 @@ class TimerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.blocking_screen)
+        setContentView(R.layout.fragment_profile)
 
-        textViewTimer = findViewById(R.id.countdown_id)
-        buttonStart = findViewById(R.id.button_start)
+        textViewTimer = findViewById(R.id.countdown)
+        buttonStart = findViewById(R.id.button_start2)
         countDownTimer = createTimer(initialTimeInMillis)
 
         buttonStart.setOnClickListener {
