@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.leaderboard -> replaceFragment(Leaderboard())
                 R.id.profile -> replaceFragment(Profile())
                 R.id.friends -> replaceFragment(Friends())
-                R.id.add_task -> replaceFragment(Add_Tache())
+                R.id.add_task -> replaceFragment(AddTask())
                 else ->{
 
                 }
