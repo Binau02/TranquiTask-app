@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="48dp"
-        android:layout_marginBottom="408dp"
+        android:layout_marginBottom="368dp"
         android:text="1:00"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,7 +20,7 @@
         android:id="@+id/button_start2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
         android:text="START"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,42 +30,42 @@
         android:id="@+id/sun_cloud"
         android:layout_width="138dp"
         android:layout_height="132dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="308dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="284dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frame"
-        app:layout_constraintVertical_bias="0.816"
+        app:layout_constraintVertical_bias="0.972"
         app:srcCompat="@drawable/soleil_nuage" />
 
     <ImageView
         android:id="@+id/house"
-        android:layout_width="253dp"
-        android:layout_height="225dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="92dp"
+        android:layout_width="240dp"
+        android:layout_height="210dp"
+        android:layout_marginBottom="2dp"
+
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/maison2_removebg" />
 
     <ImageView
         android:id="@+id/grass"
-        android:layout_width="445dp"
-        android:layout_height="248dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="21dp"
+        android:layout_width="436dp"
+        android:layout_height="93dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/herbe_removebg" />
 
     <ImageView
         android:id="@+id/tree"
-        android:layout_width="202dp"
-        android:layout_height="229dp"
-        android:layout_marginStart="232dp"
-        android:layout_marginBottom="80dp"
+        android:layout_width="190dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="240dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/house"
+        app:layout_constraintStart_toStartOf="@+id/house"
         app:srcCompat="@drawable/arbre_removebg" />
 
     <Button
@@ -112,13 +112,6 @@
         android:text="Boutique"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="100dp" />
 
     <ImageView
         android:id="@+id/frame"

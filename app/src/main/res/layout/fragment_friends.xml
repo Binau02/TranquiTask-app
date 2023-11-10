@@ -25,18 +25,8 @@
         android:layout_marginEnd="32dp"
         android:src="@drawable/baseline_group_add_24"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/friend"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/friendButton"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:background="@drawable/rounded_button"
-        android:text="Amis"
-        app:layout_constraintBottom_toBottomOf="@+id/newFriendButton"
-        app:layout_constraintEnd_toStartOf="@+id/newFriendButton"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/newFriendButton"
@@ -50,7 +40,19 @@
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/friendButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/friendButton"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:background="@drawable/rounded_button"
+        android:text="Amis"
+        app:layout_constraintBottom_toBottomOf="@+id/newFriendButton"
+        app:layout_constraintEnd_toStartOf="@+id/newFriendButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/notificationBadge"
@@ -68,14 +70,14 @@
         app:layout_constraintBottom_toTopOf="@+id/newFriendButton"
         app:layout_constraintEnd_toEndOf="@+id/newFriendButton"
         app:layout_constraintTop_toTopOf="@+id/newFriendButton"
-        app:layout_constraintVertical_bias="0.291" />
+        app:layout_constraintVertical_bias="0.27" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="341dp"
-        android:layout_height="391dp"
+        android:layout_width="339dp"
+        android:layout_height="444dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="108dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -83,12 +85,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@drawable/layout_gap"
             android:gravity="center"
             android:orientation="vertical"
-            android:divider="@drawable/layout_gap"
-            android:showDividers="middle"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp">
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:showDividers="middle">
 
             <include layout="@layout/pseudo_row" />
 
@@ -119,12 +121,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="651dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
