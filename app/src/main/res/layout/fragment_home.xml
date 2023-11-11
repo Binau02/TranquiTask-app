@@ -85,7 +85,8 @@
             android:src="@drawable/add"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/fab2" />
+            app:layout_constraintEnd_toStartOf="@+id/fab2"
+            />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab2"

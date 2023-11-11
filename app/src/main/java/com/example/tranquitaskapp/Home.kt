@@ -14,6 +14,7 @@ import com.example.tranquitaskapp.adapter.CategoryRowAdapter
 import com.example.tranquitaskapp.data.CategoryModel
 
 
+
 class Home : Fragment() {
     private val db = MyFirebase.getFirestoreInstance()
     private val listCategoryModel = mutableListOf<CategoryModel>(
@@ -47,7 +48,19 @@ class Home : Fragment() {
         val rv: RecyclerView = view.findViewById(R.id.rv)
         val buttonToday = view.findViewById<Button>(R.id.todayButton)
         val buttonWeek = view.findViewById<Button>(R.id.weekButton)
+        val addBtn : com.google.android.material.floatingactionbutton.FloatingActionButton = view.findViewById(R.id.fab1)
+        val searchBtn : com.google.android.material.floatingactionbutton.FloatingActionButton = view.findViewById(R.id.fab2)
 
+        addBtn.setOnClickListener{
+            val fragment = AddTask()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout,fragment)?.commit()
+        }
+        searchBtn.setOnClickListener{
+            val fragment = Friends()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout,fragment)?.commit()
+        }
         buttonToday.setOnClickListener {
             onClickToday()
         }
@@ -61,7 +74,6 @@ class Home : Fragment() {
 
         return view
         // Inflate the layout for this fragment
-
     }
 
     /**
