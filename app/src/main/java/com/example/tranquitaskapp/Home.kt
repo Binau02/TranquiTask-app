@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.adapter.CategoryRowAdapter
@@ -29,6 +31,12 @@ class Home : Fragment() {
         CategoryModel("Jeux",R.drawable.leaderboard_icon,100),
     )
 
+    fun onClickToday(){
+        Toast.makeText(this.context, "Le bouton aujourd'hui a été cliqué!", Toast.LENGTH_SHORT).show()
+    }
+    fun onClickWeek(){
+        Toast.makeText(this.context, "Le bouton semaine a été cliqué!", Toast.LENGTH_SHORT).show()
+    }
 
 
     override fun onCreateView(
@@ -37,6 +45,15 @@ class Home : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val rv: RecyclerView = view.findViewById(R.id.rv)
+        val buttonToday = view.findViewById<Button>(R.id.todayButton)
+        val buttonWeek = view.findViewById<Button>(R.id.weekButton)
+
+        buttonToday.setOnClickListener {
+            onClickToday()
+        }
+        buttonWeek.setOnClickListener {
+            onClickWeek()
+        }
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = CategoryRowAdapter(listCategoryModel) // Initialisez avec une liste vide ou vos données
 

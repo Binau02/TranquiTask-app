@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#9C27B0" /> <!-- Couleur de fond lorsqu'appuyé -->
+            <solid android:color="@color/light_gray" /> <!-- Couleur de fond lorsqu'appuyé -->
             <corners android:radius="20dp" /> <!-- Rayon pour les coins arrondis -->
         </shape>
     </item>

@@ -10,7 +10,6 @@
         android:id="@+id/profileimage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:layout_marginBottom="200dp"
         android:adjustViewBounds="true"
@@ -48,25 +47,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
-            android:text="Aujourd'hui"
-            android:textColor="#000000" />
+            android:text="@string/today"
+            android:onClick="test"
+            android:textColor="@color/light_gray" />
 
         <Button
             android:id="@+id/weekButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
-            android:text="Aujourd'hui"
-            android:textColor="#000000" />
+            android:text="@string/this_week"
+            android:textColor="@color/light_gray" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
-        android:layout_width="350dp"
-        android:layout_height="300dp"
+        android:layout_width="370dp"
+        android:layout_height="320dp"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="150dp">
 
 
     </androidx.recyclerview.widget.RecyclerView>
