@@ -65,6 +65,7 @@ class SignUp : Fragment() {
         )
         usersCollection.add(userData)
             .addOnSuccessListener {
+                User.getUser().id = it.id
                 val fragment = Home()
                 val transaction = fragmentManager?.beginTransaction()
                 transaction?.replace(R.id.frameLayout, fragment)?.commit()

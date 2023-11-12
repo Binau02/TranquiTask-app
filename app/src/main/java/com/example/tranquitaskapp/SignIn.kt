@@ -45,6 +45,7 @@ class SignIn : Fragment() {
                         User.getUser().mail = email
                         User.getUser().coins = coins
                         User.getUser().profile_picture = profile_picture
+                        User.getUser().id = documents.documents[0].id
                     }
                     val fragment = Home()
                     val transaction = fragmentManager?.beginTransaction()

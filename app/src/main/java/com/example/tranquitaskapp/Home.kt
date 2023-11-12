@@ -54,7 +54,7 @@ class Home : Fragment() {
         // récupérer l'utilisateur
         try {
              val user = withContext(Dispatchers.IO) {
-                Tasks.await(db.collection("user").document("Tlpu2X1Wrg9owNSRFUjI").get())
+                Tasks.await(db.collection("user").document(User.id).get())
             }
             val tasks = user.get("taches") as List<DocumentReference>
             for (task in tasks) {
@@ -120,6 +120,8 @@ class Home : Fragment() {
             view.findViewById(R.id.fab1)
         val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.fab2)
+
+        Log.d("TEST","${User.getUser().id}")
 
         lifecycleScope.launch {
             getTasks()
