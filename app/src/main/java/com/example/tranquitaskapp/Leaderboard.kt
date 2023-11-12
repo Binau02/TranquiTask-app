@@ -30,11 +30,7 @@ class Leaderboard : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        view = LayoutInflater.from(context).inflate(R.layout.leaderboard, null, false)
 
-        val rv: RecyclerView = view.findViewById(R.id.rv)
-        rv.layoutManager = LinearLayoutManager(view.context)
-        rv.adapter = MyAdapter(IntRange(0, 100).toList())
     }
 
     override fun onCreateView(
