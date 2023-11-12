@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button2"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="←"
-        android:textColor="#000000"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top" />
-
     <ImageView
         android:id="@+id/top"
         android:layout_width="0dp"
@@ -30,15 +19,15 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
         android:text="Leaderboard"
         android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/top" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/filtre"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/fleche_gauche"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,7 +60,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/fleche_droite"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,91 +70,17 @@
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="20dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_leaderboard"
+        android:layout_width="370dp"
+        android:layout_height="515dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:showDividers="middle"
-            android:divider="@drawable/layout_gap">
-
-            <RelativeLayout
-                android:id="@+id/displayed_profile"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/rounded_rectangle"
-                android:padding="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/avatar"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentBottom="true"
-                    android:src="@drawable/default_profil_picture" />
-
-                <TextView
-                    android:id="@+id/pseudo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_toEndOf="@+id/avatar"
-                    android:text="Pseudo"
-                    android:textSize="20sp" />
-
-                <RelativeLayout
-                    android:id="@+id/coins"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/pseudo"
-                    android:layout_marginStart="20dp"
-                    >
-                    <TextView
-                        android:id="@+id/coin_amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:textSize="15sp"
-                        android:text="947"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="15dp"
-                        android:background="@drawable/coin_amount"
-                        />
-                    <ImageView
-                        android:layout_width="20sp"
-                        android:layout_height="20sp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/or"
-                        android:layout_toEndOf="@+id/coin_amount"
-                        android:layout_marginStart="-10dp"
-                        />
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="0dp"
-                    android:textSize="30sp"
-                    android:text="#1"
-                    />
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
