@@ -129,13 +129,13 @@ class Home : Fragment() {
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
-        /**
+
         searchBtn.setOnClickListener {
-            val fragment = Connection()
+            val fragment = Add_Tache()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
-        */
+
 
         buttonToday.setOnClickListener {
             onClickToday()
