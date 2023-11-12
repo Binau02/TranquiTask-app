@@ -2,6 +2,6 @@ package com.example.tranquitaskapp.data
 
 data class CategoryModel(
     val name: String,
-    val logoResId: Int,
+    val logoResId: String,
     val progress: Int
 )
