@@ -7,15 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
-import com.example.tranquitaskapp.adapter.FriendsRowAdapter
 import com.example.tranquitaskapp.adapter.LeaderboardRowAdapter
-import com.example.tranquitaskapp.data.FriendsModel
 import com.example.tranquitaskapp.data.LeaderboardModel
+import com.example.tranquitaskapp.firebase.MyFirebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
