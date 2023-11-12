@@ -70,7 +70,7 @@ class Home : Fragment() {
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
         searchBtn.setOnClickListener {
-            val fragment = Friends()
+            val fragment = Connection()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
