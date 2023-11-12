@@ -9,6 +9,4 @@ class ListeTaches : Fragment() {
 
 
     }
-
-    
 }
