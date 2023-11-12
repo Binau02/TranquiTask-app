@@ -1,4 +1,4 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.firebase
 
 import com.google.firebase.firestore.FirebaseFirestore
 
