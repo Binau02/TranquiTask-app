@@ -1,5 +1,7 @@
 package com.example.tranquitaskapp.adapter
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,8 +31,16 @@ class CategoryRowAdapter(val data: List<CategoryModel>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.nameView.text = data[position].name
-        holder.imageView.setImageResource(data[position].logoResId)
+        val packageName = holder.itemView.context.packageName // Nom du package de votre application
+        val imageResourceName = data[position].logoResId // Exemple de nom de la ressource
+        val imageResourceId = holder.itemView.context.resources.getIdentifier(imageResourceName, "drawable", packageName)
+
+        val stringResourceName = data[position].name // Exemple de nom de la ressource
+        val stringResourceId = holder.itemView.context.resources.getIdentifier(stringResourceName, "string", packageName)
+
+        holder.nameView.text = holder.itemView.context.getString(stringResourceId)
+        holder.imageView.setImageResource(imageResourceId)
+        holder.imageView.setColorFilter(Color.BLACK)
         holder.progressBar.progress = data[position].progress
     }
 

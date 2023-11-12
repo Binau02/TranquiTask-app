@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this);
         binding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(Home())
+        replaceFragment(Connection())
 
 
 

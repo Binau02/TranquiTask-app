@@ -14,29 +14,39 @@ import com.example.tranquitaskapp.adapter.CategoryRowAdapter
 import com.example.tranquitaskapp.data.CategoryModel
 
 
-
 class Home : Fragment() {
     private val db = MyFirebase.getFirestoreInstance()
-    private val listCategoryModel = mutableListOf<CategoryModel>(
-        CategoryModel("Sport",R.drawable.add,50),
-        CategoryModel("Maison",R.drawable.home_icon,75),
-        CategoryModel("Etudes",R.drawable.friends_icon,25),
-        CategoryModel("Jeux",R.drawable.leaderboard_icon,100),
-        CategoryModel("Sport",R.drawable.add,50),
-        CategoryModel("Maison",R.drawable.home_icon,75),
-        CategoryModel("Etudes",R.drawable.friends_icon,25),
-        CategoryModel("Jeux",R.drawable.leaderboard_icon,100),
-        CategoryModel("Sport",R.drawable.add,50),
-        CategoryModel("Maison",R.drawable.home_icon,75),
-        CategoryModel("Etudes",R.drawable.friends_icon,25),
-        CategoryModel("Jeux",R.drawable.leaderboard_icon,100),
-    )
+    private val listCategoryModel = mutableListOf<CategoryModel>()
+    private lateinit var rv: RecyclerView
 
-    fun onClickToday(){
-        Toast.makeText(this.context, "Le bouton aujourd'hui a été cliqué!", Toast.LENGTH_SHORT).show()
+    fun onClickToday() {
+        Toast.makeText(this.context, "Le bouton aujourd'hui a été cliqué!", Toast.LENGTH_SHORT)
+            .show()
     }
-    fun onClickWeek(){
+
+    fun onClickWeek() {
         Toast.makeText(this.context, "Le bouton semaine a été cliqué!", Toast.LENGTH_SHORT).show()
+    }
+
+    fun getCategories() {
+        db.collection("tache_categorie")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val icon = document.getString("icon")
+                    val name = document.getString("name")
+                    Log.d("TEST", "$icon,$name")
+                    if (icon != null && name != null)
+                        listCategoryModel.add(CategoryModel(name, icon, 75))
+                }
+
+                // Mettre à jour l'adaptateur une fois que les données sont récupérées avec succès
+                rv.adapter = CategoryRowAdapter(listCategoryModel)
+            }
+            .addOnFailureListener { exception ->
+                // Gérer les erreurs éventuelles
+                Log.e("ERROR", "Erreur lors de la récupération des catégories: $exception")
+            }
     }
 
 
@@ -45,21 +55,24 @@ class Home : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        val rv: RecyclerView = view.findViewById(R.id.rv)
+        rv = view.findViewById(R.id.rv)
         val buttonToday = view.findViewById<Button>(R.id.todayButton)
         val buttonWeek = view.findViewById<Button>(R.id.weekButton)
-        val addBtn : com.google.android.material.floatingactionbutton.FloatingActionButton = view.findViewById(R.id.fab1)
-        val searchBtn : com.google.android.material.floatingactionbutton.FloatingActionButton = view.findViewById(R.id.fab2)
+        val addBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
+            view.findViewById(R.id.fab1)
+        val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
+            view.findViewById(R.id.fab2)
 
-        addBtn.setOnClickListener{
+        getCategories()
+        addBtn.setOnClickListener {
             val fragment = AddTask()
             val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frameLayout,fragment)?.commit()
+            transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
-        searchBtn.setOnClickListener{
-            val fragment = Friends()
+        searchBtn.setOnClickListener {
+            val fragment = Connection()
             val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frameLayout,fragment)?.commit()
+            transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
         buttonToday.setOnClickListener {
             onClickToday()
@@ -68,45 +81,9 @@ class Home : Fragment() {
             onClickWeek()
         }
         rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter = CategoryRowAdapter(listCategoryModel) // Initialisez avec une liste vide ou vos données
-
-        //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 
         return view
         // Inflate the layout for this fragment
     }
 
-    /**
-     * EXEMPLE DE GET
-     *
-     *
-     * db.collection("item")
-     *             .get()
-     *             .addOnSuccessListener { documents ->
-     *                 for (document in documents) {
-     *                     val image = document.getString("image")
-     *                     val name = document.getString("name")
-     *                     val type = document.getDocumentReference("type")
-     *                     Log.d("TEST","Document->$image;$name;$type")
-     *
-     *                     val docRef = type?.let { db.collection("item_categorie").document(it.id) }
-     *
-     *                     docRef?.get()?.addOnSuccessListener { documenTr ->
-     *                         if (documenTr.exists()) {
-     *                             val cadre = documenTr.getString("name")
-     *                             // Le document existe, vous pouvez obtenir ses données
-     *                             Log.d("TEST","$cadre")
-     *                             // Faites quelque chose avec votreObjet
-     *                         } else {
-     *                             // Le document n'existe pas
-     *                             Log.d("TEST","Ta mère")
-     *                         }
-     *                     }
-     *                 }
-     *             }
-     *             .addOnFailureListener { exception ->
-     *                 Log.w("TEST", "Error getting documents: ", exception)
-     *             }
-     *         return inflater.inflate(R.layout.fragment_home, container, false)
-     */
 }

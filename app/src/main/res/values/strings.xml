@@ -9,4 +9,8 @@
     <string name="add_task">Add a new task</string>
     <string name="today">Today</string>
     <string name="this_week">This week</string>
+    <string name="study">Study</string>
+    <string name="sport">Sport</string>
+    <string name="hobbies">Hobbies</string>
+    <string name="social">Social</string>
 </resources>
