@@ -9,20 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tranquitaskapp.adapter.CategoryRowAdapter
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.FriendsRowAdapter
-import com.example.tranquitaskapp.data.CategoryModel
 import com.example.tranquitaskapp.data.FriendsModel
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -60,19 +58,17 @@ class Friends : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
-    suspend fun getFriends() {
-        val categories : MutableList<Pair<DocumentReference?, MutableList<Int>>> = mutableListOf()
+    private lateinit var badge : TextView
 
+    suspend fun getFriends() {
         // récupérer l'utilisateur
         try {
             val friends = withContext(Dispatchers.IO) {
                 Tasks.await(db.collection("ami").get())
             }
             for (friend in friends) {
-//                Log.d("TEST", "friend $friend ${friend.id}")
                 val ami1 = friend.getDocumentReference("ami1")
                 val ami2 = friend.getDocumentReference("ami2")
-//                Log.d("TEST", "amis $ami1 $ami2")
                 var ami1Doc : DocumentSnapshot? = null
                 var ami2Doc : DocumentSnapshot? = null
                 try {
@@ -93,9 +89,6 @@ class Friends : Fragment() {
                 } catch (e: Exception) {
                     Log.e("ERROR", "Error getting ami2 : $e")
                 }
-                if (ami1Doc != null && ami2Doc != null) {
-                    Log.d("TEST", "ids ${ami1Doc.id} ${ami2Doc.id}")
-                }
                 if (ami1Doc != null && ami1Doc.id == "ZLsTpfBISeRYTUbDXuJA") {
                     addFriend(ami2Doc)
                 }
@@ -109,10 +102,27 @@ class Friends : Fragment() {
         }
     }
 
-    suspend fun addFriend(friendDoc : DocumentSnapshot?) {
+    fun addFriend(friendDoc : DocumentSnapshot?) {
         val name = friendDoc?.getString("username")
         if (name != null){
             listFriendsModel.add(FriendsModel(name, R.drawable.or))
+        }
+    }
+
+    suspend fun getNotificationNumber() {
+        try {
+            val user = withContext(Dispatchers.IO) {
+                Tasks.await(db.collection("user").document("Tlpu2X1Wrg9owNSRFUjI").get())
+            }
+            val demandes = user.get("demandes") as List<DocumentReference>
+            if (demandes.size > 0) {
+                badge.setText(demandes.size.toString())
+            }
+            else {
+                badge.visibility = View.INVISIBLE
+            }
+        } catch (e: Exception) {
+            Log.e("ERROR", "Error finding user: $e")
         }
     }
 
@@ -153,6 +163,7 @@ class Friends : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friends, container, false)
         rv = view.findViewById(R.id.rv_friend)
+        badge = view.findViewById(R.id.notificationBadge)
         val buttonFriends = view.findViewById<Button>(R.id.friendButton)
         val buttonNewFriend = view.findViewById<Button>(R.id.newFriendButton)
         val addFriends = view.findViewById<ImageView>(R.id.add_friend)
@@ -169,6 +180,9 @@ class Friends : Fragment() {
 
         lifecycleScope.launch {
             getFriends()
+        }
+        lifecycleScope.launch {
+            getNotificationNumber()
         }
 
         rv.layoutManager = LinearLayoutManager(requireContext())
