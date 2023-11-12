@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,12 +14,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.CategoryRowAdapter
 import com.example.tranquitaskapp.data.CategoryModel
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 
 
 class Home : Fragment() {
     private val db = MyFirebase.getFirestoreInstance()
     private val listCategoryModel = mutableListOf<CategoryModel>()
     private lateinit var rv: RecyclerView
+
+    private var bottomBarListener: BottomBarVisibilityListener? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomBarVisibilityListener) {
+            bottomBarListener = context
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
+    }
 
     fun onClickToday() {
         Toast.makeText(this.context, "Le bouton aujourd'hui a été cliqué!", Toast.LENGTH_SHORT)
@@ -36,7 +49,6 @@ class Home : Fragment() {
                 for (document in documents) {
                     val icon = document.getString("icon")
                     val name = document.getString("name")
-                    Log.d("TEST", "$icon,$name")
                     if (icon != null && name != null)
                         listCategoryModel.add(CategoryModel(name, icon, 75))
                 }

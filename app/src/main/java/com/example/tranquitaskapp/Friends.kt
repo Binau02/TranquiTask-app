@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.FriendsRowAdapter
 import com.example.tranquitaskapp.data.FriendsModel
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,6 +44,17 @@ class Friends : Fragment() {
         FriendsModel("Pseudo 9",R.drawable.add),
         FriendsModel("Pseudo 10",R.drawable.arbre_removebg),
     )
+
+    private var bottomBarListener: BottomBarVisibilityListener? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomBarVisibilityListener) {
+            bottomBarListener = context
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
+    }
 
     fun onClickFriends(){
         Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()

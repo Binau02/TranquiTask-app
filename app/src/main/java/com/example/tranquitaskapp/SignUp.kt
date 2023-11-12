@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 import com.example.tranquitaskapp.regex.RegexPatterns
 
 
@@ -23,6 +25,17 @@ class SignUp : Fragment() {
     private val auth = MyFirebaseAuth.getFirestoreInstance()
     private val db = MyFirebase.getFirestoreInstance()
 
+    private var bottomBarListener: BottomBarVisibilityListener? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomBarVisibilityListener) {
+            bottomBarListener = context
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
+    }
+
     fun onClickSignIn(email: String, password: String, username: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener() { task ->
@@ -30,7 +43,7 @@ class SignUp : Fragment() {
                     // L'utilisateur est enregistré avec succès
                     User.getUser().mail = email
                     User.getUser().username = username
-                    createNewUser(email,username)
+                    createNewUser(email, username)
                 } else {
                     Toast.makeText(this.context, "Il y a eu une erreur", Toast.LENGTH_SHORT).show()
                 }
@@ -39,30 +52,25 @@ class SignUp : Fragment() {
     }
 
     fun createNewUser(email: String, username: String) {
-       val usersCollection = db.collection("user")
-        usersCollection.whereEqualTo("username", username)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    val userData = hashMapOf(
-                        "coins" to 0,
-                        "profile_picture" to "",
-                        "email" to email,
-                        "demandes" to emptyList<String>(), // Champ avec une liste vide
-                        "username" to username,
-                        "sol" to "",
-                        "taches" to emptyList<String>()
-                    )
-                    usersCollection.add(userData)
-                        .addOnSuccessListener { documentReference ->
-                            Log.d("TAG", "DocumentSnapshot added with ID: ${documentReference.id}")
-                        }
-                        .addOnFailureListener { e ->
-                            Log.w("TAG", "Error adding document", e)
-                        }
-                } else {
-                    Toast.makeText(this.context, "Il y a eu deja ce pseudo", Toast.LENGTH_SHORT).show()
-                }
+        val usersCollection = db.collection("user")
+
+        val userData = hashMapOf(
+            "coins" to 0,
+            "profile_picture" to "",
+            "email" to email,
+            "demandes" to emptyList<String>(), // Champ avec une liste vide
+            "username" to username,
+            "sol" to "",
+            "taches" to emptyList<String>()
+        )
+        usersCollection.add(userData)
+            .addOnSuccessListener {
+                val fragment = Home()
+                val transaction = fragmentManager?.beginTransaction()
+                transaction?.replace(R.id.frameLayout, fragment)?.commit()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this.context, "Il y a eu une erreur", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -72,6 +80,7 @@ class SignUp : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_up, container, false)
         val buttonSignUp = view.findViewById<Button>(R.id.btnSignUp)
+        val buttonCancel = view.findViewById<Button>(R.id.btnCancel)
 
         buttonSignUp.setOnClickListener {
             val mail = view.findViewById<EditText>(R.id.reg_mail).text.toString()
@@ -92,15 +101,24 @@ class SignUp : Fragment() {
                         if (documents.isEmpty) {
                             onClickSignIn(mail, password, username)
                         } else {
-                            Toast.makeText(this.context, "Il y a eu deja ce pseudo", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this.context,
+                                "Il y a eu deja ce pseudo",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
             } else {
-                Toast.makeText(this.context, "", Toast.LENGTH_SHORT)
-                    .show()
-                Log.d("TEST", "$password,$confirmPassword,$mail,$username")
+                Toast.makeText(this.context, "Verifiez vos informations", Toast.LENGTH_SHORT).show()
             }
         }
+
+        buttonCancel.setOnClickListener{
+            val fragment = SignIn()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout, fragment)?.commit()
+        }
+
         // Inflate the layout for this fragment
         return view
     }

@@ -7,17 +7,18 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.databinding.ActivityMainBinding
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BottomBarVisibilityListener {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this);
         binding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(SignUp())
+        replaceFragment(SignIn())
 
 
 
@@ -39,16 +40,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun replaceFragment(fragment: Fragment){
+    override fun setBottomBarVisibility(fragment: Fragment) {
         val bottomBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView) // Assurez-vous d'avoir l'ID correct
+
         val isAuthFragment = fragment is SignUp || fragment is SignIn
+        bottomBar.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
+    }
 
-        if (isAuthFragment) {
-            bottomBar.visibility = View.GONE // Cacher la Bottom Bar pour les fragments d'inscription ou de connexion
-        } else {
-            bottomBar.visibility = View.VISIBLE // Afficher la Bottom Bar pour d'autres fragments
-        }
-
+    private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout,fragment)

@@ -1,6 +1,7 @@
 package com.example.tranquitaskapp
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -18,10 +20,17 @@ class AddTask : Fragment() {
     lateinit var tvDate : TextView
     lateinit var btnShowDatePicker: Button
     private val calendar = Calendar.getInstance()
+    private var bottomBarListener: BottomBarVisibilityListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomBarVisibilityListener) {
+            bottomBarListener = context
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

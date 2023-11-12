@@ -1,10 +1,12 @@
 package com.example.tranquitaskapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +22,17 @@ class Profile : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private var bottomBarListener: BottomBarVisibilityListener? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomBarVisibilityListener) {
+            bottomBarListener = context
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
