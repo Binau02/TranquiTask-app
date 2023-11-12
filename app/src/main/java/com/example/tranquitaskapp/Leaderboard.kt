@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 import com.example.tranquitaskapp.adapter.FriendsRowAdapter
 import com.example.tranquitaskapp.adapter.LeaderboardRowAdapter
 import com.example.tranquitaskapp.data.FriendsModel
@@ -46,6 +48,18 @@ class Leaderboard : Fragment() {
         LeaderboardModel("Pseudo 9",R.drawable.add, "384", "#9"),
         LeaderboardModel("Pseudo 10",R.drawable.arbre_removebg, "104", "#10"),
     )
+
+
+    private var bottomBarListener: BottomBarVisibilityListener? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomBarVisibilityListener) {
+            bottomBarListener = context
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
+    }
 
     fun onClickFiltre(){
         Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()

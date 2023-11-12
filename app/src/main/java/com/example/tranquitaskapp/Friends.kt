@@ -1,19 +1,29 @@
 package com.example.tranquitaskapp
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tranquitaskapp.adapter.CategoryRowAdapter
+import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.FriendsRowAdapter
-import com.example.tranquitaskapp.data.CategoryModel
 import com.example.tranquitaskapp.data.FriendsModel
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,18 +41,99 @@ class Friends : Fragment() {
     // private var param2: String? = null
 
     private val db = MyFirebase.getFirestoreInstance()
-    private val listFriendsModel = mutableListOf<FriendsModel>(
-        FriendsModel("Pseudo 1",R.drawable.arbre_removebg),
-        FriendsModel("Pseudo 2",R.drawable.leaderboard_icon),
-        FriendsModel("Pseudo 3",R.drawable.or),
-        FriendsModel("Pseudo 4",R.drawable.leaderboard_icon),
-        FriendsModel("Pseudo 5",R.drawable.arbre_removebg),
-        FriendsModel("Pseudo 6",R.drawable.add),
-        FriendsModel("Pseudo 7",R.drawable.or),
-        FriendsModel("Pseudo 8",R.drawable.leaderboard_icon),
-        FriendsModel("Pseudo 9",R.drawable.add),
-        FriendsModel("Pseudo 10",R.drawable.arbre_removebg),
-    )
+    private lateinit var rv: RecyclerView
+//    private val listFriendsModel = mutableListOf<FriendsModel>(
+//        FriendsModel("Pseudo 1",R.drawable.arbre_removebg),
+//        FriendsModel("Pseudo 2",R.drawable.leaderboard_icon),
+//        FriendsModel("Pseudo 3",R.drawable.or),
+//        FriendsModel("Pseudo 4",R.drawable.leaderboard_icon),
+//        FriendsModel("Pseudo 5",R.drawable.arbre_removebg),
+//        FriendsModel("Pseudo 6",R.drawable.add),
+//        FriendsModel("Pseudo 7",R.drawable.or),
+//        FriendsModel("Pseudo 8",R.drawable.leaderboard_icon),
+//        FriendsModel("Pseudo 9",R.drawable.add),
+//        FriendsModel("Pseudo 10",R.drawable.arbre_removebg),
+//    )
+    private val listFriendsModel = mutableListOf<FriendsModel>()
+
+    private var bottomBarListener: BottomBarVisibilityListener? = null
+
+    private lateinit var badge : TextView
+
+    suspend fun getFriends() {
+        // récupérer l'utilisateur
+        try {
+            val friends = withContext(Dispatchers.IO) {
+                Tasks.await(db.collection("ami").get())
+            }
+            for (friend in friends) {
+                val ami1 = friend.getDocumentReference("ami1")
+                val ami2 = friend.getDocumentReference("ami2")
+                var ami1Doc : DocumentSnapshot? = null
+                var ami2Doc : DocumentSnapshot? = null
+                try {
+                    if (ami1 != null) {
+                        ami1Doc = withContext(Dispatchers.IO) {
+                            Tasks.await(ami1.get())
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("ERROR", "Error getting ami1 : $e")
+                }
+                try {
+                    if (ami2 != null) {
+                        ami2Doc = withContext(Dispatchers.IO) {
+                            Tasks.await(ami2.get())
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("ERROR", "Error getting ami2 : $e")
+                }
+                if (ami1Doc != null && ami1Doc.id == "ZLsTpfBISeRYTUbDXuJA") {
+                    addFriend(ami2Doc)
+                }
+                if (ami2Doc != null && ami2Doc.id == "ZLsTpfBISeRYTUbDXuJA") {
+                    addFriend(ami1Doc)
+                }
+            }
+            rv.adapter = FriendsRowAdapter(listFriendsModel)
+        } catch (e: Exception) {
+            Log.e("ERROR", "Error finding friend: $e")
+        }
+    }
+
+    fun addFriend(friendDoc : DocumentSnapshot?) {
+        val name = friendDoc?.getString("username")
+        if (name != null){
+            listFriendsModel.add(FriendsModel(name, R.drawable.or))
+        }
+    }
+
+    suspend fun getNotificationNumber() {
+        try {
+            val user = withContext(Dispatchers.IO) {
+                Tasks.await(db.collection("user").document("Tlpu2X1Wrg9owNSRFUjI").get())
+            }
+            val demandes = user.get("demandes") as List<DocumentReference>
+            if (demandes.size > 0) {
+                badge.setText(demandes.size.toString())
+            }
+            else {
+                badge.visibility = View.INVISIBLE
+            }
+        } catch (e: Exception) {
+            Log.e("ERROR", "Error finding user: $e")
+        }
+    }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomBarVisibilityListener) {
+            bottomBarListener = context
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
+    }
 
     fun onClickFriends(){
         Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()
@@ -71,7 +162,8 @@ class Friends : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friends, container, false)
-        val rv: RecyclerView = view.findViewById(R.id.rv_friend)
+        rv = view.findViewById(R.id.rv_friend)
+        badge = view.findViewById(R.id.notificationBadge)
         val buttonFriends = view.findViewById<Button>(R.id.friendButton)
         val buttonNewFriend = view.findViewById<Button>(R.id.newFriendButton)
         val addFriends = view.findViewById<ImageView>(R.id.add_friend)
@@ -86,9 +178,15 @@ class Friends : Fragment() {
             onClickAddFriend()
         }
 
+        lifecycleScope.launch {
+            getFriends()
+        }
+        lifecycleScope.launch {
+            getNotificationNumber()
+        }
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter = FriendsRowAdapter(listFriendsModel) // Initialisez avec une liste vide ou vos données
+//        rv.adapter = FriendsRowAdapter(listFriendsModel) // Initialisez avec une liste vide ou vos données
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 

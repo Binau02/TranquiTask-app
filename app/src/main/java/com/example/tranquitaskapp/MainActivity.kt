@@ -2,20 +2,23 @@ package com.example.tranquitaskapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.databinding.ActivityMainBinding
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BottomBarVisibilityListener {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this);
         binding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(Home())
+        replaceFragment(SignIn())
 
 
 
@@ -35,6 +38,13 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun setBottomBarVisibility(fragment: Fragment) {
+        val bottomBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView) // Assurez-vous d'avoir l'ID correct
+
+        val isAuthFragment = fragment is SignUp || fragment is SignIn
+        bottomBar.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
     }
 
     private fun replaceFragment(fragment: Fragment){
