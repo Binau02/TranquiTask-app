@@ -6,64 +6,107 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.app
+import android.widget.Button
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tranquitaskapp.adapter.CategoryRowAdapter
+import com.example.tranquitaskapp.data.CategoryModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Home.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class Home : Fragment() {
-    val db = MyFirebase.getFirestoreInstance();
+    private val db = MyFirebase.getFirestoreInstance()
+    private val listCategoryModel = mutableListOf<CategoryModel>(
+        CategoryModel("Sport",R.drawable.add,50),
+        CategoryModel("Maison",R.drawable.home_icon,75),
+        CategoryModel("Etudes",R.drawable.friends_icon,25),
+        CategoryModel("Jeux",R.drawable.leaderboard_icon,100),
+        CategoryModel("Sport",R.drawable.add,50),
+        CategoryModel("Maison",R.drawable.home_icon,75),
+        CategoryModel("Etudes",R.drawable.friends_icon,25),
+        CategoryModel("Jeux",R.drawable.leaderboard_icon,100),
+        CategoryModel("Sport",R.drawable.add,50),
+        CategoryModel("Maison",R.drawable.home_icon,75),
+        CategoryModel("Etudes",R.drawable.friends_icon,25),
+        CategoryModel("Jeux",R.drawable.leaderboard_icon,100),
+    )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    fun onClickToday(){
+        Toast.makeText(this.context, "Le bouton aujourd'hui a été cliqué!", Toast.LENGTH_SHORT).show()
     }
+    fun onClickWeek(){
+        Toast.makeText(this.context, "Le bouton semaine a été cliqué!", Toast.LENGTH_SHORT).show()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val rv: RecyclerView = view.findViewById(R.id.rv)
+        val buttonToday = view.findViewById<Button>(R.id.todayButton)
+        val buttonWeek = view.findViewById<Button>(R.id.weekButton)
+        val addBtn : com.google.android.material.floatingactionbutton.FloatingActionButton = view.findViewById(R.id.fab1)
+        val searchBtn : com.google.android.material.floatingactionbutton.FloatingActionButton = view.findViewById(R.id.fab2)
+
+        addBtn.setOnClickListener{
+            val fragment = AddTask()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout,fragment)?.commit()
+        }
+        searchBtn.setOnClickListener{
+            val fragment = Friends()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout,fragment)?.commit()
+        }
+        buttonToday.setOnClickListener {
+            onClickToday()
+        }
+        buttonWeek.setOnClickListener {
+            onClickWeek()
+        }
+        rv.layoutManager = LinearLayoutManager(requireContext())
+        rv.adapter = CategoryRowAdapter(listCategoryModel) // Initialisez avec une liste vide ou vos données
+
+        //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
+
+        return view
         // Inflate the layout for this fragment
-        db.collection("item")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val image = document.getString("image");
-                    val name = document.getString("name");
-                    //val type = document.getString("username");
-                    Log.d("TEST","Document->$image;$name;");
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w("TEST", "Error getting documents: ", exception)
-            }
-        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Home.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Home().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+    /**
+     * EXEMPLE DE GET
+     *
+     *
+     * db.collection("item")
+     *             .get()
+     *             .addOnSuccessListener { documents ->
+     *                 for (document in documents) {
+     *                     val image = document.getString("image")
+     *                     val name = document.getString("name")
+     *                     val type = document.getDocumentReference("type")
+     *                     Log.d("TEST","Document->$image;$name;$type")
+     *
+     *                     val docRef = type?.let { db.collection("item_categorie").document(it.id) }
+     *
+     *                     docRef?.get()?.addOnSuccessListener { documenTr ->
+     *                         if (documenTr.exists()) {
+     *                             val cadre = documenTr.getString("name")
+     *                             // Le document existe, vous pouvez obtenir ses données
+     *                             Log.d("TEST","$cadre")
+     *                             // Faites quelque chose avec votreObjet
+     *                         } else {
+     *                             // Le document n'existe pas
+     *                             Log.d("TEST","Ta mère")
+     *                         }
+     *                     }
+     *                 }
+     *             }
+     *             .addOnFailureListener { exception ->
+     *                 Log.w("TEST", "Error getting documents: ", exception)
+     *             }
+     *         return inflater.inflate(R.layout.fragment_home, container, false)
+     */
 }

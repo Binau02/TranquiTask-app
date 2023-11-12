@@ -120,7 +120,7 @@
         android:layout_width="335dp"
         android:layout_height="32dp"
         android:gravity="start|left|center_vertical"
-        android:text="Durée de la tâche                                 : "
+        android:text="Durée de la tâche "
         android:textSize="16sp"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -143,7 +143,7 @@
         app:layout_constraintHorizontal_bias="0.592"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.69" />
+        app:layout_constraintVertical_bias="0.705" />
 
     <EditText
         android:id="@+id/editTextNameTask"
@@ -215,7 +215,8 @@
         android:layout_height="42dp"
         android:ems="10"
         android:inputType="time"
-        tools:layout_editor_absoluteX="249dp"
+        app:layout_constraintEnd_toEndOf="@+id/textTime2"
+        app:layout_constraintStart_toStartOf="@+id/textTime2"
         tools:layout_editor_absoluteY="432dp" />
 
     <EditText
@@ -224,14 +225,17 @@
         android:layout_height="42dp"
         android:ems="10"
         android:inputType="time"
-        tools:layout_editor_absoluteX="304dp"
+        app:layout_constraintEnd_toEndOf="@+id/textTime2"
+        app:layout_constraintHorizontal_bias="0.265"
+        app:layout_constraintStart_toEndOf="@+id/editTextTime"
         tools:layout_editor_absoluteY="432dp" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="144dp"
         android:layout_height="24dp"
-        tools:layout_editor_absoluteX="238dp"
-        tools:layout_editor_absoluteY="483dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/textPriority"
+        app:layout_constraintEnd_toEndOf="@+id/textPriority"
+        app:layout_constraintTop_toTopOf="@+id/textPriority" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

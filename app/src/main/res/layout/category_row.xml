@@ -27,13 +27,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/logoImageView"
+                android:id="@+id/logoCategory"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:src="@drawable/default_profil_picture" />
 
             <TextView
-                android:id="@+id/nameTextView"
+                android:id="@+id/nameCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nom de l'élément" />
