@@ -81,8 +81,6 @@ class Home : Fragment() {
             onClickWeek()
         }
         rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter =
-            CategoryRowAdapter(listCategoryModel) // Initialisez avec une liste vide ou vos données
 
         return view
         // Inflate the layout for this fragment

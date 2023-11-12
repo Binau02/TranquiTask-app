@@ -30,7 +30,6 @@ class CategoryRowAdapter(val data: List<CategoryModel>) :
         return MyViewHolder(layout)
     }
 
-    @SuppressLint("DiscouragedApi")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val packageName = holder.itemView.context.packageName // Nom du package de votre application
         val imageResourceName = data[position].logoResId // Exemple de nom de la ressource
