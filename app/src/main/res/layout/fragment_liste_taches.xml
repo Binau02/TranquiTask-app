@@ -72,7 +72,6 @@
         android:layout_width="370dp"
         android:layout_height="560dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"

@@ -16,5 +16,10 @@
     <string name="urgent">Urgent</string>
     <string name="moyen">Moyenne</string>
     <string name="tranquille">Tranquille</string>
+    <string name="task_duration">Duration of task</string>
+    <string name="task_deadline">Deadline</string>
+    <string name="task_priority">Priority</string>
+    <string name="category">Category</string>
+    <string name="start_task">Start the task</string>
 
 </resources>

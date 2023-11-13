@@ -13,5 +13,10 @@
     <string name="sport">Sport</string>
     <string name="hobbies">Passions</string>
     <string name="social">Social</string>
+    <string name="task_duration">Durée de la tâche</string>
+    <string name="task_deadline">Deadline</string>
+    <string name="task_priority">Priorité</string>
+    <string name="category">Catégorie</string>
+    <string name="start_task">Démarrer la tâche</string>
 
 </resources>
