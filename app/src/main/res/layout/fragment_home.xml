@@ -49,7 +49,7 @@
             android:background="@drawable/rounded_button"
             android:text="@string/today"
             android:onClick="test"
-            android:textColor="@color/light_gray" />
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/weekButton"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
             android:text="@string/this_week"
-            android:textColor="@color/light_gray" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
