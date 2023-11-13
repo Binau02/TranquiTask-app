@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.example.tranquitaskapp.adapter.LeaderboardRowAdapter
 import com.example.tranquitaskapp.adapter.ListeTachesRowAdapter
 import com.example.tranquitaskapp.data.ListeTachesModel
 import com.example.tranquitaskapp.firebase.MyFirebase
+import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 
 
 /**
@@ -21,6 +23,17 @@ import com.example.tranquitaskapp.firebase.MyFirebase
  * create an instance of this fragment.
  */
 class fragment_liste_taches : Fragment() {
+
+    private var bottomBarListener: BottomBarVisibilityListener? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BottomBarVisibilityListener) {
+            bottomBarListener = context
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
+    }
 
     private val db = MyFirebase.getFirestoreInstance()
     private val listListeTacheModel = mutableListOf<ListeTachesModel>(
@@ -36,7 +49,9 @@ class fragment_liste_taches : Fragment() {
         Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()
     }
     fun onClickBack(){
-        Toast.makeText(this.context, "Le bouton Retour a été cliqué !", Toast.LENGTH_SHORT).show()
+        val fragment = Home()
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
     override fun onCreateView(
