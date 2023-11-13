@@ -154,6 +154,4 @@ class SignUp : Fragment() {
         // Inflate the layout for this fragment
         return view
     }
-
-
 }

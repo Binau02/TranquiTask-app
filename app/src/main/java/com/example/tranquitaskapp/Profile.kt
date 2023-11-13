@@ -119,9 +119,11 @@ class Profile : Fragment() {
         val buttonModifProfile = view.findViewById<Button>(R.id.button_modif)
         val buttonScenery = view.findViewById<Button>(R.id.button_scenery)
         val buttonShop = view.findViewById<Button>(R.id.button_shop)
+        val pseudo = view.findViewById<TextView>(R.id.tv_pseudo)
         buttonStart = view.findViewById(R.id.button_start)
         textViewTimer = view.findViewById(R.id.countdown)
 
+        pseudo.text = User.username
         buttonModifProfile.setOnClickListener {
             onClickModifProfile()
         }

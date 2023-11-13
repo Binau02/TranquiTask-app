@@ -79,7 +79,7 @@
         android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="password"
-        android:inputType="text"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"

@@ -13,4 +13,8 @@
     <string name="sport">Sport</string>
     <string name="hobbies">Hobbies</string>
     <string name="social">Social</string>
+    <string name="urgent">Urgent</string>
+    <string name="moyen">Moyenne</string>
+    <string name="tranquille">Tranquille</string>
+
 </resources>
