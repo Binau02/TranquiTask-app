@@ -3,6 +3,7 @@ package com.example.tranquitaskapp
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,8 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
@@ -107,20 +110,34 @@ class SignIn : Fragment() {
             val mail = logUsername.text.toString()
             val password = logPassword.text.toString()
 
-            if (mail.isEmpty() && password.isEmpty()) {
+            val icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_warning)
+
+            if (mail.isEmpty() || password.isEmpty()) {
+                if (mail.isEmpty()) {
+                    logUsername.setError("Please Enter Username", icon)
+                }
+                if (password.isEmpty()) {
+                    logPassword.setError("Please Enter Password", icon)
+                }
                 Toast.makeText(this.context, "Textes vides", Toast.LENGTH_SHORT).show()
             } else {
                 // Vérifier si la case à cocher est cochée
-                val checkBoxStillConnected = view.findViewById<CheckBox>(R.id.checkBoxStillConnected)
                 val isCheckBoxChecked = checkBoxStillConnected.isChecked
 
                 if (isCheckBoxChecked) {
-                    // Sauvegarder les identifiants dans les préférences partagées
+                    // Sauvegarder l'état de la case à cocher et les identifiants dans les préférences partagées
                     saveCredentialsToSharedPreferences(mail, password)
+                    sharedPreferences.edit().putBoolean("checkBoxState", true).apply()
                 } else {
-                    // Si la case n'est pas cochée, effacer les identifiants des préférences partagées
+                    // Si la case n'est pas cochée, effacer les identifiants et sauvegarder l'état dans les préférences partagées
                     clearCredentialsFromSharedPreferences()
+                    sharedPreferences.edit().putBoolean("checkBoxState", false).apply()
                 }
+
+                // Connexion uniquement si l'utilisateur appuie sur le bouton de connexion
+                // (et non automatiquement au démarrage de l'application)
+                // Notez que la connexion automatique doit être désactivée côté Firebase (dans la console Firebase).
+                // Si elle est activée, l'authentification automatique peut se produire même si le code ici l'empêche.
 
                 // Tenter la connexion
                 auth.signInWithEmailAndPassword(mail, password)
