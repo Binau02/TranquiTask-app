@@ -1,7 +1,9 @@
 package com.example.tranquitaskapp
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
@@ -25,11 +28,17 @@ class SignUp : Fragment() {
     private val auth = MyFirebaseAuth.getFirestoreInstance()
     private val db = MyFirebase.getFirestoreInstance()
 
+    private lateinit var username: EditText
+    private lateinit var password: EditText
+
     private var bottomBarListener: BottomBarVisibilityListener? = null
+    private var icon: Drawable? = null
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        icon = AppCompatResources.getDrawable(requireContext(), R.drawable.or)
+
         if (context is BottomBarVisibilityListener) {
             bottomBarListener = context
         }
@@ -84,15 +93,37 @@ class SignUp : Fragment() {
         val buttonCancel = view.findViewById<Button>(R.id.btnCancel)
 
         buttonSignUp.setOnClickListener {
-            val mail = view.findViewById<EditText>(R.id.reg_mail).text.toString()
-            val username = view.findViewById<EditText>(R.id.reg_username).text.toString()
-            val password = view.findViewById<EditText>(R.id.reg_password).text.toString()
-            val confirmPassword =
-                view.findViewById<EditText>(R.id.reg_passwordconfirm).text.toString()
+            val reg_mail = view.findViewById<EditText>(R.id.reg_mail)
+            val reg_username = view.findViewById<EditText>(R.id.reg_username)
+            val reg_password = view.findViewById<EditText>(R.id.reg_password)
+            val reg_passwordconfirm =
+                view.findViewById<EditText>(R.id.reg_passwordconfirm)
+            val email = reg_mail.text.toString()
+            val username = reg_username.text.toString()
+            val password = reg_password.text.toString()
+            val confirmPassword = reg_passwordconfirm.text.toString()
+
+
+
+            if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                if (email.isEmpty()) {
+                    reg_mail.setError("Please Enter Email", icon)
+                }
+                if (username.isEmpty()) {
+                    reg_username.setError("Please Enter Username", icon)
+                }
+                if (password.isEmpty()) {
+                    reg_password.setError("Please Enter Password", icon)
+                }
+                if (confirmPassword.isEmpty()) {
+                    reg_passwordconfirm.setError("Please Confirm Password", icon)
+                }
+                Toast.makeText(this.context, "Textes vides", Toast.LENGTH_SHORT).show()
+            }
             Log.d("TEST", "Je suis bien co")
             if (
                 password.matches(Regex(RegexPatterns.PASSWORD_PATTERN)) &&
-                mail.matches(Regex(RegexPatterns.MAIL_PATTERN)) &&
+                email.matches(Regex(RegexPatterns.MAIL_PATTERN)) &&
                 password == confirmPassword &&
                 username != ""
             ) {
@@ -100,7 +131,7 @@ class SignUp : Fragment() {
                     .get()
                     .addOnSuccessListener { documents ->
                         if (documents.isEmpty) {
-                            onClickSignIn(mail, password, username)
+                            onClickSignIn(email, password, username)
                         } else {
                             Toast.makeText(
                                 this.context,
@@ -123,4 +154,6 @@ class SignUp : Fragment() {
         // Inflate the layout for this fragment
         return view
     }
+
+
 }
