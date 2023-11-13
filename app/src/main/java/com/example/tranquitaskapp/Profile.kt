@@ -120,6 +120,7 @@ class Profile : Fragment() {
         val buttonScenery = view.findViewById<Button>(R.id.button_scenery)
         val buttonShop = view.findViewById<Button>(R.id.button_shop)
         val pseudo = view.findViewById<TextView>(R.id.tv_pseudo)
+
         buttonStart = view.findViewById(R.id.button_start)
         textViewTimer = view.findViewById(R.id.countdown)
 
@@ -136,7 +137,7 @@ class Profile : Fragment() {
         buttonStart.setOnClickListener {
             onClickStart()
         }
-        // updateTimer()
+        updateTimer()
 
         return view
         // Inflate the layout for this fragment
