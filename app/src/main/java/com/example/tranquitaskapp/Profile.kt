@@ -2,12 +2,14 @@ package com.example.tranquitaskapp
 
 import android.content.Context
 import android.os.Bundle
+import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 
@@ -29,6 +31,13 @@ class Profile : Fragment() {
      */
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
+
+    private lateinit var countdownTimer: CountDownTimer
+    private lateinit var textViewTimer: TextView
+    private lateinit var buttonStart: Button
+    private val initialMillis: Long = 30000 // 30 secondes
+    private var timeLeftMillis: Long = initialMillis
+    private var timerRunning = false
 
 
     override fun onAttach(context: Context) {
@@ -58,20 +67,60 @@ class Profile : Fragment() {
         Toast.makeText(this.context, "Le bouton Boutique a été cliqué !", Toast.LENGTH_SHORT).show()
     }
     fun onClickStart(){
-        Toast.makeText(this.context, "Le bouton Start a été cliqué !", Toast.LENGTH_SHORT).show()
+        if (timerRunning) {
+            pauseTimer()
+            Toast.makeText(this.context, "Le bouton Pause a été cliqué !", Toast.LENGTH_SHORT).show()
+        } else {
+            startTimer()
+            Toast.makeText(this.context, "Le bouton Start a été cliqué !", Toast.LENGTH_SHORT).show()
+        }
     }
+
+    private fun startTimer() {
+        countdownTimer = object : CountDownTimer(timeLeftMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                timeLeftMillis = millisUntilFinished
+                updateTimer()
+            }
+
+            override fun onFinish() {
+                timerRunning = false
+                updateTimer()
+                Toast.makeText(context, "Fin du minuteur", Toast.LENGTH_SHORT).show()
+            }
+        }.start()
+
+        timerRunning = true
+        updateTimer()
+    }
+
+    private fun pauseTimer() {
+        countdownTimer.cancel()
+        timerRunning = false
+        updateTimer()
+    }
+
+    private fun updateTimer() {
+        val minutes = (timeLeftMillis / 1000) / 60
+        val seconds = (timeLeftMillis / 1000) % 60
+        val timeFormatted = String.format("%02d:%02d", minutes, seconds)
+        textViewTimer.text = timeFormatted
+
+        buttonStart.text = if (timerRunning) "Pause" else "Start"
+    }
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         val buttonModifProfile = view.findViewById<Button>(R.id.button_modif)
         val buttonScenery = view.findViewById<Button>(R.id.button_scenery)
         val buttonShop = view.findViewById<Button>(R.id.button_shop)
-        val buttonStart = view.findViewById<Button>(R.id.button_start)
+        buttonStart = view.findViewById(R.id.button_start)
+        textViewTimer = view.findViewById(R.id.countdown)
 
         buttonModifProfile.setOnClickListener {
             onClickModifProfile()
@@ -85,6 +134,7 @@ class Profile : Fragment() {
         buttonStart.setOnClickListener {
             onClickStart()
         }
+        // updateTimer()
 
         return view
         // Inflate the layout for this fragment
