@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
@@ -38,7 +39,7 @@ class AddTask : Fragment() {
 
     private val calendar = Calendar.getInstance()
     private var bottomBarListener: BottomBarVisibilityListener? = null
-    private lateinit var formattedDate: String
+    private var formattedDate: String? = null
     private var timestampInSeconds: Int = 0
     private val listCategory = mutableListOf<String>()
     private val listPriority = mutableListOf<String>()
@@ -163,8 +164,16 @@ class AddTask : Fragment() {
             val priority =
                 listPriority[view.findViewById<Spinner>(R.id.spinnerPriority).selectedItemPosition]
 
-            if (nameTask.text.isNullOrBlank() || formattedDate.isNullOrBlank() || timestampInSeconds == null) {
+            val icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_warning)
+
+
+            if (nameTask.text.isNullOrBlank() || formattedDate.isNullOrEmpty() || timestampInSeconds == 0) {
                 // Afficher une erreur ou une notification indiquant que tous les champs doivent être remplis
+                if (nameTask.text.isEmpty()) {
+                    nameTask.setError("Please Enter a name", icon)
+                }
+
+
                 Toast.makeText(context, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT)
                     .show()
             } else {
@@ -172,7 +181,7 @@ class AddTask : Fragment() {
                     categorie,
                     priority,
                     nameTask.text.toString(),
-                    formattedDate,
+                    formattedDate?: "",
                     isDivisibleChecked,
                     isConcentrationChecked,
                     timestampInSeconds
