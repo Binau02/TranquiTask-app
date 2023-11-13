@@ -20,28 +20,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textNameTask"
-        android:layout_width="127dp"
-        android:layout_height="46dp"
-        android:gravity="start|left|center_vertical"
-        android:text="Nom de la tâche"
-        android:textSize="16sp"
-        android:textStyle="normal"
-        app:layout_constraintStart_toStartOf="@+id/editNameTask"
-        app:layout_constraintTop_toTopOf="@+id/editNameTask" />
-
-    <TextView
-        android:id="@+id/textCategory"
-        android:layout_width="127dp"
-        android:layout_height="46dp"
-        android:gravity="start|left|center_vertical"
-        android:text="Catégorie"
-        android:textSize="16sp"
-        android:textStyle="normal"
-        app:layout_constraintStart_toStartOf="@+id/editTextCategory"
-        app:layout_constraintTop_toBottomOf="@+id/editNameTask" />
-
-    <TextView
         android:id="@+id/textDeadline"
         android:layout_width="127dp"
         android:layout_height="46dp"
@@ -117,30 +95,34 @@
 
     <EditText
         android:id="@+id/editNameTask"
-        android:layout_width="320dp"
-        android:layout_height="81dp"
+        android:layout_width="317dp"
+        android:layout_height="57dp"
         android:ems="10"
         android:inputType="text"
+        android:hint="Nom de la tâche"
+        android:textColor="#919191"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13"
+        app:layout_constraintVertical_bias="0.145"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/editTextCategory"
-        android:layout_width="311dp"
-        android:layout_height="75dp"
+        android:layout_width="313dp"
+        android:layout_height="54dp"
         android:ems="10"
         android:inputType="text"
+        android:hint="Catégorie"
+        android:textColor="#919191"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.43"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.253"
+        app:layout_constraintVertical_bias="0.267"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <CheckBox
@@ -186,17 +168,6 @@
         app:layout_constraintEnd_toEndOf="@+id/textPriority"
         app:layout_constraintTop_toTopOf="@+id/textPriority" />
 
-    <Button
-        android:id="@+id/btnCalendarView"
-        android:layout_width="72dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="32dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.386" />
-
 
     <Button
         android:id="@+id/btnTimeView"
@@ -218,9 +189,10 @@
         android:clickable="false"
         android:gravity="center"
         android:text=" Select a date"
+        android:textColor="#919191"
+        android:textColorHighlight="#919191"
+        android:textColorHint="#919191"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnCalendarView"
-        app:layout_constraintHorizontal_bias="0.225"
         app:layout_constraintStart_toEndOf="@+id/textDeadline"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.385" />
@@ -237,5 +209,16 @@
         app:layout_constraintStart_toEndOf="@+id/textTime2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.708" />
+
+    <ImageView
+        android:id="@+id/ImgCalendarView"
+        android:layout_width="105dp"
+        android:layout_height="66dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.383"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
