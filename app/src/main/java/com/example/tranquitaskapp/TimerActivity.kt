@@ -20,7 +20,7 @@ class TimerActivity : AppCompatActivity() {
         setContentView(R.layout.fragment_profile)
 
         textViewTimer = findViewById(R.id.countdown)
-        buttonStart = findViewById(R.id.button_start2)
+        buttonStart = findViewById(R.id.button_start)
         countDownTimer = createTimer(initialTimeInMillis)
 
         buttonStart.setOnClickListener {
