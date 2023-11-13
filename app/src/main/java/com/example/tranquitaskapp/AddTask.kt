@@ -22,7 +22,9 @@ import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
+
 import kotlinx.coroutines.launch
+import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -39,6 +41,8 @@ class AddTask : Fragment() {
     private lateinit var formattedDate: String
     private var timestampInSeconds: Int = 0
     private val listCategory = mutableListOf<String>()
+    private val listPriority = mutableListOf<String>()
+
 
 
     private val auth = MyFirebaseAuth.getFirestoreInstance()
@@ -54,6 +58,7 @@ class AddTask : Fragment() {
 
     private fun createNewTask(
         categorie: String,
+        priority: String,
         nameTask: String,
         deadline: String,
         divisible: Boolean,
@@ -62,17 +67,23 @@ class AddTask : Fragment() {
     ) {
         val taskCollection = db.collection("tache")
         val categorieReference = db.collection("tache_categorie").document(categorie)
+        val priorityReference = db.collection("tache_priorite").document(priority)
+
+        // Convertir la date de format texte en timestamp
+        val deadlineTimestamp = Timestamp(
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(deadline)
+        )
 
         val taskData = hashMapOf(
             "categorie" to categorieReference,
             "concentration" to concentration,
-            "deadline" to deadline,
+            "deadline" to deadlineTimestamp,
             "divisible" to divisible,
             "done" to 0,
             "duree" to duree,
             "name" to nameTask,
-            "priorite" to emptyList<String>()
-        )
+            "priorite" to priorityReference
+            )
         taskCollection.add(taskData)
             .addOnSuccessListener {
                 addTaskToUser(it)
@@ -97,9 +108,12 @@ class AddTask : Fragment() {
         val timestamp = 0
         val packageName = this.context?.packageName // Nom du package de votre application
         val spinnerCategory = view.findViewById<Spinner>(R.id.spinnerCategory)
+        val spinnerPriority = view.findViewById<Spinner>(R.id.spinnerPriority)
+
 
         lifecycleScope.launch {
             getCategories(spinnerCategory)
+            getPriority(spinnerPriority)
         }
 
 
@@ -146,6 +160,8 @@ class AddTask : Fragment() {
             val nameTask = view.findViewById<TextView>(R.id.editNameTask)
             val categorie =
                 listCategory[view.findViewById<Spinner>(R.id.spinnerCategory).selectedItemPosition]
+            val priority =
+                listPriority[view.findViewById<Spinner>(R.id.spinnerPriority).selectedItemPosition]
 
             if (nameTask.text.isNullOrBlank() || formattedDate.isNullOrBlank() || timestampInSeconds == null) {
                 // Afficher une erreur ou une notification indiquant que tous les champs doivent être remplis
@@ -154,6 +170,7 @@ class AddTask : Fragment() {
             } else {
                 createNewTask(
                     categorie,
+                    priority,
                     nameTask.text.toString(),
                     formattedDate,
                     isDivisibleChecked,
@@ -161,16 +178,7 @@ class AddTask : Fragment() {
                     timestampInSeconds
                 )
             }
-            createNewTask(
-                categorie,
-                nameTask.text.toString(),
-                formattedDate,
-                isDivisibleChecked,
-                isConcentrationChecked,
-                timestampInSeconds
-            )
         }
-
         return view
     }
 
@@ -226,6 +234,48 @@ class AddTask : Fragment() {
 
                 // Attribution de l'Adapter au Spinner
                 spinnerCategory.adapter = adapter
+                // Mettre à jour l'adaptateur une fois que les données sont récupérées avec succès
+            }
+            .addOnFailureListener { exception ->
+                // Gérer les erreurs éventuelles
+                Log.e("ERROR", "Erreur lors de la récupération des catégories: $exception")
+            }
+    }
+
+    private fun getPriority(spinnerPriority: Spinner) {
+        val packageName = this.context?.packageName // Nom du package de votre application
+
+        db.collection("tache_priorite")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val name = document.getString("name")
+                    if (name != null)
+                        listPriority.add(name)
+                }
+
+                val adapter = this.context?.let {
+                    ArrayAdapter<String>(
+                        it,
+                        android.R.layout.simple_spinner_item
+                    )
+                }
+
+                // Spécification du layout déroulant à utiliser lorsque la liste apparaît
+                if (adapter != null) {
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                }
+
+                // Récupération des ressources de chaînes et ajout à l'Adapter
+                listPriority.forEach { resourceName ->
+                    val resourceId = resources.getIdentifier(resourceName, "string", packageName)
+                    if (adapter != null) {
+                        adapter.add(getString(resourceId))
+                    }
+                }
+
+                // Attribution de l'Adapter au Spinner
+                spinnerPriority.adapter = adapter
                 // Mettre à jour l'adaptateur une fois que les données sont récupérées avec succès
             }
             .addOnFailureListener { exception ->
