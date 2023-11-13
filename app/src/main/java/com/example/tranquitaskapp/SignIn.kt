@@ -93,7 +93,7 @@ class SignIn : Fragment() {
             logPassword.setText(storedPassword)
 
             // Tenter une connexion automatique si la checkbox est cochée
-            if (checkBoxStillConnected.isChecked) {
+           /* if (checkBoxStillConnected.isChecked) {
                 auth.signInWithEmailAndPassword(storedEmail, storedPassword)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -103,7 +103,7 @@ class SignIn : Fragment() {
                             Log.e("SignIn", "Échec de la connexion automatique")
                         }
                     }
-            }
+            }*/
         }
 
         buttonSignIn.setOnClickListener {
