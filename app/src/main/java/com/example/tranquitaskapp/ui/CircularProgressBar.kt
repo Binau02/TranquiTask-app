@@ -32,14 +32,12 @@ class CircularProgressBar(context: Context, attrs: AttributeSet) : View(context,
     public override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-//        val centerX = width / 2f
-//        val centerY = height / 2f
+        val centerX = width / 2f
+        val centerY = height / 2f
 //        val radius = (Math.min(centerX, centerY) * 0.9).toFloat()
 
         val padding = 50f // Set the padding you want
 
-        val centerX = (width - padding * 2) / 2f + padding
-        val centerY = (height - padding * 2) / 2f + padding
         val radius = ((Math.min(centerX, centerY) - padding) * 0.9).toFloat()
 
         if(percentage<=100f) {
