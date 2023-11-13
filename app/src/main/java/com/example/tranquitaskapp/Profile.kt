@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 
@@ -72,7 +73,9 @@ class Profile : Fragment() {
         val buttonScenery = view.findViewById<Button>(R.id.button_scenery)
         val buttonShop = view.findViewById<Button>(R.id.button_shop)
         val buttonStart = view.findViewById<Button>(R.id.button_start)
+        val pseudo = view.findViewById<TextView>(R.id.tv_pseudo)
 
+        pseudo.text = User.username
         buttonModifProfile.setOnClickListener {
             onClickModifProfile()
         }
