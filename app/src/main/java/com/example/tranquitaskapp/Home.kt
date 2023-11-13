@@ -133,7 +133,7 @@ class Home : Fragment() {
         }
 
         searchBtn.setOnClickListener {
-            val fragment = Add_Tache()
+            val fragment = fragment_liste_taches()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
