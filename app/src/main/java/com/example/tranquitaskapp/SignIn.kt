@@ -1,6 +1,7 @@
 package com.example.tranquitaskapp
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -21,6 +23,7 @@ class SignIn : Fragment() {
     private val db = MyFirebase.getFirestoreInstance()
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onAttach(context: Context) {
@@ -29,6 +32,9 @@ class SignIn : Fragment() {
             bottomBarListener = context
         }
         bottomBarListener?.setBottomBarVisibility(this)
+        sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+
+
     }
 
     fun getUsersInformations(email: String) {
@@ -66,26 +72,67 @@ class SignIn : Fragment() {
         val view = inflater.inflate(R.layout.fragment_sign_in, container, false)
         val buttonSignIn = view.findViewById<Button>(R.id.btnLogIn)
         val textSignUp = view.findViewById<TextView>(R.id.tvSignIn)
+        val logUsername = view.findViewById<EditText>(R.id.log_username)
+        val logPassword = view.findViewById<EditText>(R.id.log_password)
 
-        buttonSignIn.setOnClickListener {
-            val mail = view.findViewById<EditText>(R.id.log_username).text.toString()
-            val password = view.findViewById<EditText>(R.id.log_password).text.toString()
-            if (mail.isEmpty() && password.isEmpty()) {
-                Toast.makeText(this.context, "Textes vides", Toast.LENGTH_SHORT).show()
-            } else {
-                auth.signInWithEmailAndPassword(mail, password)
-                    .addOnCompleteListener() { task ->
+        // Vérifier s'il existe des identifiants stockés
+        val storedEmail = sharedPreferences.getString("email", null)
+        val storedPassword = sharedPreferences.getString("password", null)
+        val checkBoxStillConnected = view.findViewById<CheckBox>(R.id.checkBoxStillConnected)
+
+        // Charger l'état de la case à cocher depuis les préférences partagées
+        val isCheckBoxChecked = sharedPreferences.getBoolean("checkBoxState", false)
+        checkBoxStillConnected.isChecked = isCheckBoxChecked
+
+        if (storedEmail != null && storedPassword != null) {
+            // Remplir automatiquement les champs
+            logUsername.setText(storedEmail)
+            logPassword.setText(storedPassword)
+
+            // Tenter une connexion automatique si la checkbox est cochée
+            if (checkBoxStillConnected.isChecked) {
+                auth.signInWithEmailAndPassword(storedEmail, storedPassword)
+                    .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            getUsersInformations(mail)
+                            getUsersInformations(storedEmail)
                         } else {
-                            // Gérez les erreurs lors de la connexion
-                            // Exemple : afficher un message d'erreur à l'utilisateur
-                            Toast.makeText(this.context, "Échec de la connexion", Toast.LENGTH_SHORT)
-                                .show()
+                            // Gérer les erreurs lors de la connexion automatique
+                            Log.e("SignIn", "Échec de la connexion automatique")
                         }
                     }
             }
+        }
 
+        buttonSignIn.setOnClickListener {
+            val mail = logUsername.text.toString()
+            val password = logPassword.text.toString()
+
+            if (mail.isEmpty() && password.isEmpty()) {
+                Toast.makeText(this.context, "Textes vides", Toast.LENGTH_SHORT).show()
+            } else {
+                // Vérifier si la case à cocher est cochée
+                val checkBoxStillConnected = view.findViewById<CheckBox>(R.id.checkBoxStillConnected)
+                val isCheckBoxChecked = checkBoxStillConnected.isChecked
+
+                if (isCheckBoxChecked) {
+                    // Sauvegarder les identifiants dans les préférences partagées
+                    saveCredentialsToSharedPreferences(mail, password)
+                } else {
+                    // Si la case n'est pas cochée, effacer les identifiants des préférences partagées
+                    clearCredentialsFromSharedPreferences()
+                }
+
+                // Tenter la connexion
+                auth.signInWithEmailAndPassword(mail, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            getUsersInformations(mail)
+                        } else {
+                            // Gérer les erreurs lors de la connexion
+                            Log.e("SignIn", "Échec de la connexion")
+                        }
+                    }
+            }
         }
 
         textSignUp.setOnClickListener {
@@ -93,7 +140,22 @@ class SignIn : Fragment() {
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
-        // Inflate the layout for this fragment
+
         return view
+    }
+
+
+    private fun saveCredentialsToSharedPreferences(email: String, password: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString("email", email)
+        editor.putString("password", password)
+        editor.apply()
+    }
+
+    private fun clearCredentialsFromSharedPreferences() {
+        val editor = sharedPreferences.edit()
+        editor.remove("email")
+        editor.remove("password")
+        editor.apply()
     }
 }

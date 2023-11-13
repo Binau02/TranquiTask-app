@@ -25,9 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:text="Rester connecté"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox"
-        app:layout_constraintTop_toTopOf="@+id/checkBox"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBoxStillConnected"
+        app:layout_constraintEnd_toStartOf="@+id/checkBoxStillConnected"
+        app:layout_constraintTop_toTopOf="@+id/checkBoxStillConnected"
         app:layout_constraintVertical_bias="0.62" />
 
     <Button
@@ -102,7 +102,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkBoxStillConnected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"

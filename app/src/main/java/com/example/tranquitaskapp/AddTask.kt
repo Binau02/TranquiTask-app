@@ -10,12 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -24,7 +24,7 @@ import java.util.Locale
 class AddTask : Fragment() {
 
     private lateinit var tvDate : TextView
-    private lateinit var btnShowDatePicker: Button
+    private lateinit var ImgShowDatePicker: ImageView
     private val calendar = Calendar.getInstance()
     private var bottomBarListener: BottomBarVisibilityListener? = null
     private lateinit var formattedDate: String
@@ -76,9 +76,9 @@ class AddTask : Fragment() {
         val timestamp = 0
 
         tvDate = view.findViewById(R.id.tvSelectedDate)
-        btnShowDatePicker = view.findViewById(R.id.btnCalendarView)
+        ImgShowDatePicker = view.findViewById<ImageView>(R.id.ImgCalendarView)
 
-        btnShowDatePicker.setOnClickListener{
+        ImgShowDatePicker.setOnClickListener{
             showDatePicker()
         }
         btnTimeView.setOnClickListener {
@@ -107,7 +107,12 @@ class AddTask : Fragment() {
             val nameTask = view.findViewById<TextView>(R.id.editNameTask)
             val categorie = "null"
 
-
+            if (nameTask.text.isNullOrBlank() || formattedDate.isNullOrBlank() || timestampInSeconds == null) {
+                // Afficher une erreur ou une notification indiquant que tous les champs doivent être remplis
+                Toast.makeText(context, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
+            } else {
+                createNewTask(categorie, nameTask.text.toString(), formattedDate, isDivisibleChecked, isConcentrationChecked, timestampInSeconds)
+            }
             createNewTask(categorie, nameTask.text.toString(), formattedDate, isDivisibleChecked, isConcentrationChecked, timestampInSeconds)
         }
 
@@ -131,3 +136,5 @@ class AddTask : Fragment() {
 
     }
 }
+
+
