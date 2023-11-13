@@ -21,12 +21,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
+import com.example.tranquitaskapp.ui.CircularProgressBar
 
 
 class Home : Fragment() {
     private val db = MyFirebase.getFirestoreInstance()
     private val listCategoryModel = mutableListOf<CategoryModel>()
     private lateinit var rv: RecyclerView
+    private lateinit var progressBar: CircularProgressBar
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
@@ -57,6 +59,7 @@ class Home : Fragment() {
                 Tasks.await(db.collection("user").document(User.id).get())
             }
             val tasks = user.get("taches") as List<DocumentReference>
+            var totalPercentage = 0F;
             for (task in tasks) {
                 // récupérer chaque tâche de l'utilisateur
                 try {
@@ -82,11 +85,14 @@ class Home : Fragment() {
                     }
                     if (done != null) {
                         categories[index].second.add(done)
+                        totalPercentage += done
                     }
                 } catch (e: Exception) {
                     Log.e("ERROR", "Error getting categorie document: $e")
                 }
             }
+            totalPercentage /= tasks.size
+            progressBar.setPercentageExternal(totalPercentage)
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding user: $e")
         }
@@ -114,6 +120,7 @@ class Home : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         rv = view.findViewById(R.id.rv)
+        progressBar = view.findViewById(R.id.progressBar)
         val buttonToday = view.findViewById<Button>(R.id.todayButton)
         val buttonWeek = view.findViewById<Button>(R.id.weekButton)
         val addBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
@@ -121,7 +128,7 @@ class Home : Fragment() {
         val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.fab2)
 
-        Log.d("TEST","${User.getUser().id}")
+//        Log.d("TEST","${User.getUser().id}")
 
         lifecycleScope.launch {
             getTasks()

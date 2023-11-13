@@ -61,7 +61,7 @@ class Friends : Fragment() {
     private lateinit var badge : TextView
 
     suspend fun getFriends() {
-        // récupérer l'utilisateur
+        // récupérer les amis
         try {
             val friends = withContext(Dispatchers.IO) {
                 Tasks.await(db.collection("ami").get())

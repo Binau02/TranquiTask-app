@@ -12,21 +12,32 @@ import kotlin.math.cos
 
 class CircularProgressBar(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val paint = Paint()
-    private var percentage: Float = 100f // Attribut pour stocker le pourcentage de progression
+    private var _percentage: Float = 100f // Attribut pour stocker le pourcentage de progression
+    var percentage: Float
+        get() = _percentage
+        set(value) {
+            _percentage = value
+            invalidate() // Trigger redraw when the percentage is set
+        }
+
+    fun setPercentageExternal(newPercentage: Float) {
+        percentage = newPercentage
+//        invalidate()
+    }
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircularProgressBar)
         percentage = typedArray.getFloat(R.styleable.CircularProgressBar_percentage, 0f)
         typedArray.recycle()
     }
-    override fun onDraw(canvas: Canvas) {
+    public override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         val centerX = width / 2f
         val centerY = height / 2f
         val radius = (Math.min(centerX, centerY) * 0.9).toFloat()
 
-        if(percentage!=100f) {
+        if(percentage<=100f) {
             paint.color = Color.BLACK // Couleur de la barre de progression
         }else{
             paint.color = Color.LTGRAY // Couleur de la barre de progression
@@ -39,7 +50,7 @@ class CircularProgressBar(context: Context, attrs: AttributeSet) : View(context,
         val sweepAngle = (180*(percentage/100.0)).toFloat()
         canvas.drawArc(centerX - radius, centerY - radius, centerX + radius, centerY + radius, startAngle, sweepAngle, false, paint)
 
-        if(percentage!=100f){
+        if(percentage<=100f){
             // Dessiner le cercle à la fin de la barre de progression
             val circleRadius = 70f // Taille du cercle
             val circleX = centerX + radius * cos(Math.toRadians(180 + sweepAngle.toDouble()))
