@@ -25,6 +25,8 @@ class AddTask : Fragment() {
 
     private lateinit var tvDate : TextView
     private lateinit var ImgShowDatePicker: ImageView
+    private lateinit var imgTimeView: ImageView
+
     private val calendar = Calendar.getInstance()
     private var bottomBarListener: BottomBarVisibilityListener? = null
     private lateinit var formattedDate: String
@@ -71,8 +73,8 @@ class AddTask : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_addtask, container, false)
         val saveBtn : Button = view.findViewById(R.id.btnSave)
-        val btnTimeView = view.findViewById<Button>(R.id.btnTimeView)
-        val tvSelectedTime     = view.findViewById<TextView>(R.id.tvSelectedTime)
+        imgTimeView = view.findViewById<ImageView>(R.id.imgTimeView)
+        val tvSelectedTime = view.findViewById<TextView>(R.id.tvSelectedTime)
         val timestamp = 0
 
         tvDate = view.findViewById(R.id.tvSelectedDate)
@@ -81,7 +83,7 @@ class AddTask : Fragment() {
         ImgShowDatePicker.setOnClickListener{
             showDatePicker()
         }
-        btnTimeView.setOnClickListener {
+        imgTimeView.setOnClickListener {
             val cal = Calendar.getInstance()
             val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hour)
