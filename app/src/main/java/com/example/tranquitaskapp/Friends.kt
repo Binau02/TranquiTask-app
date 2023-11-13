@@ -89,10 +89,10 @@ class Friends : Fragment() {
                 } catch (e: Exception) {
                     Log.e("ERROR", "Error getting ami2 : $e")
                 }
-                if (ami1Doc != null && ami1Doc.id == "ZLsTpfBISeRYTUbDXuJA") {
+                if (ami1Doc != null && ami1Doc.id == User.id) {
                     addFriend(ami2Doc)
                 }
-                if (ami2Doc != null && ami2Doc.id == "ZLsTpfBISeRYTUbDXuJA") {
+                if (ami2Doc != null && ami2Doc.id == User.id) {
                     addFriend(ami1Doc)
                 }
             }
@@ -112,7 +112,7 @@ class Friends : Fragment() {
     suspend fun getNotificationNumber() {
         try {
             val user = withContext(Dispatchers.IO) {
-                Tasks.await(db.collection("user").document("Tlpu2X1Wrg9owNSRFUjI").get())
+                Tasks.await(db.collection("user").document(User.id).get())
             }
             val demandes = user.get("demandes") as List<DocumentReference>
             if (demandes.size > 0) {
