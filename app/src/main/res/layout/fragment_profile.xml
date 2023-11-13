@@ -5,26 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/button_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="36dp"
+        android:text="START"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countdown" />
+
     <TextView
         android:id="@+id/countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="368dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginBottom="352dp"
         android:text="1:00"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/button_start2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="32dp"
-        android:text="START"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countdown" />
 
     <ImageView
         android:id="@+id/sun_cloud"
@@ -72,11 +72,21 @@
         android:id="@+id/button_modif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
         android:text="Modifier Profil"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_pseudo" />
+
+    <Button
+        android:id="@+id/button_scenery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Modifier Décor"
+        app:layout_constraintEnd_toEndOf="@+id/button_modif"
+        app:layout_constraintStart_toStartOf="@+id/button_modif"
+        app:layout_constraintTop_toBottomOf="@+id/button_modif" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profileimage"
@@ -107,20 +117,20 @@
         android:id="@+id/button_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="216dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginTop="3dp"
         android:text="Boutique"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/button_scenery"
+        app:layout_constraintStart_toStartOf="@+id/button_scenery"
+        app:layout_constraintTop_toBottomOf="@+id/button_scenery" />
 
     <ImageView
         android:id="@+id/frame"
         android:layout_width="118dp"
         android:layout_height="177dp"
+        android:layout_marginStart="45dp"
         android:layout_marginTop="65dp"
-        android:layout_marginEnd="248dp"
         android:src="@drawable/cadre"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
