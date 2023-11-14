@@ -85,7 +85,7 @@ class Profile : Fragment() {
             override fun onFinish() {
                 timerRunning = false
                 updateTimer()
-                Toast.makeText(context, "Fin du minuteur", Toast.LENGTH_SHORT).show()
+                textViewTimer.text = "FIN"
             }
         }.start()
 
@@ -155,7 +155,7 @@ class Profile : Fragment() {
     override fun onStart() {
         super.onStart()
         if (isStopOnce and timerRunning){
-            Toast.makeText(this.context, "onStart : vous avez quitté l'app", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "onStart : Vous avez quitté l'application", Toast.LENGTH_SHORT).show()
             cancelTimer()
         }
         else {
@@ -167,7 +167,7 @@ class Profile : Fragment() {
         super.onStop()
         if (timerRunning) {
             isStopOnce = true
-            Toast.makeText(this.context, "onStop : vous avez quitté l'app", Toast.LENGTH_SHORT)
+            Toast.makeText(this.context, "onStop : Vous avez quitté la page", Toast.LENGTH_SHORT)
                 .show()
         }
     }
