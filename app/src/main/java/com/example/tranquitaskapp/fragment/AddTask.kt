@@ -141,8 +141,8 @@ class AddTask : Fragment() {
                 val timestampInMillis =
                     selectedTime?.time ?: 0 // Utilisation de 0 si la conversion échoue
 
-// Convertir le timestamp en secondes
-                timestampInSeconds = (timestampInMillis / 1000).toInt()
+// Convertir le timestamp en minutes
+                timestampInSeconds = (timestampInMillis / 60000).toInt()
 
             }
             TimePickerDialog(
