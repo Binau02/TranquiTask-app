@@ -86,7 +86,7 @@ class StartTask(private val task: TacheModel) : Fragment() {
             "amount" to task.duration,
             "categorie" to task.category,
             "date" to Timestamp(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(task.deadline)),
-            "user" to User.id,
+            "user" to "/user/"+User.id,
         )
         transactionCollection.add(transactionData)
             .addOnSuccessListener {
