@@ -18,6 +18,7 @@ import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.Locale
 
 class StartTask(private val task: TacheModel) : Fragment() {
@@ -82,11 +83,14 @@ class StartTask(private val task: TacheModel) : Fragment() {
 
     private fun addCoinToUser(){
         val transactionCollection = db.collection("transaction")
+        val categorieReference = db.collection("tache_categorie").document(task.category)
+        val userReference = db.collection("user").document(User.id)
+
         val transactionData = hashMapOf(
             "amount" to task.duration,
-            "categorie" to task.category,
-            "date" to Timestamp(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(task.deadline)),
-            "user" to "/user/"+User.id,
+            "categorie" to categorieReference,
+            "date" to Timestamp.now(),
+            "user" to userReference,
         )
         transactionCollection.add(transactionData)
             .addOnSuccessListener {
