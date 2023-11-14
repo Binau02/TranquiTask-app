@@ -39,6 +39,8 @@ class Profile : Fragment() {
     private var timeLeftMillis: Long = initialMillis
     private var timerRunning = false
 
+    var isAppInBackground = false
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -134,13 +136,35 @@ class Profile : Fragment() {
         buttonShop.setOnClickListener {
             onClickShop()
         }
+
         buttonStart.setOnClickListener {
             onClickStart()
         }
         updateTimer()
 
+        Toast.makeText(this.context, "isAppInBackground = $isAppInBackground", Toast.LENGTH_SHORT).show()
+
         return view
         // Inflate the layout for this fragment
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // L'application est en avant-plan
+        isAppInBackground = false
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // L'application n'est plus en avant-plan
+        isAppInBackground = true
+        Toast.makeText(this.context, "isAppInBackground = $isAppInBackground", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // L'activité est détruite
+        // Vous pouvez également mettre à jour une variable globale ici
     }
 
 /*
