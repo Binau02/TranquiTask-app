@@ -1,9 +1,8 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +14,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
+import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
@@ -50,11 +50,11 @@ class SignIn : Fragment() {
                     val coins = documents.documents[0].getLong("coins")
                     val profile_picture = documents.documents[0].getString("profile_picture")
                     if (username != null && coins != null && profile_picture != null) {
-                        User.getUser().username = username
-                        User.getUser().mail = email
-                        User.getUser().coins = coins
-                        User.getUser().profile_picture = profile_picture
-                        User.getUser().id = documents.documents[0].id
+                        User.username = username
+                        User.mail = email
+                        User.coins = coins
+                        User.profile_picture = profile_picture
+                        User.id = documents.documents[0].id
                     }
                     val fragment = Home()
                     val transaction = fragmentManager?.beginTransaction()
