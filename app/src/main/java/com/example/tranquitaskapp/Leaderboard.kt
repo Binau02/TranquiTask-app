@@ -227,7 +227,7 @@ class Leaderboard : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.leaderboard, container, false)
+        val view = inflater.inflate(R.layout.fragment_leaderboard, container, false)
         rv = view.findViewById(R.id.rv_leaderboard)
         val buttonFiltre = view.findViewById<Button>(R.id.filtre)
         val buttonChangeL = view.findViewById<Button>(R.id.fleche_gauche)

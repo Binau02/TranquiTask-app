@@ -123,8 +123,6 @@ class Home : Fragment() {
         progressBar = view.findViewById(R.id.progressBar)
         val buttonToday = view.findViewById<Button>(R.id.todayButton)
         val buttonWeek = view.findViewById<Button>(R.id.weekButton)
-        val addBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
-            view.findViewById(R.id.fab1)
         val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.fab2)
 
@@ -133,14 +131,9 @@ class Home : Fragment() {
         lifecycleScope.launch {
             getTasks()
         }
-        addBtn.setOnClickListener {
-            val fragment = AddTask()
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frameLayout, fragment)?.commit()
-        }
 
         searchBtn.setOnClickListener {
-            val fragment = fragment_liste_taches()
+            val fragment = ListTaches()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }

@@ -12,10 +12,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tranquitaskapp.adapter.CategoryRowAdapter
-import com.example.tranquitaskapp.adapter.LeaderboardRowAdapter
 import com.example.tranquitaskapp.adapter.ListeTachesRowAdapter
-import com.example.tranquitaskapp.data.CategoryModel
 import com.example.tranquitaskapp.data.ListeTachesModel
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
@@ -30,10 +27,10 @@ import java.util.Locale
 
 /**
  * A simple [Fragment] subclass.
- * Use the [fragment_liste_taches.newInstance] factory method to
+ * Use the [ListTaches.newInstance] factory method to
  * create an instance of this fragment.
  */
-class fragment_liste_taches : Fragment() {
+class ListTaches : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
