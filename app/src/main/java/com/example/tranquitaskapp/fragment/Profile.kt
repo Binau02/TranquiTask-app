@@ -99,6 +99,13 @@ class Profile : Fragment() {
         updateTimer()
     }
 
+    private fun cancelTimer() {
+        countdownTimer.cancel()
+        timerRunning = false
+        timeLeftMillis = initialMillis
+        updateTimer()
+    }
+
     private fun updateTimer() {
         val minutes = (timeLeftMillis / 1000) / 60
         val seconds = (timeLeftMillis / 1000) % 60
@@ -149,6 +156,7 @@ class Profile : Fragment() {
         super.onStart()
         if (isStopOnce and timerRunning){
             Toast.makeText(this.context, "onStart : vous avez quitté l'app", Toast.LENGTH_SHORT).show()
+            cancelTimer()
         }
         else {
             Toast.makeText(this.context, "onStart", Toast.LENGTH_SHORT).show()
