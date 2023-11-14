@@ -174,12 +174,12 @@ class Leaderboard : Fragment() {
 
         listLeaderboardModel = mutableListOf()
 
-        Log.d("TEST", "actual cat ${globalCategories[categorieIndex]}")
-        for (user in users) {
-            for (category in user.categories) {
-                Log.d("TEST", "${user.totalAmount} cats ${category}")
-            }
-        }
+//        Log.d("TEST", "actual cat ${globalCategories[categorieIndex]}")
+//        for (user in users) {
+//            for (category in user.categories) {
+//                Log.d("TEST", "${user.totalAmount} cats ${category}")
+//            }
+//        }
 
         if (globalCategories[categorieIndex].name == "Global") {
             users.sortByDescending { it.totalAmount }
