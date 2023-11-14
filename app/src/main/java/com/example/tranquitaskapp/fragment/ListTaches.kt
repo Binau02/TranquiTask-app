@@ -87,6 +87,7 @@ class ListTaches : Fragment(), TaskButtonClickListener {
                     val taskDoc = withContext(Dispatchers.IO) {
                         Tasks.await(task.get())
                     }
+                    val id = taskDoc.id
                     val name = taskDoc.getString("name")
                     val categorieRef = taskDoc.getDocumentReference("categorie")
                     val done = taskDoc.getLong("done")?.toInt()
@@ -116,11 +117,12 @@ class ListTaches : Fragment(), TaskButtonClickListener {
                             Log.e("ERROR", "Error getting priorite document: $e")
                         }
                     }
-                    if (name != null && done != null && duree != null && deadlineTimestamp != null) {
+                    if (id != null && name != null && done != null && duree != null && deadlineTimestamp != null) {
                         val deadlineDate = deadlineTimestamp.toDate()
 //                        Log.d("TEST", "date $deadline")
                         listListeTacheModel.add(
                             TacheModel(
+                                id,
                                 name,
                                 R.drawable.or,
                                 done,

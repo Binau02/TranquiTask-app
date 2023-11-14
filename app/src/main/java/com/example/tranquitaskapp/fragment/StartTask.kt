@@ -3,6 +3,7 @@ package com.example.tranquitaskapp.fragment
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,10 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.data.TacheModel
+import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 
-class StartTask(task: TacheModel) : Fragment() {
+class StartTask(private val task: TacheModel) : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
     private lateinit var textViewTimer: TextView
@@ -22,7 +24,8 @@ class StartTask(task: TacheModel) : Fragment() {
     private lateinit var buttonPause: Button
     private lateinit var buttonValider: Button
     private lateinit var countdownTimer: CountDownTimer
-    private val initialMillis: Long = (task.duration * 6000).toLong() // 30 secondes
+    private val db = MyFirebase.getFirestoreInstance()
+    private val initialMillis: Long = (task.duration * 60000).toLong() // 30 secondes
     private var timeLeftMillis: Long = initialMillis
     private var timerRunning = false
 
@@ -41,7 +44,7 @@ class StartTask(task: TacheModel) : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_start_task, container, false)
         buttonStart = view.findViewById(R.id.button_start)
-        buttonValider = view.findViewById<Button?>(R.id.button_valider)
+        buttonValider = view.findViewById(R.id.button_valider)
         buttonPause = view.findViewById(R.id.button_pause)
         textViewTimer = view.findViewById(R.id.countdown)
         buttonValider.visibility = View.INVISIBLE
@@ -61,7 +64,7 @@ class StartTask(task: TacheModel) : Fragment() {
             buttonPause.visibility = View.INVISIBLE
         }
         buttonValider.setOnClickListener {
-            onClickStart()
+            onClickValidate()
         }
 
         val minutes = (timeLeftMillis / 1000) / 60
@@ -84,6 +87,24 @@ class StartTask(task: TacheModel) : Fragment() {
         }
     }
 
+    private fun onClickValidate(){
+        val taskRef = db.collection("tache").document(task.id)
+
+        taskRef.update("done", 100)
+            .addOnSuccessListener {
+                // La mise à jour a réussi
+                Log.d("Update", "La tache a ete modifiée")
+                val fragment = Home()
+                val transaction = fragmentManager?.beginTransaction()
+                transaction?.replace(R.id.frameLayout, fragment)?.commit()
+            }
+            .addOnFailureListener { e ->
+                // Gérer les erreurs lors de la mise à jour
+                Toast.makeText(this.context, "La tache n'a pas pu être validé !", Toast.LENGTH_SHORT).show()
+                Log.e("Update", "La tache n'a pas été modifiée")
+            }
+    }
+
     private fun startTimer() {
         countdownTimer = object : CountDownTimer(timeLeftMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -95,6 +116,7 @@ class StartTask(task: TacheModel) : Fragment() {
                 timerRunning = false
                 updateTimer()
                 Toast.makeText(context, "Fin du minuteur", Toast.LENGTH_SHORT).show()
+                onClickValidate()
             }
         }.start()
 

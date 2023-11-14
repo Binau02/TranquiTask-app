@@ -94,7 +94,7 @@ class Home : Fragment() {
                 }
             }
             totalPercentage /= tasks.size
-            progressBar.setPercentageExternal(totalPercentage)
+            progressBar.setPercentageExternal(totalPercentage.toInt().toFloat())
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding user: $e")
         }
