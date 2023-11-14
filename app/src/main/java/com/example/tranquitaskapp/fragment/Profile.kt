@@ -147,7 +147,7 @@ class Profile : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        if (isStopOnce){
+        if (isStopOnce and timerRunning){
             Toast.makeText(this.context, "onStart : vous avez quitté l'app", Toast.LENGTH_SHORT).show()
         }
         else {
@@ -157,8 +157,11 @@ class Profile : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        isStopOnce = true
-        Toast.makeText(this.context, "onStop : vous avez quitté l'app", Toast.LENGTH_SHORT).show()
+        if (timerRunning) {
+            isStopOnce = true
+            Toast.makeText(this.context, "onStop : vous avez quitté l'app", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
 
