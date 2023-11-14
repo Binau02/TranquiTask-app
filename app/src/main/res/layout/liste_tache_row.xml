@@ -164,6 +164,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/buttonStart"
                     android:layout_width="100dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"

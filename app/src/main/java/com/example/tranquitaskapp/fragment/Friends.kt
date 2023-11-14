@@ -1,4 +1,4 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -14,10 +14,12 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.FriendsRowAdapter
 import com.example.tranquitaskapp.data.FriendsModel
-import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
+import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot

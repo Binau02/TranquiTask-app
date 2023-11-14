@@ -1,13 +1,12 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.fragment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.databinding.ActivityMainBinding
-import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
+import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 

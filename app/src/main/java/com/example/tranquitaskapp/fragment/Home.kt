@@ -1,4 +1,4 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.CategoryRowAdapter
 import com.example.tranquitaskapp.data.CategoryModel
@@ -20,7 +22,7 @@ import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
+import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.ui.CircularProgressBar
 
 
@@ -92,7 +94,7 @@ class Home : Fragment() {
                 }
             }
             totalPercentage /= tasks.size
-            progressBar.setPercentageExternal(totalPercentage)
+            progressBar.setPercentageExternal(totalPercentage.toInt().toFloat())
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding user: $e")
         }
@@ -123,8 +125,6 @@ class Home : Fragment() {
         progressBar = view.findViewById(R.id.progressBar)
         val buttonToday = view.findViewById<Button>(R.id.todayButton)
         val buttonWeek = view.findViewById<Button>(R.id.weekButton)
-        val addBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
-            view.findViewById(R.id.fab1)
         val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.fab2)
 
@@ -133,14 +133,9 @@ class Home : Fragment() {
         lifecycleScope.launch {
             getTasks()
         }
-        addBtn.setOnClickListener {
-            val fragment = AddTask()
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frameLayout, fragment)?.commit()
-        }
 
         searchBtn.setOnClickListener {
-            val fragment = fragment_liste_taches()
+            val fragment = ListTaches()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
