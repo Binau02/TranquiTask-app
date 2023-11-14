@@ -10,9 +10,14 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.data.ListeTachesModel
+import com.example.tranquitaskapp.data.TacheModel
+import com.example.tranquitaskapp.fragment.ListTaches
+import com.example.tranquitaskapp.interfaces.TaskButtonClickListener
 
-class ListeTachesRowAdapter(val data: List<ListeTachesModel>) :
+class ListeTachesRowAdapter(
+    val data: List<TacheModel>,
+    private val buttonClickListener: TaskButtonClickListener
+) :
     RecyclerView.Adapter<ListeTachesRowAdapter.MyViewHolder>() {
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val imageView = row.findViewById<ImageView>(R.id.logoImageView)
@@ -25,6 +30,7 @@ class ListeTachesRowAdapter(val data: List<ListeTachesModel>) :
         val taskPriority = row.findViewById<TextView>(R.id.task_priority)
         val taskCategory = row.findViewById<TextView>(R.id.task_category)
         val buttonDevelop = row.findViewById<Button>(R.id.button_develop)
+        val buttonStart = row.findViewById<Button>(R.id.buttonStart)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -38,12 +44,14 @@ class ListeTachesRowAdapter(val data: List<ListeTachesModel>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
-        holder.buttonDevelop.setOnClickListener{
+        holder.buttonStart.setOnClickListener {
+            buttonClickListener.onStartButtonClick(position)
+        }
+        holder.buttonDevelop.setOnClickListener {
             data[position].isDetail = !data[position].isDetail
-            if(holder.buttonDevelop.text == "v"){
+            if (holder.buttonDevelop.text == "v") {
                 holder.buttonDevelop.text = "^"
-            }else{
+            } else {
                 holder.buttonDevelop.text = "v"
             }
             notifyItemChanged(position) // Informer l'adaptateur du changement
@@ -52,9 +60,9 @@ class ListeTachesRowAdapter(val data: List<ListeTachesModel>) :
         holder.imageView.setImageResource(data[position].logoResId)
         holder.progressBar.progress = data[position].progress
 
-        if (data[position].isDetail){
+        if (data[position].isDetail) {
             holder.cardView.visibility = View.VISIBLE
-        }else{
+        } else {
             holder.cardView.visibility = View.GONE
         }
         holder.cardView.requestLayout()

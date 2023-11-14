@@ -1,4 +1,4 @@
-package com.example.tranquitaskapp.navigation
+package com.example.tranquitaskapp.interfaces
 
 import androidx.fragment.app.Fragment
 

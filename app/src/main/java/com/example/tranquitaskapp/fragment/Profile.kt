@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.User
-import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
+import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 
 /**
  * A simple [Fragment] subclass.

@@ -1,6 +1,6 @@
 package com.example.tranquitaskapp.data
 
-data class ListeTachesModel(
+data class TacheModel(
     val name: String,
     val logoResId: Int,
     val progress: Int,
