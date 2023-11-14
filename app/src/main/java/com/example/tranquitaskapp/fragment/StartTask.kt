@@ -25,7 +25,7 @@ class StartTask(private val task: TacheModel) : Fragment() {
     private lateinit var buttonValider: Button
     private lateinit var countdownTimer: CountDownTimer
     private val db = MyFirebase.getFirestoreInstance()
-    private val initialMillis: Long = (task.duration * 600).toLong() // 30 secondes
+    private val initialMillis: Long = (task.duration * 60000).toLong() // 30 secondes
     private var timeLeftMillis: Long = initialMillis
     private var timerRunning = false
 
@@ -94,9 +94,13 @@ class StartTask(private val task: TacheModel) : Fragment() {
             .addOnSuccessListener {
                 // La mise à jour a réussi
                 Log.d("Update", "La tache a ete modifiée")
+                val fragment = Home()
+                val transaction = fragmentManager?.beginTransaction()
+                transaction?.replace(R.id.frameLayout, fragment)?.commit()
             }
             .addOnFailureListener { e ->
                 // Gérer les erreurs lors de la mise à jour
+                Toast.makeText(this.context, "La tache n'a pas pu être validé !", Toast.LENGTH_SHORT).show()
                 Log.e("Update", "La tache n'a pas été modifiée")
             }
     }
