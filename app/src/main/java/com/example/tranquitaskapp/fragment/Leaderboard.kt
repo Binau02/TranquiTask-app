@@ -1,4 +1,4 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
 import com.example.tranquitaskapp.adapter.LeaderboardRowAdapter
 import com.example.tranquitaskapp.data.LeaderboardModel
@@ -227,7 +228,7 @@ class Leaderboard : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.leaderboard, container, false)
+        val view = inflater.inflate(R.layout.fragment_leaderboard, container, false)
         rv = view.findViewById(R.id.rv_leaderboard)
         val buttonFiltre = view.findViewById<Button>(R.id.filtre)
         val buttonChangeL = view.findViewById<Button>(R.id.fleche_gauche)

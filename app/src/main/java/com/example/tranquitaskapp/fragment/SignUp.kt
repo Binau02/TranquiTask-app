@@ -1,9 +1,8 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +12,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
@@ -50,8 +51,8 @@ class SignUp : Fragment() {
             .addOnCompleteListener() { task ->
                 if (task.isSuccessful) {
                     // L'utilisateur est enregistré avec succès
-                    User.getUser().mail = email
-                    User.getUser().username = username
+                    User.mail = email
+                    User.username = username
                     createNewUser(email, username)
                 } else {
                     Toast.makeText(this.context, "Il y a eu une erreur", Toast.LENGTH_SHORT).show()
@@ -74,7 +75,7 @@ class SignUp : Fragment() {
         )
         usersCollection.add(userData)
             .addOnSuccessListener {
-                User.getUser().id = it.id
+                User.id = it.id
                 val fragment = Home()
                 val transaction = fragmentManager?.beginTransaction()
                 transaction?.replace(R.id.frameLayout, fragment)?.commit()
