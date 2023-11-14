@@ -28,16 +28,6 @@ class Profile : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
-    private lateinit var countdownTimer: CountDownTimer
-    private lateinit var textViewTimer: TextView
-    private lateinit var buttonStart: Button
-    private val initialMillis: Long = 30000 // 30 secondes
-    private var timeLeftMillis: Long = initialMillis
-    private var timerRunning = false
-
-    private var isStopOnce = false
-
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BottomBarVisibilityListener) {
@@ -65,57 +55,6 @@ class Profile : Fragment() {
     fun onClickShop(){
         Toast.makeText(this.context, "Le bouton Boutique a été cliqué !", Toast.LENGTH_SHORT).show()
     }
-    fun onClickStart(){
-        if (timerRunning) {
-            pauseTimer()
-            Toast.makeText(this.context, "Le bouton Pause a été cliqué !", Toast.LENGTH_SHORT).show()
-        } else {
-            startTimer()
-            Toast.makeText(this.context, "Le bouton Start a été cliqué !", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun startTimer() {
-        countdownTimer = object : CountDownTimer(timeLeftMillis, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                timeLeftMillis = millisUntilFinished
-                updateTimer()
-            }
-
-            override fun onFinish() {
-                timerRunning = false
-                updateTimer()
-                textViewTimer.text = "FIN"
-            }
-        }.start()
-
-        timerRunning = true
-        updateTimer()
-    }
-
-    private fun pauseTimer() {
-        countdownTimer.cancel()
-        timerRunning = false
-        updateTimer()
-    }
-
-    private fun cancelTimer() {
-        countdownTimer.cancel()
-        timerRunning = false
-        timeLeftMillis = initialMillis
-        updateTimer()
-    }
-
-    private fun updateTimer() {
-        val minutes = (timeLeftMillis / 1000) / 60
-        val seconds = (timeLeftMillis / 1000) % 60
-        val timeFormatted = String.format("%02d:%02d", minutes, seconds)
-        textViewTimer.text = timeFormatted
-
-        buttonStart.text = if (timerRunning) "Pause" else "Start"
-    }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -126,9 +65,6 @@ class Profile : Fragment() {
         val buttonScenery = view.findViewById<Button>(R.id.button_scenery)
         val buttonShop = view.findViewById<Button>(R.id.button_shop)
         val pseudo = view.findViewById<TextView>(R.id.tv_pseudo)
-
-        buttonStart = view.findViewById(R.id.button_start)
-        textViewTimer = view.findViewById(R.id.countdown)
 
         pseudo.text = User.username
         buttonModifProfile.setOnClickListener {
@@ -141,35 +77,8 @@ class Profile : Fragment() {
             onClickShop()
         }
 
-        buttonStart.setOnClickListener {
-            onClickStart()
-        }
-        updateTimer()
-
-        Toast.makeText(this.context, "onCreate", Toast.LENGTH_SHORT).show()
-
         return view
         // Inflate the layout for this fragment
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (isStopOnce and timerRunning){
-            Toast.makeText(this.context, "onStart : Vous avez quitté l'application", Toast.LENGTH_SHORT).show()
-            cancelTimer()
-        }
-        else {
-            Toast.makeText(this.context, "onStart", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (timerRunning) {
-            isStopOnce = true
-            Toast.makeText(this.context, "onStop : Vous avez quitté la page", Toast.LENGTH_SHORT)
-                .show()
-        }
     }
 
 
