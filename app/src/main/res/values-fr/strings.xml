@@ -26,10 +26,6 @@
     <string name="ForgotPassword">Mot de passe oublié</string>
     <string name="signin">S inscrire</string>
     <string name="ConfirmPassword">Confirmez votre mot de passe</string>
-    <string name="NewAccount">Do you have an account?</string>
-
-
-
-
-
+    <string name="NewAccount">Pas encore de compte ?</string>
+    <string name="login">Se connecter</string>
 </resources>
