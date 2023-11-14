@@ -35,6 +35,8 @@ class Profile : Fragment() {
     private var timeLeftMillis: Long = initialMillis
     private var timerRunning = false
 
+    private var isStopOnce = false
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -117,6 +119,7 @@ class Profile : Fragment() {
         val buttonScenery = view.findViewById<Button>(R.id.button_scenery)
         val buttonShop = view.findViewById<Button>(R.id.button_shop)
         val pseudo = view.findViewById<TextView>(R.id.tv_pseudo)
+
         buttonStart = view.findViewById(R.id.button_start)
         textViewTimer = view.findViewById(R.id.countdown)
 
@@ -130,14 +133,34 @@ class Profile : Fragment() {
         buttonShop.setOnClickListener {
             onClickShop()
         }
+
         buttonStart.setOnClickListener {
             onClickStart()
         }
-        // updateTimer()
+        updateTimer()
+
+        Toast.makeText(this.context, "onCreate", Toast.LENGTH_SHORT).show()
 
         return view
         // Inflate the layout for this fragment
     }
+
+    override fun onStart() {
+        super.onStart()
+        if (isStopOnce){
+            Toast.makeText(this.context, "onStart : vous avez quitté l'app", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            Toast.makeText(this.context, "onStart", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        isStopOnce = true
+        Toast.makeText(this.context, "onStop : vous avez quitté l'app", Toast.LENGTH_SHORT).show()
+    }
+
 
 /*
     companion object {
