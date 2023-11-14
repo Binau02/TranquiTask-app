@@ -49,15 +49,16 @@ class fragment_liste_taches : Fragment() {
     }
 
     private val db = MyFirebase.getFirestoreInstance()
-//    private val listListeTacheModel = mutableListOf<ListeTachesModel>(
-//        ListeTachesModel("Tâche 1",R.drawable.arbre_removebg,50, false, 30, "3/12/2023","haute","maison"),
-//        ListeTachesModel("Tâche 2",R.drawable.leaderboard_icon, 45, false,60, "3/12/2023","haute","maison"),
-//        ListeTachesModel("Tâche 3",R.drawable.or, 90, false,50, "3/12/2023","haute","maison"),
-//        ListeTachesModel("Tâche 4",R.drawable.leaderboard_icon, 40, false,30, "3/12/2023","haute","maison"),
-//        ListeTachesModel("Tâche 5",R.drawable.arbre_removebg, 40, false,30, "3/12/2023","haute","maison"),
-//        ListeTachesModel("Tâche 6",R.drawable.add, 30, false,30, "3/12/2023","haute","maison"),
-//        ListeTachesModel("Tâche 7",R.drawable.or, 60, false,30, "3/12/2023","haute","maison"),
-//    )
+    /*
+    private val listListeTacheModel = mutableListOf<ListeTachesModel>(
+        ListeTachesModel("Tâche 1",R.drawable.arbre_removebg,50, false, 30, "3/12/2023","haute","maison"),
+        ListeTachesModel("Tâche 2",R.drawable.leaderboard_icon, 45, false,60, "3/12/2023","haute","maison"),
+        ListeTachesModel("Tâche 3",R.drawable.or, 90, false,50, "3/12/2023","haute","maison"),
+        ListeTachesModel("Tâche 4",R.drawable.leaderboard_icon, 40, false,30, "3/12/2023","haute","maison"),
+        ListeTachesModel("Tâche 5",R.drawable.arbre_removebg, 40, false,30, "3/12/2023","haute","maison"),
+        ListeTachesModel("Tâche 6",R.drawable.add, 30, false,30, "3/12/2023","haute","maison"),
+        ListeTachesModel("Tâche 7",R.drawable.or, 60, false,30, "3/12/2023","haute","maison"),
+    )*/
     private val listListeTacheModel = mutableListOf<ListeTachesModel>()
 
     fun onClickFiltre(){

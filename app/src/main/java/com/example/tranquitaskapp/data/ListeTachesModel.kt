@@ -4,7 +4,7 @@ data class ListeTachesModel(
     val name: String,
     val logoResId: Int,
     val progress: Int,
-    val isDetail: Boolean,
+    var isDetail: Boolean,
     val duration: Int,
     val deadline: String,
     val priority: String,
