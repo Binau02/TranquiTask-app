@@ -76,6 +76,7 @@ class SignIn : Fragment() {
         val buttonSignIn = view.findViewById<Button>(R.id.btnLogIn)
         val textSignUp = view.findViewById<TextView>(R.id.tvSignIn)
         val logUsername = view.findViewById<EditText>(R.id.log_username)
+        val forgotPassword = view.findViewById<TextView>(R.id.tvForgotPassword)
         val logPassword = view.findViewById<EditText>(R.id.log_password)
 
         // Vérifier s'il existe des identifiants stockés
@@ -158,6 +159,11 @@ class SignIn : Fragment() {
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
 
+        forgotPassword.setOnClickListener {
+            val fragment = SignUp()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout, fragment)?.commit()
+        }
         return view
     }
 
