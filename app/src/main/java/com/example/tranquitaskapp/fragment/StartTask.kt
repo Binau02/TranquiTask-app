@@ -29,6 +29,8 @@ class StartTask(private val task: TacheModel) : Fragment() {
     private var timeLeftMillis: Long = initialMillis
     private var timerRunning = false
 
+    private var isStopOnce = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BottomBarVisibilityListener) {
@@ -52,7 +54,7 @@ class StartTask(private val task: TacheModel) : Fragment() {
 
 
         buttonStart.setOnClickListener {
-            onClickStart()
+            startTimer()
             buttonStart.visibility = View.INVISIBLE
             buttonValider.visibility = View.VISIBLE
             buttonPause.visibility = View.VISIBLE
@@ -67,11 +69,7 @@ class StartTask(private val task: TacheModel) : Fragment() {
             onClickValidate()
         }
 
-        val minutes = (timeLeftMillis / 1000) / 60
-        val seconds = (timeLeftMillis / 1000) % 60
-        val timeFormatted = String.format("%02d:%02d", minutes, seconds)
-        textViewTimer.text = timeFormatted
-
+        updateTimer()
 
         return view
     }
@@ -80,10 +78,8 @@ class StartTask(private val task: TacheModel) : Fragment() {
     private fun onClickStart(){
         if (timerRunning) {
             pauseTimer()
-            Toast.makeText(this.context, "Le bouton Pause a été cliqué !", Toast.LENGTH_SHORT).show()
         } else {
             startTimer()
-            Toast.makeText(this.context, "Le bouton Start a été cliqué !", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -115,11 +111,10 @@ class StartTask(private val task: TacheModel) : Fragment() {
             override fun onFinish() {
                 timerRunning = false
                 updateTimer()
-                Toast.makeText(context, "Fin du minuteur", Toast.LENGTH_SHORT).show()
-                onClickValidate()
+                textViewTimer.text = "FIN"
+                // onClickValidate()
             }
         }.start()
-
 
         timerRunning = true
         updateTimer()
@@ -131,13 +126,42 @@ class StartTask(private val task: TacheModel) : Fragment() {
         updateTimer()
     }
 
+    private fun cancelTimer() {
+        countdownTimer.cancel()
+        timerRunning = false
+        timeLeftMillis = initialMillis
+
+        buttonStart.visibility = View.VISIBLE
+        buttonValider.visibility = View.INVISIBLE
+        buttonPause.visibility = View.INVISIBLE
+
+        updateTimer()
+    }
+
     private fun updateTimer() {
         val minutes = (timeLeftMillis / 1000) / 60
         val seconds = (timeLeftMillis / 1000) % 60
         val timeFormatted = String.format("%02d:%02d", minutes, seconds)
         textViewTimer.text = timeFormatted
 
-        buttonStart.text = if (timerRunning) "Pause" else "Start"
+        // buttonStart.text = if (timerRunning) "Pause" else "Start"
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (isStopOnce and timerRunning){
+            Toast.makeText(this.context, "Vous avez quitté l'application donc vous ne gagnez pas de coins", Toast.LENGTH_LONG).show()
+            cancelTimer()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (timerRunning) {
+            isStopOnce = true
+            Toast.makeText(this.context, "Vous avez quitté la page donc vous ne gagnez pas de coins", Toast.LENGTH_LONG)
+                .show()
+        }
     }
 
 }
