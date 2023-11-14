@@ -12,9 +12,13 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
+import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class StartTask(private val task: TacheModel) : Fragment() {
 
@@ -66,6 +70,7 @@ class StartTask(private val task: TacheModel) : Fragment() {
             buttonPause.visibility = View.INVISIBLE
         }
         buttonValider.setOnClickListener {
+            timerRunning = false
             onClickValidate()
         }
 
@@ -75,21 +80,29 @@ class StartTask(private val task: TacheModel) : Fragment() {
     }
 
 
-    private fun onClickStart(){
-        if (timerRunning) {
-            pauseTimer()
-        } else {
-            startTimer()
-        }
+    private fun addCoinToUser(){
+        val transactionCollection = db.collection("transaction")
+        val transactionData = hashMapOf(
+            "amount" to task.duration,
+            "categorie" to task.category,
+            "date" to Timestamp(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(task.deadline)),
+            "user" to User.id,
+        )
+        transactionCollection.add(transactionData)
+            .addOnSuccessListener {
+            }
+            .addOnFailureListener { e ->
+            }
     }
 
     private fun onClickValidate(){
         val taskRef = db.collection("tache").document(task.id)
-
         taskRef.update("done", 100)
             .addOnSuccessListener {
                 // La mise à jour a réussi
                 Log.d("Update", "La tache a ete modifiée")
+                Toast.makeText(this.context, "Vous avez gagné ${task.duration} coins", Toast.LENGTH_SHORT).show()
+                addCoinToUser()
                 val fragment = Home()
                 val transaction = fragmentManager?.beginTransaction()
                 transaction?.replace(R.id.frameLayout, fragment)?.commit()
