@@ -15,9 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.adapter.ListeTachesRowAdapter
-import com.example.tranquitaskapp.data.ListeTachesModel
+import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.firebase.MyFirebase
-import com.example.tranquitaskapp.navigation.BottomBarVisibilityListener
+import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
+import com.example.tranquitaskapp.interfaces.TaskButtonClickListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.Dispatchers
@@ -32,12 +33,17 @@ import java.util.Locale
  * Use the [ListTaches.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ListTaches : Fragment() {
+class ListTaches : Fragment(), TaskButtonClickListener {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
     private lateinit var rv : RecyclerView
 
+    override fun onStartButtonClick(position: Int) {
+        val fragment = StartTask(listListeTacheModel[position]) // Remplacez par le fragment que vous souhaitez afficher
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -58,7 +64,7 @@ class ListTaches : Fragment() {
         ListeTachesModel("Tâche 6",R.drawable.add, 30, false,30, "3/12/2023","haute","maison"),
         ListeTachesModel("Tâche 7",R.drawable.or, 60, false,30, "3/12/2023","haute","maison"),
     )*/
-    private val listListeTacheModel = mutableListOf<ListeTachesModel>()
+    private val listListeTacheModel = mutableListOf<TacheModel>()
 
     fun onClickFiltre(){
         Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()
@@ -114,7 +120,7 @@ class ListTaches : Fragment() {
                         val deadlineDate = deadlineTimestamp.toDate()
 //                        Log.d("TEST", "date $deadline")
                         listListeTacheModel.add(
-                            ListeTachesModel(
+                            TacheModel(
                                 name,
                                 R.drawable.or,
                                 done,
@@ -134,7 +140,7 @@ class ListTaches : Fragment() {
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding user: $e")
         }
-        rv.adapter = ListeTachesRowAdapter(listListeTacheModel)
+        rv.adapter = ListeTachesRowAdapter(listListeTacheModel,this)
     }
 
     override fun onCreateView(
@@ -158,7 +164,7 @@ class ListTaches : Fragment() {
         }
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter = ListeTachesRowAdapter(listListeTacheModel) // Initialisez avec une liste vide ou vos données
+        rv.adapter = ListeTachesRowAdapter(listListeTacheModel,this) // Initialisez avec une liste vide ou vos données
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 
