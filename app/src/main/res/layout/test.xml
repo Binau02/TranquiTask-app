@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg">
+
+    <RelativeLayout
+        android:id="@+id/coloredlayout"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="@color/my_primary"
+        android:alpha="0.7" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/coloredlayout"
+        android:background="@color/white"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="25dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/add_task"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
+
+            <EditText
+                android:id="@+id/editNameTask"
+                android:layout_width="match_parent"
+                android:hint="@string/newtask"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/Task_Category"
+                    android:layout_gravity="center"
+                    android:alpha="0.7"
+                    android:textStyle="bold"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:textSize="20dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/task_deadline"
+                    android:layout_gravity="center"
+                    android:alpha="0.7"
+                    android:textStyle="bold"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/tvSelectedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:clickable="false"
+                    android:text="@string/selectDate"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#919191" />
+
+                <ImageView
+                    android:id="@+id/ImgCalendarView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:layout_gravity="end"
+
+                    app:srcCompat="@drawable/calendar" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/task_duration"
+                    android:layout_gravity="center"
+                    android:alpha="0.7"
+                    android:textStyle="bold"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/tvSelectedTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:clickable="false"
+                    android:text="@string/selectDuration"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#919191" />
+
+                <ImageView
+                    android:id="@+id/imgTimeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/time" />
+            </LinearLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/task_divisible"
+                    android:layout_gravity="center"
+                    android:alpha="0.7"
+                    android:textStyle="bold"
+                    android:layout_weight="2"
+                    android:gravity="start|center"
+                    android:textSize="20dp"/>
+
+                    <CheckBox
+                        android:id="@+id/checkBoxDivisible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/task_concentraton"
+                    android:layout_gravity="center"
+                    android:alpha="0.7"
+                    android:textStyle="bold"
+                    android:layout_weight="2"
+                    android:gravity="start|center"
+                    android:textSize="20dp"/>
+
+                <CheckBox
+                    android:id="@+id/checkBoxConcentration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/task_priority"
+                    android:layout_gravity="center"
+                    android:alpha="0.7"
+                    android:textStyle="bold"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:textSize="20dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerPriority"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="@string/Save"/>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>
+
