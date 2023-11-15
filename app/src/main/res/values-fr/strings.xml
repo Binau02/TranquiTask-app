@@ -28,4 +28,13 @@
     <string name="ConfirmPassword">Confirmez votre mot de passe</string>
     <string name="NewAccount">Pas encore de compte ?</string>
     <string name="login">Se connecter</string>
+    <string name="Task_name">Nom de la tâche</string>
+    <string name="Task_Category">Catégorie</string>
+    <string name="selectDate">sélectionner une date</string>
+    <string name="selectDuration">sélectionner une Durée</string>
+    <string name="task_concentraton">Tâche demandant de la concentration ?</string>
+    <string name="task_divisible">Tâche divisible ?</string>
+    <string name="newtask">Nom de la tâche ?</string>
+
+
 </resources>

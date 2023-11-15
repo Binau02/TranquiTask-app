@@ -31,6 +31,13 @@
     <string name="ConfirmPassword">Confirm Password</string>
     <string name="NewAccount">Already an account ?</string>
     <string name="login">Login</string>
+    <string name="Task_name">Task Name</string>
+    <string name="Task_Category">Category</string>
+    <string name="selectDate">select a date</string>
+    <string name="selectDuration">select a duration</string>
+    <string name="task_divisible">Divisible task?</string>
+    <string name="task_concentraton">Task requiring concentration?</string>
+    <string name="newtask">Task Name ?</string>
 
 
 </resources>
