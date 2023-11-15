@@ -3,6 +3,7 @@ package com.example.tranquitaskapp.fragment
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -129,6 +130,8 @@ class AddTask : Fragment() {
         }
         imgTimeView.setOnClickListener {
             val cal = Calendar.getInstance()
+            cal.set(Calendar.HOUR_OF_DAY, 0)
+            cal.set(Calendar.MINUTE, 0)
             val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hour)
                 cal.set(Calendar.MINUTE, minute)
@@ -141,17 +144,31 @@ class AddTask : Fragment() {
                 val timestampInMillis =
                     selectedTime?.time ?: 0 // Utilisation de 0 si la conversion échoue
 
-// Convertir le timestamp en minutes
+                // Convertir le timestamp en minutes
                 timestampInSeconds = (timestampInMillis / 60000).toInt()
-
             }
-            TimePickerDialog(
-                requireContext(),
-                timeSetListener,
-                cal.get(Calendar.HOUR_OF_DAY),
-                cal.get(Calendar.MINUTE),
-                true
-            ).show()
+
+            // Créer le TimePickerDialog en mode "spinner"
+            val timePickerDialog = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                TimePickerDialog(
+                    requireContext(),
+                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                    timeSetListener,
+                    cal.get(Calendar.HOUR_OF_DAY),
+                    cal.get(Calendar.MINUTE),
+                    true
+                )
+            } else {
+                TimePickerDialog(
+                    requireContext(),
+                    timeSetListener,
+                    cal.get(Calendar.HOUR_OF_DAY),
+                    cal.get(Calendar.MINUTE),
+                    true
+                )
+            }
+            timePickerDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            timePickerDialog.show()
         }
         saveBtn.setOnClickListener {
             val checkBoxConcentration = view.findViewById<CheckBox>(R.id.checkBoxConcentration)
