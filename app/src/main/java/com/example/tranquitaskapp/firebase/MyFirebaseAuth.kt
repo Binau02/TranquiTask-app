@@ -10,4 +10,8 @@ object MyFirebaseAuth {
         }
         return instance!!
     }
+
+    fun signOut() {
+        FirebaseAuth.getInstance().signOut()
+    }
 }

@@ -6,6 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".fragment.MainActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="80dp"
+        >
+
+        <TextView
+            android:id="@+id/tvcoin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableEnd="@drawable/bitcoin"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo"
+            android:layout_weight="3" />
+
+        <ImageView
+            android:id="@+id/logon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_logout_24"
+            android:layout_weight="0" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -15,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
     </FrameLayout>
 
@@ -31,14 +59,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav" />
+        app:menu="@menu/bottom_nav" >
+
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="651dp" />
+        app:layout_constraintGuide_end="80dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

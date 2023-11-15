@@ -26,6 +26,7 @@ class SignIn : Fragment() {
     private val db = MyFirebase.getFirestoreInstance()
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
+
     private lateinit var sharedPreferences: SharedPreferences
 
 
@@ -36,7 +37,11 @@ class SignIn : Fragment() {
         }
         bottomBarListener?.setBottomBarVisibility(this)
         sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-
+        if (context is BottomBarVisibilityListener) {
+            bottomBarListener = context
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
+        sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
     }
 
