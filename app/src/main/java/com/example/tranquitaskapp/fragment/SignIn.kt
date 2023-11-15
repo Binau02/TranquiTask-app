@@ -37,12 +37,6 @@ class SignIn : Fragment() {
         }
         bottomBarListener?.setBottomBarVisibility(this)
         sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
-        sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-
     }
 
     fun getUsersInformations(email: String) {
