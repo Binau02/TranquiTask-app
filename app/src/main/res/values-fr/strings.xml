@@ -35,6 +35,7 @@
     <string name="task_concentraton">Tâche demandant de la concentration ?</string>
     <string name="task_divisible">Tâche divisible ?</string>
     <string name="newtask">Nom de la tâche ?</string>
+    <string name="addtasktitle">Tâche</string>
 
 
 </resources>

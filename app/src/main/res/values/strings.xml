@@ -38,6 +38,8 @@
     <string name="task_divisible">Divisible task?</string>
     <string name="task_concentraton">Task requiring concentration?</string>
     <string name="newtask">Task Name ?</string>
+    <string name="addtasktitle">Add Task</string>
+
 
 
 </resources>

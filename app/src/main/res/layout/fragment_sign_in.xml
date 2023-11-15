@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:background="@color/my_primary"
         android:alpha="0.7">
+    </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +36,6 @@
 
 
         </LinearLayout>
-    </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
