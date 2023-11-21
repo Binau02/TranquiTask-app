@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener {
         binding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(SignIn())
-        val logonBtn = findViewById<ImageView>(R.id.logon)
+        val logonBtn = findViewById<ImageView>(R.id.deco)
 
 
         binding.bottomNavigationView.setOnItemSelectedListener {
