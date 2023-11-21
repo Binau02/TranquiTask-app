@@ -36,6 +36,11 @@
     <string name="task_divisible">Tâche divisible ?</string>
     <string name="newtask">Nom de la tâche ?</string>
     <string name="addtasktitle">Tâche</string>
+    <string name="friend_requests">Demandes d\'ami</string>
+    <string name="pseudo">Pseudo</string>
+    <string name="modify_profile">Modifier Profil</string>
+    <string name="modify_scenery">Modifier Décor</string>
+    <string name="shop">Boutique</string>
     <string name="validate">Valider</string>
     <string name="cancel">Annuler</string>
     <string name="Urgent">Urgente</string>
