@@ -43,6 +43,7 @@ class CustomPopup {
                 // Fermer le popup
                 // Appeler la méthode du listener lorsque le bouton "Valider" est cliqué
                 listener.onPopupButtonClick()
+                popupWindow.dismiss()
             }
 
             // Afficher le popup au centre de l'écran
