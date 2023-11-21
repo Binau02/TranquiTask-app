@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Modifier Profil"
+        android:text="@string/modify_profile"
         app:layout_constraintEnd_toEndOf="@+id/tv_pseudo"
         app:layout_constraintStart_toStartOf="@+id/tv_pseudo"
         app:layout_constraintTop_toBottomOf="@+id/tv_pseudo" />
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:text="Modifier Décor"
+        android:text="@string/modify_scenery"
         app:layout_constraintEnd_toEndOf="@+id/button_modif"
         app:layout_constraintStart_toStartOf="@+id/button_modif"
         app:layout_constraintTop_toBottomOf="@+id/button_modif" />
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="38dp"
         android:layout_marginEnd="52dp"
-        android:text="Pseudo"
+        android:text="@string/pseudo"
         android:textSize="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:text="Boutique"
+        android:text="@string/shop"
         app:layout_constraintEnd_toEndOf="@+id/button_scenery"
         app:layout_constraintStart_toStartOf="@+id/button_scenery"
         app:layout_constraintTop_toBottomOf="@+id/button_scenery" />

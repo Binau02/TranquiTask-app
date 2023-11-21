@@ -159,7 +159,7 @@ class SignIn : Fragment() {
         }
 
         forgotPassword.setOnClickListener {
-            val fragment = SignUp()
+            val fragment = ForgotPassword()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
