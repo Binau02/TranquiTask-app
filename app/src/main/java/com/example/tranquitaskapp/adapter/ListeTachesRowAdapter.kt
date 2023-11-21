@@ -1,6 +1,7 @@
 package com.example.tranquitaskapp.adapter
 
 import android.content.ContentValues.TAG
+import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +35,7 @@ class ListeTachesRowAdapter(
         val taskDeadline = row.findViewById<TextView>(R.id.task_deadline)
         val taskPriority = row.findViewById<TextView>(R.id.task_priority)
         val taskCategory = row.findViewById<TextView>(R.id.task_category)
-        val buttonDevelop = row.findViewById<Button>(R.id.button_develop)
+        val imageDevelop = row.findViewById<ImageView>(R.id.image_develop)
         val buttonStart = row.findViewById<Button>(R.id.buttonStart)
         val delete = row.findViewById<ImageView>(R.id.delete)
     }
@@ -53,12 +54,13 @@ class ListeTachesRowAdapter(
         holder.buttonStart.setOnClickListener {
             buttonClickListener.onStartButtonClick(position)
         }
-        holder.buttonDevelop.setOnClickListener {
-            data[position].isDetail = !data[position].isDetail
-            if (holder.buttonDevelop.text == "v") {
-                holder.buttonDevelop.text = "^"
+        holder.imageDevelop.setOnClickListener {
+            if (data[position].isDetail) {
+                holder.imageDevelop.setImageResource(R.drawable.arrow_up)
+                data[position].isDetail = false
             } else {
-                holder.buttonDevelop.text = "v"
+                holder.imageDevelop.setImageResource(R.drawable.arrow_down)
+                data[position].isDetail = true
             }
             notifyItemChanged(position) // Informer l'adaptateur du changement
         }
