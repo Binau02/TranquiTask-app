@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewPopup"
         android:layout_marginTop="16dp"
-        android:text="Fermer" />
+        android:text="@string/cancel" />
 
     <Button
         android:id="@+id/buttonValidate"
@@ -28,6 +28,6 @@
         android:layout_alignTop="@id/buttonClose"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@id/buttonClose"
-        android:text="Valider" />
+        android:text="@string/validate" />
 
 </RelativeLayout>

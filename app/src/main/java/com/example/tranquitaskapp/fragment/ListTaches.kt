@@ -142,7 +142,11 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding user: $e")
         }
-        rv.adapter = ListeTachesRowAdapter(listListeTacheModel,this)
+        rv.adapter = ListeTachesRowAdapter(listListeTacheModel,this){
+            val fragment = ListTaches()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout, fragment)?.commit()
+        }
     }
 
     override fun onCreateView(
@@ -166,7 +170,11 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         }
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter = ListeTachesRowAdapter(listListeTacheModel,this) // Initialisez avec une liste vide ou vos données
+        rv.adapter = ListeTachesRowAdapter(listListeTacheModel,this){
+            val fragment = ListTaches()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout, fragment)?.commit()
+        } // Initialisez avec une liste vide ou vos données
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 

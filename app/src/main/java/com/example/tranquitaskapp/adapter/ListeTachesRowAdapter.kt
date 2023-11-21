@@ -1,5 +1,7 @@
 package com.example.tranquitaskapp.adapter
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +13,15 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.data.TacheModel
+import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.fragment.ListTaches
 import com.example.tranquitaskapp.interfaces.TaskButtonClickListener
+import com.example.tranquitaskapp.ui.CustomPopup
 
 class ListeTachesRowAdapter(
     val data: List<TacheModel>,
-    private val buttonClickListener: TaskButtonClickListener
+    private val buttonClickListener: TaskButtonClickListener,
+    private val taskDeleteCallback: () -> Unit // Ajout de l'interface de rappel
 ) :
     RecyclerView.Adapter<ListeTachesRowAdapter.MyViewHolder>() {
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
@@ -31,6 +36,7 @@ class ListeTachesRowAdapter(
         val taskCategory = row.findViewById<TextView>(R.id.task_category)
         val buttonDevelop = row.findViewById<Button>(R.id.button_develop)
         val buttonStart = row.findViewById<Button>(R.id.buttonStart)
+        val delete = row.findViewById<ImageView>(R.id.delete)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -59,6 +65,32 @@ class ListeTachesRowAdapter(
         holder.pseudoView.text = data[position].name
         holder.imageView.setImageResource(data[position].logoResId)
         holder.progressBar.progress = data[position].progress
+        holder.delete.setOnClickListener {
+            CustomPopup.showPopup(
+                context = holder.row.context,
+                "Etes-vous sur de supprimer cette tâche ?",
+                object :
+                    CustomPopup.PopupClickListener {
+                    override fun onPopupButtonClick() {
+                        val collection = MyFirebase.getFirestoreInstance().collection("tache")
+                        collection.document(data[position].id)
+                            .delete()
+                            .addOnSuccessListener {
+
+                                taskDeleteCallback()
+                                // Informer l'adaptateur du changement\
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(
+                                    TAG,
+                                    "Error deleting document",
+                                    e
+                                )
+                            }
+                    }
+                })
+        }
+
 
         if (data[position].isDetail) {
             holder.cardView.visibility = View.VISIBLE
