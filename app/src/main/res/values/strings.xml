@@ -13,9 +13,9 @@
     <string name="sport">Sport</string>
     <string name="hobbies">Hobbies</string>
     <string name="social">Social</string>
-    <string name="urgent">Urgent</string>
-    <string name="moyen">Moyenne</string>
-    <string name="tranquille">Tranquille</string>
+    <string name="Urgent">Urgente</string>
+    <string name="Modérée">Medium</string>
+    <string name="Faible">Low</string>
     <string name="task_duration">Duration of task</string>
     <string name="task_deadline">Deadline</string>
     <string name="task_priority">Priority</string>
