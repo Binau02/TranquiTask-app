@@ -9,12 +9,10 @@
         android:id="@+id/sun_cloud"
         android:layout_width="138dp"
         android:layout_height="132dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="284dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="88dp"
+        app:layout_constraintBottom_toTopOf="@+id/house"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frame"
-        app:layout_constraintVertical_bias="0.972"
         app:srcCompat="@drawable/soleil_nuage" />
 
     <ImageView
@@ -52,9 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="40dp"
         android:text="Modifier Profil"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_pseudo"
+        app:layout_constraintStart_toStartOf="@+id/tv_pseudo"
         app:layout_constraintTop_toBottomOf="@+id/tv_pseudo" />
 
     <Button
@@ -74,7 +72,7 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="74dp"
         android:adjustViewBounds="true"
         android:src="@drawable/default_profil_picture"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +83,7 @@
         android:id="@+id/tv_pseudo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="38dp"
         android:layout_marginEnd="52dp"
         android:text="Pseudo"
         android:textSize="35dp"
@@ -107,7 +105,7 @@
         android:layout_width="118dp"
         android:layout_height="177dp"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="35dp"
         android:src="@drawable/cadre"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
