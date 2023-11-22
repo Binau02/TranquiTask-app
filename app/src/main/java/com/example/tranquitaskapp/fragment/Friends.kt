@@ -98,7 +98,7 @@ class Friends : Fragment() {
                     addFriend(ami1Doc)
                 }
             }
-            rv.adapter = FriendsRowAdapter(listFriendsModel)
+            rv.adapter = FriendsRowAdapter(listFriendsModel, this)
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding friend: $e")
         }
@@ -106,8 +106,9 @@ class Friends : Fragment() {
 
     fun addFriend(friendDoc : DocumentSnapshot?) {
         val name = friendDoc?.getString("username")
-        if (name != null){
-            listFriendsModel.add(FriendsModel(name, R.drawable.or))
+        val pp = friendDoc?.getString("profile_picture")
+        if (name != null && pp != null){
+            listFriendsModel.add(FriendsModel(name, pp))
         }
     }
 

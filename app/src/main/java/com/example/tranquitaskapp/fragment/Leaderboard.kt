@@ -114,6 +114,7 @@ class Leaderboard : Fragment() {
         }
     }
 
+    // TODO : modify with local categories
     suspend fun getLeaderboard() {
         val emptyCategories : MutableList<CategorieData> = mutableListOf()
 
