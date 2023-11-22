@@ -2,12 +2,15 @@ package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,7 +71,7 @@ class ListTaches (private val period: Period = Period.ALL, private val category:
     }
 
 
-    private fun setTasks() {
+    private fun setTasks(search : String = "") {
         var tasks : List<Task>
 
         val home = Home()
@@ -92,6 +95,11 @@ class ListTaches (private val period: Period = Period.ALL, private val category:
         // filter by priority
         if (priority != null) {
             tasks = tasks.filter { task -> task.priorite == priority }
+        }
+
+        // filter by searching
+        if (search != "") {
+            tasks = tasks.filter { task -> task.name.contains(search) }
         }
 
         val ListeTacheModel = mutableListOf<TacheModel>()
@@ -137,8 +145,7 @@ class ListTaches (private val period: Period = Period.ALL, private val category:
         rv = view.findViewById(R.id.rv_liste_tache)
         val buttonFiltre = view.findViewById<Button>(R.id.filtre)
         val buttonBack = view.findViewById<Button>(R.id.back)
-
-        setTasks()
+        val searchBar = view.findViewById<EditText>(R.id.search_bar)
 
         buttonFiltre.setOnClickListener {
             onClickFiltre()
@@ -146,13 +153,22 @@ class ListTaches (private val period: Period = Period.ALL, private val category:
         buttonBack.setOnClickListener {
             onClickBack()
         }
+        searchBar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                setTasks(charSequence.toString())
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+//                val searchText = editable.toString()
+//                onSearchTextChanged(searchText)
+            }
+        })
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-//        rv.adapter = ListeTachesRowAdapter(ListeTacheModel,this){
-//            val fragment = ListTaches()
-//            val transaction = fragmentManager?.beginTransaction()
-//            transaction?.replace(R.id.frameLayout, fragment)?.commit()
-//        } // Initialisez avec une liste vide ou vos données
+
+        setTasks()
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 

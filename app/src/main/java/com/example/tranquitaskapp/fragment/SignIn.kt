@@ -102,6 +102,8 @@ class SignIn : Fragment() {
                     val taskDoc = withContext(Dispatchers.IO) {
                         Tasks.await(task.get())
                     }
+                    val home = Home()
+
                     val newTask = Task (
                         name = taskDoc.getString("name") ?: "",
                         concentration = taskDoc.getBoolean("concentration") ?: false,
@@ -113,30 +115,26 @@ class SignIn : Fragment() {
                         priorite = taskDoc.getDocumentReference("priorite")
                     )
 
-                    ListTask.list.add(newTask);
+                    if (!home.isOnWeek(newTask.deadline) && newTask.done == 100) {
+                        val documentReference: DocumentReference = taskDoc.reference
 
-//                    var categoryExists = false
-//                    for (category in categories) {
-//                        if (category == newTask.categorie) {
-//                            categoryExists = true
-//                        }
-//                    }
-//                    if (!categoryExists && newTask.categorie != null) {
-//                        categories.add(newTask.categorie!!)
-//                        try {
-//                            val categorieDoc = withContext(Dispatchers.IO) {
-//                                Tasks.await(newTask.categorie!!.get())
-//                            }
-//                            val newCategorie = Category (
-//                                name = categorieDoc.getString("name") ?: "",
-//                                icon = categorieDoc.getString("icon") ?: ""
-//                            )
-//
-//                            CategoryDictionnary.dictionary.put(newTask.categorie!!, newCategorie)
-//                        } catch (e: Exception) {
-//                            Log.e("ERROR", "Error getting categorie document: $e")
-//                        }
-//                    }
+                        documentReference.let { reference ->
+                            reference.delete()
+                                .addOnSuccessListener {}
+                                .addOnFailureListener { e ->
+                                    Log.e("ERROR", "Error deleting document", e)
+                                }
+                        }
+
+                        val taskArray = user.get("taches") as? ArrayList<DocumentReference>
+                        taskArray?.remove(documentReference)
+                        user.reference.update("taches", taskArray).addOnFailureListener { e ->
+                            Log.e("ERROR", "Error updating user", e)
+                        }
+                    }
+                    else {
+                        ListTask.list.add(newTask);
+                    }
                 } catch (e: Exception) {
                     Log.e("ERROR", "Error getting task document: $e")
                 }

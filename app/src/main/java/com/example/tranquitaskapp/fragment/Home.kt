@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,8 @@ import com.google.firebase.firestore.DocumentReference
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.ui.CircularProgressBar
 import java.util.Calendar
+import com.bumptech.glide.Glide
+import com.example.tranquitaskapp.User
 
 
 class Home : Fragment() {
@@ -194,6 +197,14 @@ class Home : Fragment() {
             onClickWeek()
         }
         rv.layoutManager = LinearLayoutManager(requireContext())
+
+        val profilePicture = view.findViewById<ImageView>(R.id.profileimage)
+
+        if (User.profile_picture != "") {
+            Glide.with(this)
+                .load(User.profile_picture)
+                .into(profilePicture)
+        }
 
         return view
         // Inflate the layout for this fragment
