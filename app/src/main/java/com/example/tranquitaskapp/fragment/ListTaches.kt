@@ -9,9 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tranquitaskapp.CategoryDictionnary
+import com.example.tranquitaskapp.ListTask
+import com.example.tranquitaskapp.Period
+import com.example.tranquitaskapp.PriorityDictionnary
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.adapter.ListeTachesRowAdapter
@@ -22,10 +25,10 @@ import com.example.tranquitaskapp.interfaces.TaskButtonClickListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
+import com.example.tranquitaskapp.Task
 
 
 /**
@@ -40,9 +43,9 @@ class ListTaches : Fragment(), TaskButtonClickListener {
     private lateinit var rv : RecyclerView
 
     override fun onStartButtonClick(position: Int) {
-        val fragment = StartTask(listListeTacheModel[position]) // Remplacez par le fragment que vous souhaitez afficher
-        val transaction = fragmentManager?.beginTransaction()
-        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+//        val fragment = StartTask(ListeTacheModel[position]) // Remplacez par le fragment que vous souhaitez afficher
+//        val transaction = fragmentManager?.beginTransaction()
+//        transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
     override fun onAttach(context: Context) {
@@ -64,7 +67,7 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         ListeTachesModel("Tâche 6",R.drawable.add, 30, false,30, "3/12/2023","haute","maison"),
         ListeTachesModel("Tâche 7",R.drawable.or, 60, false,30, "3/12/2023","haute","maison"),
     )*/
-    private val listListeTacheModel = mutableListOf<TacheModel>()
+//    private val ListeTacheModel = mutableListOf<TacheModel>()
 
     fun onClickFiltre(){
         Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()
@@ -75,74 +78,66 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
-    suspend fun getTasks() {
-        try {
-            val user = withContext(Dispatchers.IO) {
-                Tasks.await(db.collection("user").document(User.id).get())
-            }
-            val tasks = user.get("taches") as List<DocumentReference>
-            for (task in tasks) {
-                // récupérer chaque tâche de l'utilisateur
-                try {
-                    val taskDoc = withContext(Dispatchers.IO) {
-                        Tasks.await(task.get())
-                    }
-                    val id = taskDoc.id
-                    val name = taskDoc.getString("name")
-                    val categorieRef = taskDoc.getDocumentReference("categorie")
-                    val done = taskDoc.getLong("done")?.toInt()
-                    val duree = taskDoc.getLong("duree")?.toInt()
-                    val deadlineTimestamp = taskDoc.getTimestamp("deadline")
-                    val prioriteRef = taskDoc.getDocumentReference("priorite")
-                    lateinit var categoryName : String
-                    lateinit var prioriteName : String
 
-                    if (categorieRef != null) {
-                        try {
-                            val categorieDoc = withContext(Dispatchers.IO) {
-                                Tasks.await(categorieRef.get())
-                            }
-                            categoryName = categorieDoc.getString("name").toString()
-                        } catch (e: Exception) {
-                            Log.e("ERROR", "Error getting categorie document: $e")
-                        }
-                    }
-                    if (prioriteRef != null) {
-                        try {
-                            val prioriteDoc = withContext(Dispatchers.IO) {
-                                Tasks.await(prioriteRef.get())
-                            }
-                            prioriteName = prioriteDoc.getString("name").toString()
-                        } catch (e: Exception) {
-                            Log.e("ERROR", "Error getting priorite document: $e")
-                        }
-                    }
-                    if (id != null && name != null && done != null && duree != null && deadlineTimestamp != null) {
-                        val deadlineDate = deadlineTimestamp.toDate()
-//                        Log.d("TEST", "date $deadline")
-                        listListeTacheModel.add(
-                            TacheModel(
-                                id,
-                                name,
-                                R.drawable.or,
-                                done,
-                                false,
-                                duree,
-                                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(deadlineDate),
-                                prioriteName,
-                                categoryName
-                            )
-                        )
-                    }
+    private fun setTasks(
+        period : Period = Period.ALL,
+        category: DocumentReference? = null,
+        priority: DocumentReference? = null
+    ) {
+        var tasks : List<Task>
 
-                } catch (e: Exception) {
-                    Log.e("ERROR", "Error getting task document: $e")
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("ERROR", "Error finding user: $e")
+        val home = Home()
+
+        // filter by period
+        if (period == Period.DAY) {
+            tasks = ListTask.list.filter { task -> home.isToday(task.deadline) }
         }
-        rv.adapter = ListeTachesRowAdapter(listListeTacheModel,this){
+        else if (period == Period.WEEK) {
+            tasks = ListTask.list.filter { task -> home.isOnWeek(task.deadline) }
+        }
+        else {
+            tasks = ListTask.list
+        }
+
+        // filter by category
+        if (category != null) {
+            tasks = tasks.filter { task -> task.categorie == category }
+        }
+
+        // filter by priority
+        if (priority != null) {
+            tasks = tasks.filter { task -> task.priorite == priority }
+        }
+
+        val ListeTacheModel = mutableListOf<TacheModel>()
+
+        val resources = context?.resources
+        val packageName = context?.packageName
+
+        for (task in tasks) {
+            val taskCategory = CategoryDictionnary.dictionary.get(task.categorie)
+            val taskPriority = PriorityDictionnary.dictionary.get(task.priorite)
+            val resourceId = resources?.getIdentifier(taskCategory?.icon ?: "", "drawable", packageName)
+
+            if (taskCategory != null && taskPriority != null && resourceId != null && task.deadline != null) {
+                ListeTacheModel.add(
+                    TacheModel(
+                        "",
+                        task.name,
+                        resourceId,
+                        task.done,
+                        false,
+                        task.duree,
+                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                            .format(task.deadline!!.toDate()),
+                        taskPriority.name,
+                        taskCategory.name
+                    )
+                )
+            }
+        }
+
+        rv.adapter = ListeTachesRowAdapter(ListeTacheModel, this){
             val fragment = ListTaches()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
@@ -158,9 +153,7 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         val buttonFiltre = view.findViewById<Button>(R.id.filtre)
         val buttonBack = view.findViewById<Button>(R.id.back)
 
-        lifecycleScope.launch {
-            getTasks()
-        }
+        setTasks()
 
         buttonFiltre.setOnClickListener {
             onClickFiltre()
@@ -170,11 +163,11 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         }
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-        rv.adapter = ListeTachesRowAdapter(listListeTacheModel,this){
-            val fragment = ListTaches()
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frameLayout, fragment)?.commit()
-        } // Initialisez avec une liste vide ou vos données
+//        rv.adapter = ListeTachesRowAdapter(ListeTacheModel,this){
+//            val fragment = ListTaches()
+//            val transaction = fragmentManager?.beginTransaction()
+//            transaction?.replace(R.id.frameLayout, fragment)?.commit()
+//        } // Initialisez avec une liste vide ou vos données
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 

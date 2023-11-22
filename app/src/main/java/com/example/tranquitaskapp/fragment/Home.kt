@@ -121,7 +121,7 @@ class Home : Fragment() {
         rv.adapter = CategoryRowAdapter(listCategoryModel)
     }
 
-    private fun isToday(date : com.google.firebase.Timestamp?) : Boolean {
+    public fun isToday(date : com.google.firebase.Timestamp?) : Boolean {
         if (date == null) {
             return false
         }
@@ -142,7 +142,7 @@ class Home : Fragment() {
         return date.toDate() in currentDate.time..endOfDay.time
     }
 
-    fun isOnWeek(date : com.google.firebase.Timestamp?) : Boolean {
+    public fun isOnWeek(date : com.google.firebase.Timestamp?) : Boolean {
         if (date == null) return false
 
         val currentDate = Calendar.getInstance()
