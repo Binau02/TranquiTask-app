@@ -36,11 +36,12 @@ import com.example.tranquitaskapp.Task
  * Use the [ListTaches.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ListTaches : Fragment(), TaskButtonClickListener {
+class ListTaches (private val period: Period = Period.ALL, private val category: DocumentReference? = null, private val priority: DocumentReference? = null) : Fragment(), TaskButtonClickListener {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
     private lateinit var rv : RecyclerView
+
 
     override fun onStartButtonClick(position: Int) {
 //        val fragment = StartTask(ListeTacheModel[position]) // Remplacez par le fragment que vous souhaitez afficher
@@ -56,18 +57,6 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         bottomBarListener?.setBottomBarVisibility(this)
     }
 
-    private val db = MyFirebase.getFirestoreInstance()
-    /*
-    private val listListeTacheModel = mutableListOf<ListeTachesModel>(
-        ListeTachesModel("Tâche 1",R.drawable.arbre_removebg,50, false, 30, "3/12/2023","haute","maison"),
-        ListeTachesModel("Tâche 2",R.drawable.leaderboard_icon, 45, false,60, "3/12/2023","haute","maison"),
-        ListeTachesModel("Tâche 3",R.drawable.or, 90, false,50, "3/12/2023","haute","maison"),
-        ListeTachesModel("Tâche 4",R.drawable.leaderboard_icon, 40, false,30, "3/12/2023","haute","maison"),
-        ListeTachesModel("Tâche 5",R.drawable.arbre_removebg, 40, false,30, "3/12/2023","haute","maison"),
-        ListeTachesModel("Tâche 6",R.drawable.add, 30, false,30, "3/12/2023","haute","maison"),
-        ListeTachesModel("Tâche 7",R.drawable.or, 60, false,30, "3/12/2023","haute","maison"),
-    )*/
-//    private val ListeTacheModel = mutableListOf<TacheModel>()
 
     fun onClickFiltre(){
         Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()
@@ -79,11 +68,7 @@ class ListTaches : Fragment(), TaskButtonClickListener {
     }
 
 
-    private fun setTasks(
-        period : Period = Period.ALL,
-        category: DocumentReference? = null,
-        priority: DocumentReference? = null
-    ) {
+    private fun setTasks() {
         var tasks : List<Task>
 
         val home = Home()
@@ -138,7 +123,7 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         }
 
         rv.adapter = ListeTachesRowAdapter(ListeTacheModel, this){
-            val fragment = ListTaches()
+            val fragment = ListTaches(period, category, priority)
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }

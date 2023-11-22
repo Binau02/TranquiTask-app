@@ -46,4 +46,6 @@
     <string name="Urgent">Urgente</string>
     <string name="Modérée">Modérée</string>
     <string name="Faible">Faible</string>
+    <string name="no_task">Pas de tâche pour l\'instant...</string>
+
 </resources>

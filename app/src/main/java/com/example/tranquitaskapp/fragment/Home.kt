@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.Category
@@ -17,22 +16,15 @@ import com.example.tranquitaskapp.CategoryDictionnary
 import com.example.tranquitaskapp.ListTask
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.Task
-import com.example.tranquitaskapp.User
-import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.CategoryRowAdapter
 import com.example.tranquitaskapp.data.CategoryModel
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.ui.CircularProgressBar
 import java.util.Calendar
 
 
 class Home : Fragment() {
-    private val db = MyFirebase.getFirestoreInstance()
     private val listCategoryModel = mutableListOf<CategoryModel>()
     private lateinit var rv: RecyclerView
     private lateinit var progressBar: CircularProgressBar
@@ -50,17 +42,14 @@ class Home : Fragment() {
         bottomBarListener?.setBottomBarVisibility(this)
     }
 
-    fun onClickToday() {
-//        Toast.makeText(this.context, "Le bouton aujourd'hui a été cliqué!", Toast.LENGTH_SHORT)
-//            .show()
+    private fun onClickToday() {
         if (!day) {
             day = true
             setTasks(day)
         }
     }
 
-    fun onClickWeek() {
-//        Toast.makeText(this.context, "Le bouton semaine a été cliqué!", Toast.LENGTH_SHORT).show()
+    private fun onClickWeek() {
         if (day) {
             day = false
             setTasks(day)
@@ -82,46 +71,58 @@ class Home : Fragment() {
             tasks = ListTask.list.filter { task -> isOnWeek(task.deadline) }
         }
 
-        var totalPercentage = 0F;
+        if (tasks.isNotEmpty()) {
+            var totalPercentage = 0F
 
-        for (task in tasks) {
-            var categoryExists = false
-            var index = 0
-            var i = 0
-            for (category in categories) {
-                if (category.first == task.categorie) {
-                    categoryExists = true
-                    index = i
+            for (task in tasks) {
+                var categoryExists = false
+                var index = 0
+                for ((i, category) in categories.withIndex()) {
+                    if (category.first == task.categorie) {
+                        categoryExists = true
+                        index = i
+                    }
                 }
-                i++
+                if (!categoryExists) {
+                    index = categories.size
+                    categories.add(Pair(task.categorie, mutableListOf()))
+                }
+                categories[index].second.add(task.done)
+                totalPercentage += task.done
             }
-            if (!categoryExists) {
-                index = categories.size
-                categories.add(Pair(task.categorie, mutableListOf()))
-            }
-            categories[index].second.add(task.done)
-            totalPercentage += task.done
-        }
 
-        totalPercentage /= tasks.size
-        progressBar.setPercentageExternal(totalPercentage.toInt().toFloat())
+            totalPercentage /= tasks.size
+            progressBar.setPercentageExternal(totalPercentage.toInt().toFloat())
 
-        for (category in categories) {
-            val actualCategory : Category? = CategoryDictionnary.dictionary.get(category.first)
-            if (actualCategory != null) {
-                listCategoryModel.add(
-                    CategoryModel(
-                        actualCategory.name,
-                        actualCategory.icon,
-                        category.second.sum() / category.second.size
+            for (category in categories) {
+                val actualCategory: Category? = CategoryDictionnary.dictionary[category.first]
+                if (actualCategory != null) {
+                    listCategoryModel.add(
+                        CategoryModel(
+                            actualCategory.name,
+                            actualCategory.icon,
+                            category.second.sum() / category.second.size
+                        )
                     )
-                )
+                }
             }
         }
+        else {
+            listCategoryModel.add(
+                CategoryModel(
+                    "no_task",
+                    "empty",
+                    0
+                )
+            )
+
+            progressBar.setPercentageExternal(100F)
+        }
+        Log.d("TEST", "on est là")
         rv.adapter = CategoryRowAdapter(listCategoryModel)
     }
 
-    public fun isToday(date : com.google.firebase.Timestamp?) : Boolean {
+    fun isToday(date : com.google.firebase.Timestamp?) : Boolean {
         if (date == null) {
             return false
         }
@@ -142,7 +143,7 @@ class Home : Fragment() {
         return date.toDate() in currentDate.time..endOfDay.time
     }
 
-    public fun isOnWeek(date : com.google.firebase.Timestamp?) : Boolean {
+    fun isOnWeek(date : com.google.firebase.Timestamp?) : Boolean {
         if (date == null) return false
 
         val currentDate = Calendar.getInstance()
@@ -177,9 +178,6 @@ class Home : Fragment() {
             view.findViewById(R.id.fab2)
 
 
-//        lifecycleScope.launch {
-//            getTasks()
-//        }
         setTasks()
 
         searchBtn.setOnClickListener {
