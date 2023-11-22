@@ -210,7 +210,7 @@ class Leaderboard : Fragment() {
                     listLeaderboardModel.add(
                         LeaderboardModel(
                             pseudo,
-                            R.drawable.or,
+                            pp,
                             amount.toString(),
                             "#" + i.toString()
                         )
@@ -220,7 +220,7 @@ class Leaderboard : Fragment() {
                 Log.e("ERROR", "Error getting categorie document: $e")
             }
         }
-        rv.adapter = LeaderboardRowAdapter(listLeaderboardModel)
+        rv.adapter = LeaderboardRowAdapter(listLeaderboardModel, this)
     }
 
     override fun onCreateView(
