@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
@@ -75,6 +77,14 @@ class Profile : Fragment() {
         }
         buttonShop.setOnClickListener {
             onClickShop()
+        }
+
+        val profilePicture = view.findViewById<ImageView>(R.id.profileimage)
+
+        if (User.profile_picture != "") {
+            Glide.with(this)
+                .load(User.profile_picture)
+                .into(profilePicture)
         }
 
         return view

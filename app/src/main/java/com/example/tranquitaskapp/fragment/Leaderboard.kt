@@ -174,7 +174,7 @@ class Leaderboard : Fragment() {
     suspend fun setLeaderboard() {
         textCategorie.text = globalCategories[categorieIndex].name
 
-        listLeaderboardModel = mutableListOf()
+        listLeaderboardModel.clear()
 
 //        Log.d("TEST", "actual cat ${globalCategories[categorieIndex]}")
 //        for (user in users) {
@@ -199,7 +199,7 @@ class Leaderboard : Fragment() {
                 }
                 val pseudo = userDoc.getString("username")
                 val pp = userDoc.getString("profile_picture")
-                var amount = 0
+                var amount : Int
                 if (globalCategories[categorieIndex].name == "Global") {
                     amount = user.totalAmount
                 }
