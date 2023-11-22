@@ -14,11 +14,21 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.lifecycleScope
+import com.example.tranquitaskapp.Category
+import com.example.tranquitaskapp.CategoryDictionnary
+import com.example.tranquitaskapp.ListTask
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.Task
 import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentReference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SignIn : Fragment() {
 
@@ -39,6 +49,7 @@ class SignIn : Fragment() {
         sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
 
+    // unused, TODO : @Hugo check si tu veux garder des trucs, et tu peux delete
     fun getUsersInformations(email: String) {
         db.collection("user").whereEqualTo("email", email)
             .get()
@@ -65,6 +76,91 @@ class SignIn : Fragment() {
                 // Gérer les erreurs éventuelles
                 Log.e("ERROR", "Erreur lors de la récupération du user")
             }
+    }
+
+    suspend fun getInformations(email : String) {
+        val categories : MutableList<DocumentReference> = mutableListOf()
+        // récupérer l'utilisateur
+        try {
+            val userDocs = withContext(Dispatchers.IO) {
+//                Tasks.await(db.collection("user").document(User.id).get())
+                Tasks.await(db.collection("user").whereEqualTo("email", email).get())
+            }
+            val user = userDocs.documents[0]
+
+            User.username = user.getString("username") ?: ""
+            User.mail = email
+            User.coins = user.getLong("coins") ?: 0
+            User.profile_picture = user.getString("profile_picture") ?: ""
+            User.id = user.id
+            val tasks = user.get("taches") as List<DocumentReference>
+            for (task in tasks) {
+                // récupérer chaque tâche de l'utilisateur
+                try {
+                    val taskDoc = withContext(Dispatchers.IO) {
+                        Tasks.await(task.get())
+                    }
+                    val newTask = Task (
+                        name = taskDoc.getString("name") ?: "",
+                        concentration = taskDoc.getBoolean("concentration") ?: false,
+                        divisible = taskDoc.getBoolean("divisible") ?: false,
+                        done = (taskDoc.getLong("done") ?: 0).toInt(),
+                        duree = (taskDoc.getLong("duree") ?: 0).toInt(),
+                        deadline = taskDoc.getTimestamp("deadline"),
+                        categorie = taskDoc.getDocumentReference("categorie"),
+                        priorite = taskDoc.getDocumentReference("priorite")
+                    )
+
+                    ListTask.list.add(newTask);
+
+//                    var categoryExists = false
+//                    for (category in categories) {
+//                        if (category == newTask.categorie) {
+//                            categoryExists = true
+//                        }
+//                    }
+//                    if (!categoryExists && newTask.categorie != null) {
+//                        categories.add(newTask.categorie!!)
+//                        try {
+//                            val categorieDoc = withContext(Dispatchers.IO) {
+//                                Tasks.await(newTask.categorie!!.get())
+//                            }
+//                            val newCategorie = Category (
+//                                name = categorieDoc.getString("name") ?: "",
+//                                icon = categorieDoc.getString("icon") ?: ""
+//                            )
+//
+//                            CategoryDictionnary.dictionary.put(newTask.categorie!!, newCategorie)
+//                        } catch (e: Exception) {
+//                            Log.e("ERROR", "Error getting categorie document: $e")
+//                        }
+//                    }
+                } catch (e: Exception) {
+                    Log.e("ERROR", "Error getting task document: $e")
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("ERROR", "Error finding user: $e")
+        }
+
+        try {
+            val categoryDocs = withContext(Dispatchers.IO) {
+                Tasks.await(db.collection("tache_categorie").get())
+            }
+            for (categoryDoc in categoryDocs) {
+                val category = Category (
+                    name = categoryDoc.getString("name") ?: "",
+                    icon = categoryDoc.getString("icon") ?: ""
+                )
+                CategoryDictionnary.dictionary.put(categoryDoc.reference, category)
+            }
+        } catch (e: Exception) {
+            Log.e("ERROR", "Error finding categories : $e")
+        }
+
+        val fragment = Home()
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
     override fun onCreateView(
@@ -143,7 +239,10 @@ class SignIn : Fragment() {
                 auth.signInWithEmailAndPassword(mail, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            getUsersInformations(mail)
+//                            getUsersInformations(mail)
+                            lifecycleScope.launch {
+                                getInformations(mail)
+                            }
                         } else {
                             // Gérer les erreurs lors de la connexion
                             Log.e("SignIn", "Échec de la connexion")
