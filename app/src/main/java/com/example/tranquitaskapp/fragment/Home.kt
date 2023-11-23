@@ -71,6 +71,7 @@ class Home : Fragment() {
 
         if (tasks.isNotEmpty()) {
             var totalPercentage = 0F
+            var totalDivider = 0
 
             for (task in tasks) {
                 var categoryExists = false
@@ -86,10 +87,11 @@ class Home : Fragment() {
                     categories.add(Pair(task.categorie, mutableListOf()))
                 }
                 categories[index].second.add(task.done)
-                totalPercentage += task.done
+                totalPercentage += task.done * task.duree
+                totalDivider += task.duree
             }
 
-            totalPercentage /= tasks.size
+            totalPercentage /= totalDivider
             progressBar.setPercentageExternal(totalPercentage.toInt().toFloat())
 
             for (category in categories) {
