@@ -53,6 +53,8 @@ class Friends : Fragment() {
 
     private var friendsSelected : Boolean = true
     private val globalDemandes : MutableList<FriendsModel> = mutableListOf()
+    private lateinit var user : DocumentSnapshot
+    private lateinit var demandes : MutableList<DocumentReference>
 
     private suspend fun getFriends() {
         // récupérer les amis
@@ -98,10 +100,10 @@ class Friends : Fragment() {
 
     private suspend fun getDemandes() {
         try {
-            val user = withContext(Dispatchers.IO) {
+            user = withContext(Dispatchers.IO) {
                 Tasks.await(db.collection("user").document(User.id).get())
             }
-            val demandes = user.get("demandes") as List<DocumentReference>
+            demandes = user.get("demandes") as MutableList<DocumentReference>
             for (demandeDoc in demandes) {
                 try {
                     val demande = withContext(Dispatchers.IO) {
@@ -110,7 +112,8 @@ class Friends : Fragment() {
                     globalDemandes.add(
                         FriendsModel(
                             pseudo = demande.getString("username") ?: "",
-                            avatar = demande.getString("profile_picture") ?: ""
+                            avatar = demande.getString("profile_picture") ?: "",
+                            ref = demandeDoc
                         )
                     )
                 } catch (e : Exception) {
@@ -145,9 +148,32 @@ class Friends : Fragment() {
     }
 
     private fun setDemandes() {
-        Log.d("TEST", "set demandes : $globalDemandes")
         rv.adapter = FriendsRowAdapter(globalDemandes, this, false)
         badge.visibility = View.INVISIBLE
+    }
+
+    fun acceptNewFriend(position: Int) {
+        val newFriend = hashMapOf(
+            "ami1" to User.ref,
+            "ami2" to globalDemandes[position].ref
+        )
+        db.collection("ami").add(newFriend)
+        globalFriends.add(globalDemandes[position])
+        deleteDemande(position)
+    }
+
+    fun denyNewFriend(position: Int) {
+        deleteDemande(position)
+    }
+
+    private fun deleteDemande(position: Int) {
+        demandes.remove(globalDemandes[position].ref)
+        user.reference.update("demandes", demandes).addOnFailureListener {e ->
+            Log.d("ERROR", "Error updating demandes of user : $e")
+        }
+        globalDemandes.removeAt(position)
+        badge.text = globalDemandes.size.toString()
+        setDemandes()
     }
 
 
@@ -160,14 +186,14 @@ class Friends : Fragment() {
     }
 
     private fun onClickFriends(){
-        Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()
         if (!friendsSelected) {
             friendsSelected = true
             setFriends()
         }
     }
     private fun onClickNewFriend(){
-        Toast.makeText(this.context, "Le bouton Demandes d'ami a été cliqué !", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this.context, "Le bouton Demandes d'ami a été cliqué !", Toast.LENGTH_SHORT).show()
         if (friendsSelected) {
             friendsSelected = false
             setDemandes()

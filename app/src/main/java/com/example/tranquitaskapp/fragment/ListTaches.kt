@@ -128,7 +128,7 @@ class ListTaches : Fragment(), TaskButtonClickListener {
             }
         }
 
-        rv.adapter = ListeTachesRowAdapter(listeTacheModel, this){
+        rv.adapter = ListeTachesRowAdapter(listeTacheModel, this) {
             val fragment = ListTaches()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()

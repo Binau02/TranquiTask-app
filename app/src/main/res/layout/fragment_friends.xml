@@ -68,7 +68,8 @@
         app:layout_constraintBottom_toTopOf="@+id/newFriendButton"
         app:layout_constraintEnd_toEndOf="@+id/newFriendButton"
         app:layout_constraintStart_toEndOf="@+id/newFriendButton"
-        app:layout_constraintTop_toTopOf="@+id/newFriendButton" />
+        app:layout_constraintTop_toTopOf="@+id/newFriendButton"
+        android:visibility="invisible"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_friend"

@@ -96,6 +96,7 @@ class SignIn : Fragment() {
             User.coins = user.getLong("coins") ?: 0
             User.profile_picture = user.getString("profile_picture") ?: ""
             User.id = user.id
+            User.ref = user.reference
             val tasks = user.get("taches") as List<DocumentReference>
             // récupérer chaque tâche de l'utilisateur
             for (task in tasks) {

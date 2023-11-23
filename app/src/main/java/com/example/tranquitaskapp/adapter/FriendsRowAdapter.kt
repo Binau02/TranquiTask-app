@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.data.FriendsModel
+import com.example.tranquitaskapp.fragment.Friends
 
-class FriendsRowAdapter(val data: List<FriendsModel>, val fragment : Fragment, val isFriend : Boolean = true) :
+class FriendsRowAdapter(val data: List<FriendsModel>, val fragment : Friends, val isFriend : Boolean = true) :
     RecyclerView.Adapter<FriendsRowAdapter.MyViewHolder>() {
     class MyViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         val imageView: ImageView = row.findViewById(R.id.avatar)
@@ -45,6 +46,8 @@ class FriendsRowAdapter(val data: List<FriendsModel>, val fragment : Fragment, v
         if (!isFriend) {
             holder.button1.visibility = View.VISIBLE
             holder.button2.visibility = View.VISIBLE
+            holder.button1.setOnClickListener{fragment.acceptNewFriend(position)}
+            holder.button2.setOnClickListener{fragment.denyNewFriend(position)}
         }
     }
 
