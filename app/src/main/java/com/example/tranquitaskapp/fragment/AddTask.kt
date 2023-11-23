@@ -20,6 +20,8 @@ import androidx.appcompat.content.res.AppCompatResources
 import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.data.Priorities
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.ListTask
+import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
@@ -78,6 +80,17 @@ class AddTask : Fragment() {
         taskCollection.add(taskData)
             .addOnSuccessListener {
                 addTaskToUser(it)
+                ListTask.list.add(Task(
+                    name = nameTask,
+                    concentration = concentration,
+                    divisible = divisible,
+                    done = 0,
+                    duree = duree,
+                    deadline = deadline,
+                    categorie = categorie,
+                    priorite = priority,
+                    ref = it
+                ))
                 val fragment = Home()
                 val transaction = fragmentManager?.beginTransaction()
                 transaction?.replace(R.id.frameLayout, fragment)?.commit()
@@ -238,10 +251,8 @@ class AddTask : Fragment() {
 
         // Récupération des ressources de chaînes et ajout à l'Adapter
         for ((value, priorityName) in Priorities.dictionary) {
-            val resourceId = resources.getIdentifier(priorityName, "string", packageName)
-            val name = getString(resourceId)
-            adapter?.add(name)
-            listPriority[name] = value
+            adapter?.add(priorityName)
+            listPriority[priorityName] = value
         }
 
         // Attribution de l'Adapter au Spinner
