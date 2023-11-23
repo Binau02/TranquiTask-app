@@ -9,6 +9,7 @@
     <string name="add_task">Add a new task</string>
     <string name="today">Today</string>
     <string name="this_week">This week</string>
+    <string name="any_time">Any time</string>
     <string name="study">Study</string>
     <string name="sport">Sport</string>
     <string name="hobbies">Hobbies</string>
@@ -48,7 +49,8 @@
     <string name="cancel">Cancel</string>
     <string name="no_task">No task for now\.\.\.</string>
     <string name="end">END</string>
-
+    <string name="task_filter">Task filter</string>
+    <string name="period">Period</string>
 
 
 </resources>
