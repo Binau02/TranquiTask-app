@@ -3,7 +3,6 @@ package com.example.tranquitaskapp.fragment
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,18 +17,14 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.lifecycle.lifecycleScope
 import com.example.tranquitaskapp.CategoryDictionnary
 import com.example.tranquitaskapp.Priorities
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.firebase.MyFirebase
-import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
-
-import kotlinx.coroutines.launch
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -39,20 +34,19 @@ import java.util.Locale
 class AddTask : Fragment() {
 
     private lateinit var tvDate: TextView
-    private lateinit var ImgShowDatePicker: ImageView
+    private lateinit var imgShowDatePicker: ImageView
     private lateinit var imgTimeView: ImageView
 
     private val calendar = Calendar.getInstance()
     private var bottomBarListener: BottomBarVisibilityListener? = null
-    private var formattedDate: String? = null
+    private var formattedDate: Timestamp? = null
     private var timestampInSeconds: Int = 0
     private val listCategory = HashMap<String, DocumentReference>()
     private val listPriority = HashMap<String, Int>()
 
-
-
-    private val auth = MyFirebaseAuth.getFirestoreInstance()
     private val db = MyFirebase.getFirestoreInstance()
+
+    private val packageName = this.context?.packageName
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -66,22 +60,17 @@ class AddTask : Fragment() {
         categorie: DocumentReference,
         priority: Int,
         nameTask: String,
-        deadline: String,
+        deadline: Timestamp,
         divisible: Boolean,
         concentration: Boolean,
         duree: Int
     ) {
         val taskCollection = db.collection("tache")
 
-        // Convertir la date de format texte en timestamp
-        val deadlineTimestamp = Timestamp(
-            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(deadline)
-        )
-
         val taskData = hashMapOf(
             "categorie" to categorie,
             "concentration" to concentration,
-            "deadline" to deadlineTimestamp,
+            "deadline" to deadline,
             "divisible" to divisible,
             "done" to 0,
             "duree" to duree,
@@ -96,7 +85,7 @@ class AddTask : Fragment() {
                 transaction?.replace(R.id.frameLayout, fragment)?.commit()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this.context, "Il y a eu une erreur", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Il y a eu une erreur $e", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -107,32 +96,25 @@ class AddTask : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_addtask, container, false)
         val saveBtn : Button = view.findViewById(R.id.btnSave)
-        imgTimeView = view.findViewById<ImageView>(R.id.imgTimeView)
+        imgTimeView = view.findViewById(R.id.imgTimeView)
         val tvSelectedTime = view.findViewById<TextView>(R.id.tvSelectedTime)
-        val timestamp = 0
-        val packageName = this.context?.packageName // Nom du package de votre application
         val spinnerCategory = view.findViewById<Spinner>(R.id.spinnerCategory)
         val spinnerPriority = view.findViewById<Spinner>(R.id.spinnerPriority)
 
-
-        lifecycleScope.launch {
-            getCategories(spinnerCategory)
-            getPriority(spinnerPriority)
-        }
-
-
+        getCategories(spinnerCategory)
+        getPriority(spinnerPriority)
 
         tvDate = view.findViewById(R.id.tvSelectedDate)
-        ImgShowDatePicker = view.findViewById<ImageView>(R.id.ImgCalendarView)
+        imgShowDatePicker = view.findViewById(R.id.ImgCalendarView)
 
-        ImgShowDatePicker.setOnClickListener {
+        imgShowDatePicker.setOnClickListener {
             showDatePicker()
         }
         imgTimeView.setOnClickListener {
             val cal = Calendar.getInstance()
             cal.set(Calendar.HOUR_OF_DAY, 0)
             cal.set(Calendar.MINUTE, 0)
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hour)
                 cal.set(Calendar.MINUTE, minute)
                 tvSelectedTime.text = SimpleDateFormat("HH:mm").format(cal.time)
@@ -149,7 +131,7 @@ class AddTask : Fragment() {
             }
 
             // Créer le TimePickerDialog en mode "spinner"
-            val timePickerDialog = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val timePickerDialog =
                 TimePickerDialog(
                     requireContext(),
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
@@ -158,18 +140,10 @@ class AddTask : Fragment() {
                     cal.get(Calendar.MINUTE),
                     true
                 )
-            } else {
-                TimePickerDialog(
-                    requireContext(),
-                    timeSetListener,
-                    cal.get(Calendar.HOUR_OF_DAY),
-                    cal.get(Calendar.MINUTE),
-                    true
-                )
-            }
             timePickerDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             timePickerDialog.show()
         }
+
         saveBtn.setOnClickListener {
             val checkBoxConcentration = view.findViewById<CheckBox>(R.id.checkBoxConcentration)
             val isConcentrationChecked = checkBoxConcentration.isChecked
@@ -179,14 +153,14 @@ class AddTask : Fragment() {
 
             val nameTask = view.findViewById<TextView>(R.id.editNameTask)
             val categorie =
-                listCategory[view.findViewById<Spinner>(R.id.spinnerCategory).selectedItem]
+                listCategory[spinnerCategory.selectedItem]
             val priority =
-                listPriority[view.findViewById<Spinner>(R.id.spinnerPriority).selectedItem]
+                listPriority[spinnerPriority.selectedItem]
 
             val icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_warning)
 
 
-            if (nameTask.text.isNullOrBlank() || formattedDate.isNullOrEmpty() || timestampInSeconds == 0) {
+            if (nameTask.text.isNullOrBlank() || formattedDate == null || timestampInSeconds == 0) {
                 // Afficher une erreur ou une notification indiquant que tous les champs doivent être remplis
                 if (nameTask.text.isEmpty()) {
                     nameTask.setError("Please Enter a name", icon)
@@ -201,7 +175,7 @@ class AddTask : Fragment() {
                         categorie,
                         priority,
                         nameTask.text.toString(),
-                        formattedDate?: "",
+                        formattedDate!!,
                         isDivisibleChecked,
                         isConcentrationChecked,
                         timestampInSeconds
@@ -215,12 +189,12 @@ class AddTask : Fragment() {
     private fun showDatePicker() {
 
         val datePickerDialog = DatePickerDialog(
-            requireContext(), { datePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+            requireContext(), { _, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, monthOfYear, dayOfMonth)
-                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                formattedDate = dateFormat.format(selectedDate.time)
-                tvDate.text = formattedDate
+                formattedDate = Timestamp(selectedDate.time)
+                val dateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
+                tvDate.text = dateFormat.format(calendar.time)
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -231,8 +205,6 @@ class AddTask : Fragment() {
     }
 
     private fun getCategories(spinnerCategory: Spinner) {
-        val packageName = this.context?.packageName // Nom du package de votre application
-
         val adapter = this.context?.let {
             ArrayAdapter<String>(
                 it,
@@ -256,8 +228,6 @@ class AddTask : Fragment() {
     }
 
     private fun getPriority(spinnerPriority: Spinner) {
-        val packageName = this.context?.packageName
-
         val adapter = this.context?.let {
             ArrayAdapter<String>(
                 it,
