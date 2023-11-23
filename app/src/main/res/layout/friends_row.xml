@@ -35,6 +35,22 @@
             android:text="Pseudo"
             android:textSize="20sp" />
 
+        <Button
+            android:id="@+id/yes"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/done_icon"
+            android:layout_toStartOf="@+id/no"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/no"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/delete"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
 
