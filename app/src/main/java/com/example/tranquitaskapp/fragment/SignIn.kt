@@ -103,41 +103,37 @@ class SignIn : Fragment() {
                     }
                     val home = Home()
 
-                    val resourceId = resources.getIdentifier(taskDoc.getString("name") ?: "", "string", packageName)
-                    if (resourceId != 0) {
-                        val name = getString(resourceId)
+                    val newTask = Task (
+                        name = taskDoc.getString("name") ?: "",
+                        concentration = taskDoc.getBoolean("concentration") ?: false,
+                        divisible = taskDoc.getBoolean("divisible") ?: false,
+                        done = (taskDoc.getLong("done") ?: 0).toInt(),
+                        duree = (taskDoc.getLong("duree") ?: 0).toInt(),
+                        deadline = taskDoc.getTimestamp("deadline"),
+                        categorie = taskDoc.getDocumentReference("categorie"),
+                        priorite = (taskDoc.getLong("priorite") ?: 0).toInt(),
+                        ref = taskDoc.reference
+                    )
 
-                        val newTask = Task(
-                            name = name,
-                            concentration = taskDoc.getBoolean("concentration") ?: false,
-                            divisible = taskDoc.getBoolean("divisible") ?: false,
-                            done = (taskDoc.getLong("done") ?: 0).toInt(),
-                            duree = (taskDoc.getLong("duree") ?: 0).toInt(),
-                            deadline = taskDoc.getTimestamp("deadline"),
-                            categorie = taskDoc.getDocumentReference("categorie"),
-                            priorite = (taskDoc.getLong("priorite") ?: 0).toInt(),
-                            ref = taskDoc.reference
-                        )
+                    if (!home.isOnWeek(newTask.deadline) && newTask.done == 100) {
+                        val documentReference: DocumentReference = taskDoc.reference
 
-                        if (!home.isOnWeek(newTask.deadline) && newTask.done == 100) {
-                            val documentReference: DocumentReference = taskDoc.reference
-
-                            documentReference.let { reference ->
-                                reference.delete()
-                                    .addOnSuccessListener {}
-                                    .addOnFailureListener { e ->
-                                        Log.e("ERROR", "Error deleting document", e)
-                                    }
-                            }
-
-                            val taskArray = user.get("taches") as? ArrayList<DocumentReference>
-                            taskArray?.remove(documentReference)
-                            user.reference.update("taches", taskArray).addOnFailureListener { e ->
-                                Log.e("ERROR", "Error updating user", e)
-                            }
-                        } else {
-                            ListTask.list.add(newTask);
+                        documentReference.let { reference ->
+                            reference.delete()
+                                .addOnSuccessListener {}
+                                .addOnFailureListener { e ->
+                                    Log.e("ERROR", "Error deleting document", e)
+                                }
                         }
+
+                        val taskArray = user.get("taches") as? ArrayList<DocumentReference>
+                        taskArray?.remove(documentReference)
+                        user.reference.update("taches", taskArray).addOnFailureListener { e ->
+                            Log.e("ERROR", "Error updating user", e)
+                        }
+                    }
+                    else {
+                        ListTask.list.add(newTask);
                     }
                 } catch (e: Exception) {
                     Log.e("ERROR", "Error getting task document: $e")
@@ -152,11 +148,17 @@ class SignIn : Fragment() {
                 Tasks.await(db.collection("tache_categorie").get())
             }
             for (categoryDoc in categoryDocs) {
-                val category = Category (
-                    name = categoryDoc.getString("name") ?: "",
-                    icon = categoryDoc.getString("icon") ?: ""
-                )
-                CategoryDictionnary.dictionary.put(categoryDoc.reference, category)
+                val resourceId = resources.getIdentifier(categoryDoc.getString("name") ?: "", "string", packageName)
+                if (resourceId != 0) {
+                    val category = Category(
+                        name = getString(resourceId),
+                        icon = categoryDoc.getString("icon") ?: ""
+                    )
+                    CategoryDictionnary.dictionary.put(categoryDoc.reference, category)
+                }
+                else {
+                    Log.e("ERROR", "Ctegory name not found")
+                }
             }
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding categories : $e")

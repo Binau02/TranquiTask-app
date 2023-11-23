@@ -39,7 +39,8 @@ class CategoryRowAdapter(val data: List<CategoryModel>) :
         val stringResourceName = data[position].name // Exemple de nom de la ressource
         val stringResourceId = holder.itemView.context.resources.getIdentifier(stringResourceName, "string", packageName)
 
-        holder.nameView.text = holder.itemView.context.getString(stringResourceId)
+//        holder.nameView.text = holder.itemView.context.getString(stringResourceId)
+        holder.nameView.text = data[position].name
         holder.imageView.setImageResource(imageResourceId)
         holder.imageView.setColorFilter(Color.BLACK)
         holder.progressBar.progress = data[position].progress

@@ -89,7 +89,6 @@ class Leaderboard : Fragment() {
         setLeaderboard()
     }
 
-    // TODO : modify with local categories
     suspend fun getLeaderboard() {
         val competitors : HashMap<DocumentReference?, HashMap<DocumentReference, LeaderboardModel>> = hashMapOf()
 
