@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,20 +14,15 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.CategoryDictionnary
+import com.example.tranquitaskapp.LeaderboardFilter
 import com.example.tranquitaskapp.ListTask
 import com.example.tranquitaskapp.Period
-import com.example.tranquitaskapp.PriorityDictionnary
+import com.example.tranquitaskapp.Priorities
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.adapter.ListeTachesRowAdapter
 import com.example.tranquitaskapp.data.TacheModel
-import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.interfaces.TaskButtonClickListener
-import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.DocumentReference
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 import com.example.tranquitaskapp.Task
@@ -39,7 +33,7 @@ import com.example.tranquitaskapp.Task
  * Use the [ListTaches.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ListTaches (private val period: Period = Period.ALL, private val category: DocumentReference? = null, private val priority: DocumentReference? = null) : Fragment(), TaskButtonClickListener {
+class ListTaches () : Fragment(), TaskButtonClickListener {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
@@ -77,10 +71,10 @@ class ListTaches (private val period: Period = Period.ALL, private val category:
         val home = Home()
 
         // filter by period
-        if (period == Period.DAY) {
+        if (LeaderboardFilter.period == Period.DAY) {
             tasks = ListTask.list.filter { task -> home.isToday(task.deadline) }
         }
-        else if (period == Period.WEEK) {
+        else if (LeaderboardFilter.period == Period.WEEK) {
             tasks = ListTask.list.filter { task -> home.isOnWeek(task.deadline) }
         }
         else {
@@ -88,13 +82,13 @@ class ListTaches (private val period: Period = Period.ALL, private val category:
         }
 
         // filter by category
-        if (category != null) {
-            tasks = tasks.filter { task -> task.categorie == category }
+        if (LeaderboardFilter.category != null) {
+            tasks = tasks.filter { task -> task.categorie == LeaderboardFilter.category }
         }
 
         // filter by priority
-        if (priority != null) {
-            tasks = tasks.filter { task -> task.priorite == priority }
+        if (LeaderboardFilter.priority != -1) {
+            tasks = tasks.filter { task -> task.priorite == LeaderboardFilter.priority }
         }
 
         // filter by searching
@@ -109,21 +103,22 @@ class ListTaches (private val period: Period = Period.ALL, private val category:
 
         for (task in tasks) {
             val taskCategory = CategoryDictionnary.dictionary.get(task.categorie)
-            val taskPriority = PriorityDictionnary.dictionary.get(task.priorite)
-            val resourceId = resources?.getIdentifier(taskCategory?.icon ?: "", "drawable", packageName)
+            val taskPriority = Priorities.dictionary[task.priorite]
+            val priorityStringId = resources?.getIdentifier(taskPriority, "string", packageName)
+            val imageId = resources?.getIdentifier(taskCategory?.icon ?: "", "drawable", packageName)
 
-            if (taskCategory != null && taskPriority != null && resourceId != null && task.deadline != null) {
+            if (taskCategory != null && taskPriority != null && imageId != null && priorityStringId != null && task.deadline != null) {
                 ListeTacheModel.add(
                     TacheModel(
                         "",
                         task.name,
-                        resourceId,
+                        imageId,
                         task.done,
                         false,
                         task.duree,
                         SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                             .format(task.deadline!!.toDate()),
-                        taskPriority.name,
+                        getString(priorityStringId),
                         taskCategory.name
                     )
                 )
@@ -131,7 +126,7 @@ class ListTaches (private val period: Period = Period.ALL, private val category:
         }
 
         rv.adapter = ListeTachesRowAdapter(ListeTacheModel, this){
-            val fragment = ListTaches(period, category, priority)
+            val fragment = ListTaches()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }

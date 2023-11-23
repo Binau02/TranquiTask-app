@@ -18,8 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.tranquitaskapp.Category
 import com.example.tranquitaskapp.CategoryDictionnary
 import com.example.tranquitaskapp.ListTask
-import com.example.tranquitaskapp.Priority
-import com.example.tranquitaskapp.PriorityDictionnary
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.Task
 import com.example.tranquitaskapp.User
@@ -112,7 +110,7 @@ class SignIn : Fragment() {
                         duree = (taskDoc.getLong("duree") ?: 0).toInt(),
                         deadline = taskDoc.getTimestamp("deadline"),
                         categorie = taskDoc.getDocumentReference("categorie"),
-                        priorite = taskDoc.getDocumentReference("priorite")
+                        priorite = (taskDoc.getLong("priorite") ?: 0).toInt()
                     )
 
                     if (!home.isOnWeek(newTask.deadline) && newTask.done == 100) {
@@ -158,20 +156,20 @@ class SignIn : Fragment() {
             Log.e("ERROR", "Error finding categories : $e")
         }
 
-        try {
-            val priorityDocs = withContext(Dispatchers.IO) {
-                Tasks.await(db.collection("tache_priorite").get())
-            }
-            for (priorityDoc in priorityDocs) {
-                val priority = Priority (
-                    name = priorityDoc.getString("name") ?: "",
-                    value = priorityDoc.getLong("value")?.toInt() ?: 0
-                )
-                PriorityDictionnary.dictionary.put(priorityDoc.reference, priority)
-            }
-        } catch (e: Exception) {
-            Log.e("ERROR", "Error finding priorities : $e")
-        }
+//        try {
+//            val priorityDocs = withContext(Dispatchers.IO) {
+//                Tasks.await(db.collection("tache_priorite").get())
+//            }
+//            for (priorityDoc in priorityDocs) {
+//                val priority = Priority (
+//                    name = priorityDoc.getString("name") ?: "",
+//                    value = priorityDoc.getLong("value")?.toInt() ?: 0
+//                )
+//                PriorityDictionnary.dictionary.put(priorityDoc.reference, priority)
+//            }
+//        } catch (e: Exception) {
+//            Log.e("ERROR", "Error finding priorities : $e")
+//        }
 
         val fragment = Home()
         val transaction = fragmentManager?.beginTransaction()

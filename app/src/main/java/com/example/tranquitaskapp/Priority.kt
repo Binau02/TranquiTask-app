@@ -1,13 +1,9 @@
 package com.example.tranquitaskapp
 
-import com.google.firebase.firestore.DocumentReference
-
-
-data class Priority(
-    var name: String,
-    var value : Int
-)
-
-object PriorityDictionnary {
-    var dictionary : HashMap<DocumentReference, Priority> = hashMapOf()
+object Priorities {
+    var dictionary : HashMap<Int, String> = hashMapOf(
+        0 to "low",
+        5 to "medium",
+        10 to "high"
+    )
 }

@@ -11,7 +11,7 @@ data class Task(
     var duree: Int,
     var deadline: com.google.firebase.Timestamp?,
     var categorie: DocumentReference?,
-    var priorite: DocumentReference?
+    var priorite: Int
 )
 
 object ListTask {

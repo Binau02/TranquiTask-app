@@ -19,6 +19,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
+import com.example.tranquitaskapp.CategoryDictionnary
+import com.example.tranquitaskapp.Priorities
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.firebase.MyFirebase
@@ -44,8 +46,8 @@ class AddTask : Fragment() {
     private var bottomBarListener: BottomBarVisibilityListener? = null
     private var formattedDate: String? = null
     private var timestampInSeconds: Int = 0
-    private val listCategory = mutableListOf<String>()
-    private val listPriority = mutableListOf<String>()
+    private val listCategory = HashMap<String, DocumentReference>()
+    private val listPriority = HashMap<String, Int>()
 
 
 
@@ -61,8 +63,8 @@ class AddTask : Fragment() {
     }
 
     private fun createNewTask(
-        categorie: String,
-        priority: String,
+        categorie: DocumentReference,
+        priority: Int,
         nameTask: String,
         deadline: String,
         divisible: Boolean,
@@ -70,8 +72,6 @@ class AddTask : Fragment() {
         duree: Int
     ) {
         val taskCollection = db.collection("tache")
-        val categorieReference = db.collection("tache_categorie").document(categorie)
-        val priorityReference = db.collection("tache_priorite").document(priority)
 
         // Convertir la date de format texte en timestamp
         val deadlineTimestamp = Timestamp(
@@ -79,14 +79,14 @@ class AddTask : Fragment() {
         )
 
         val taskData = hashMapOf(
-            "categorie" to categorieReference,
+            "categorie" to categorie,
             "concentration" to concentration,
             "deadline" to deadlineTimestamp,
             "divisible" to divisible,
             "done" to 0,
             "duree" to duree,
             "name" to nameTask,
-            "priorite" to priorityReference
+            "priorite" to priority
             )
         taskCollection.add(taskData)
             .addOnSuccessListener {
@@ -179,9 +179,9 @@ class AddTask : Fragment() {
 
             val nameTask = view.findViewById<TextView>(R.id.editNameTask)
             val categorie =
-                listCategory[view.findViewById<Spinner>(R.id.spinnerCategory).selectedItemPosition]
+                listCategory[view.findViewById<Spinner>(R.id.spinnerCategory).selectedItem]
             val priority =
-                listPriority[view.findViewById<Spinner>(R.id.spinnerPriority).selectedItemPosition]
+                listPriority[view.findViewById<Spinner>(R.id.spinnerPriority).selectedItem]
 
             val icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_warning)
 
@@ -196,15 +196,17 @@ class AddTask : Fragment() {
                 Toast.makeText(context, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                createNewTask(
-                    categorie,
-                    priority,
-                    nameTask.text.toString(),
-                    formattedDate?: "",
-                    isDivisibleChecked,
-                    isConcentrationChecked,
-                    timestampInSeconds
-                )
+                if (categorie != null && priority != null) {
+                    createNewTask(
+                        categorie,
+                        priority,
+                        nameTask.text.toString(),
+                        formattedDate?: "",
+                        isDivisibleChecked,
+                        isConcentrationChecked,
+                        timestampInSeconds
+                    )
+                }
             }
         }
         return view
@@ -231,85 +233,51 @@ class AddTask : Fragment() {
     private fun getCategories(spinnerCategory: Spinner) {
         val packageName = this.context?.packageName // Nom du package de votre application
 
-        db.collection("tache_categorie")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val name = document.getString("name")
-                    if (name != null)
-                        listCategory.add(name)
-                }
+        val adapter = this.context?.let {
+            ArrayAdapter<String>(
+                it,
+                android.R.layout.simple_spinner_item
+            )
+        }
 
-                val adapter = this.context?.let {
-                    ArrayAdapter<String>(
-                        it,
-                        android.R.layout.simple_spinner_item
-                    )
-                }
+        // Spécification du layout déroulant à utiliser lorsque la liste apparaît
+        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-                // Spécification du layout déroulant à utiliser lorsque la liste apparaît
-                if (adapter != null) {
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                }
+        // Récupération des ressources de chaînes et ajout à l'Adapter
+        for ((ref, category) in CategoryDictionnary.dictionary) {
+            val resourceId = resources.getIdentifier(category.name, "string", packageName)
+            val name = getString(resourceId)
+            adapter?.add(name)
+            listCategory[name] = ref
+        }
 
-                // Récupération des ressources de chaînes et ajout à l'Adapter
-                listCategory.forEach { resourceName ->
-                    val resourceId = resources.getIdentifier(resourceName, "string", packageName)
-                    if (adapter != null) {
-                        adapter.add(getString(resourceId))
-                    }
-                }
-
-                // Attribution de l'Adapter au Spinner
-                spinnerCategory.adapter = adapter
-                // Mettre à jour l'adaptateur une fois que les données sont récupérées avec succès
-            }
-            .addOnFailureListener { exception ->
-                // Gérer les erreurs éventuelles
-                Log.e("ERROR", "Erreur lors de la récupération des catégories: $exception")
-            }
+        // Attribution de l'Adapter au Spinner
+        spinnerCategory.adapter = adapter
     }
 
     private fun getPriority(spinnerPriority: Spinner) {
-        val packageName = this.context?.packageName // Nom du package de votre application
+        val packageName = this.context?.packageName
 
-        db.collection("tache_priorite")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val name = document.getString("name")
-                    if (name != null)
-                        listPriority.add(name)
-                }
+        val adapter = this.context?.let {
+            ArrayAdapter<String>(
+                it,
+                android.R.layout.simple_spinner_item
+            )
+        }
 
-                val adapter = this.context?.let {
-                    ArrayAdapter<String>(
-                        it,
-                        android.R.layout.simple_spinner_item
-                    )
-                }
+        // Spécification du layout déroulant à utiliser lorsque la liste apparaît
+        adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-                // Spécification du layout déroulant à utiliser lorsque la liste apparaît
-                if (adapter != null) {
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                }
+        // Récupération des ressources de chaînes et ajout à l'Adapter
+        for ((value, priorityName) in Priorities.dictionary) {
+            val resourceId = resources.getIdentifier(priorityName, "string", packageName)
+            val name = getString(resourceId)
+            adapter?.add(name)
+            listPriority[name] = value
+        }
 
-                // Récupération des ressources de chaînes et ajout à l'Adapter
-                listPriority.forEach { resourceName ->
-                    val resourceId = resources.getIdentifier(resourceName, "string", packageName)
-                    if (adapter != null) {
-                        adapter.add(getString(resourceId))
-                    }
-                }
-
-                // Attribution de l'Adapter au Spinner
-                spinnerPriority.adapter = adapter
-                // Mettre à jour l'adaptateur une fois que les données sont récupérées avec succès
-            }
-            .addOnFailureListener { exception ->
-                // Gérer les erreurs éventuelles
-                Log.e("ERROR", "Erreur lors de la récupération des catégories: $exception")
-            }
+        // Attribution de l'Adapter au Spinner
+        spinnerPriority.adapter = adapter
     }
 
     private fun addTaskToUser(idTask: DocumentReference){
