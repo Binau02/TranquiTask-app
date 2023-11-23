@@ -1,4 +1,4 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.data
 
 object User {
     var mail : String = ""
@@ -6,8 +6,4 @@ object User {
     var coins : Long = 0
     var profile_picture = ""
     var id = ""
-
-    fun getUser():User{
-        return this
-    }
 }

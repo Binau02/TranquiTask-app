@@ -1,4 +1,4 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.data
 
 import com.google.firebase.firestore.DocumentReference
 

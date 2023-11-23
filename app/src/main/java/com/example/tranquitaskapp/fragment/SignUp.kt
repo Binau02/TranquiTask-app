@@ -13,7 +13,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.User
+import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
@@ -46,9 +46,9 @@ class SignUp : Fragment() {
         bottomBarListener?.setBottomBarVisibility(this)
     }
 
-    fun onClickSignIn(email: String, password: String, username: String) {
+    private fun onClickSignIn(email: String, password: String, username: String) {
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener() { task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // L'utilisateur est enregistré avec succès
                     User.mail = email
@@ -61,7 +61,7 @@ class SignUp : Fragment() {
 
     }
 
-    fun createNewUser(email: String, username: String) {
+    private fun createNewUser(email: String, username: String) {
         val usersCollection = db.collection("user")
 
         val userData = hashMapOf(
@@ -81,7 +81,7 @@ class SignUp : Fragment() {
                 transaction?.replace(R.id.frameLayout, fragment)?.commit()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this.context, "Il y a eu une erreur", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Il y a eu une erreur : $e", Toast.LENGTH_SHORT).show()
             }
     }
 

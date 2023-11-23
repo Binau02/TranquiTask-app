@@ -2,21 +2,19 @@ package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tranquitaskapp.Category
-import com.example.tranquitaskapp.CategoryDictionnary
-import com.example.tranquitaskapp.ListTask
+import com.example.tranquitaskapp.data.Category
+import com.example.tranquitaskapp.data.CategoryDictionary
+import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.Task
+import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.adapter.CategoryRowAdapter
 import com.example.tranquitaskapp.data.CategoryModel
 import com.google.firebase.firestore.DocumentReference
@@ -24,7 +22,7 @@ import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.ui.CircularProgressBar
 import java.util.Calendar
 import com.bumptech.glide.Glide
-import com.example.tranquitaskapp.User
+import com.example.tranquitaskapp.data.User
 
 
 class Home : Fragment() {
@@ -48,14 +46,14 @@ class Home : Fragment() {
     private fun onClickToday() {
         if (!day) {
             day = true
-            setTasks(day)
+            setTasks(true)
         }
     }
 
     private fun onClickWeek() {
         if (day) {
             day = false
-            setTasks(day)
+            setTasks(false)
         }
     }
 
@@ -65,13 +63,10 @@ class Home : Fragment() {
 
         val categories : MutableList<Pair<DocumentReference?, MutableList<Int>>> = mutableListOf()
 
-        val tasks : List<Task>
-
-        if (today) {
-            tasks = ListTask.list.filter { task -> isToday(task.deadline) }
-        }
-        else {
-            tasks = ListTask.list.filter { task -> isOnWeek(task.deadline) }
+        val tasks : List<Task> = if (today) {
+            ListTask.list.filter { task -> isToday(task.deadline) }
+        } else {
+            ListTask.list.filter { task -> isOnWeek(task.deadline) }
         }
 
         if (tasks.isNotEmpty()) {
@@ -98,7 +93,7 @@ class Home : Fragment() {
             progressBar.setPercentageExternal(totalPercentage.toInt().toFloat())
 
             for (category in categories) {
-                val actualCategory: Category? = CategoryDictionnary.dictionary[category.first]
+                val actualCategory: Category? = CategoryDictionary.dictionary[category.first]
                 if (actualCategory != null) {
                     listCategoryModel.add(
                         CategoryModel(

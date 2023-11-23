@@ -2,7 +2,6 @@ package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.User
+import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 
 /**
@@ -47,14 +46,14 @@ class Profile : Fragment() {
         }
     }
      */
-    fun onClickModifProfile(){
+    private fun onClickModifProfile(){
         Toast.makeText(this.context, "Le bouton Modifier profil a été cliqué !", Toast.LENGTH_SHORT)
             .show()
     }
-    fun onClickScenery(){
+    private fun onClickScenery(){
         Toast.makeText(this.context, "Le bouton Modifier Décor a été cliqué !", Toast.LENGTH_SHORT).show()
     }
-    fun onClickShop(){
+    private fun onClickShop(){
         Toast.makeText(this.context, "Le bouton Boutique a été cliqué !", Toast.LENGTH_SHORT).show()
     }
 

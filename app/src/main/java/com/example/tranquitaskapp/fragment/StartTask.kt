@@ -12,15 +12,11 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.Task
-import com.example.tranquitaskapp.User
-import com.example.tranquitaskapp.data.TacheModel
+import com.example.tranquitaskapp.data.Task
+import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.Timestamp
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.util.Locale
 
 class StartTask(private val task: Task) : Fragment() {
 
@@ -115,11 +111,13 @@ class StartTask(private val task: Task) : Fragment() {
             .addOnFailureListener { e ->
                 // Gérer les erreurs lors de la mise à jour
                 Toast.makeText(this.context, "La tache n'a pas pu être validé !", Toast.LENGTH_SHORT).show()
-                Log.e("Update", "La tache n'a pas été modifiée")
+                Log.e("Update", "La tache n'a pas été modifiée : $e")
             }
     }
 
     private fun startTimer() {
+        val packageName = this.context?.packageName
+
         countdownTimer = object : CountDownTimer(timeLeftMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftMillis = millisUntilFinished
@@ -129,7 +127,7 @@ class StartTask(private val task: Task) : Fragment() {
             override fun onFinish() {
                 timerRunning = false
                 updateTimer()
-                textViewTimer.text = "FIN"
+                textViewTimer.text = getString(resources.getIdentifier("end", "string", packageName))
                 // onClickValidate()
             }
         }.start()

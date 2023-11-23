@@ -47,5 +47,6 @@
     <string name="medium">Modérée</string>
     <string name="low">Faible</string>
     <string name="no_task">Pas de tâche pour l\'instant\.\.\.</string>
+    <string name="end">END</string>
 
 </resources>

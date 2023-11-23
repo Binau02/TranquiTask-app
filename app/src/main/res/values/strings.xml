@@ -46,7 +46,8 @@
     <string name="shop">Shop</string>
     <string name="validate">Validate</string>
     <string name="cancel">Cancel</string>
-    <string name="no_task">No task for now...</string>
+    <string name="no_task">No task for now\.\.\.</string>
+    <string name="end">END</string>
 
 
 

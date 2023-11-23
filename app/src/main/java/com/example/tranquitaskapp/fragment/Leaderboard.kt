@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tranquitaskapp.CategoryDictionnary
+import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.adapter.LeaderboardRowAdapter
@@ -64,10 +64,10 @@ class Leaderboard : Fragment() {
         bottomBarListener?.setBottomBarVisibility(this)
     }
 
-    fun onClickFiltre(){
+    private fun onClickFiltre(){
         Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()
     }
-    fun onClickChangeLeft(){
+    private fun onClickChangeLeft(){
 //        Toast.makeText(this.context, "Le bouton < a été cliqué !", Toast.LENGTH_SHORT).show()
         categorieIndex--
         if (categorieIndex == -1) {
@@ -75,7 +75,7 @@ class Leaderboard : Fragment() {
         }
         setLeaderboard()
     }
-    fun onClickChangeRight(){
+    private fun onClickChangeRight(){
 //        Toast.makeText(this.context, "Le bouton > a été cliqué !", Toast.LENGTH_SHORT).show()
         categorieIndex++
         if (categorieIndex == globalCategories.size) {
@@ -83,19 +83,19 @@ class Leaderboard : Fragment() {
         }
         setLeaderboard()
     }
-    fun onClickText(){
+    private fun onClickText(){
 //        Toast.makeText(this.context, "Le texte a été cliqué !", Toast.LENGTH_SHORT).show()
         categorieIndex = 0
         setLeaderboard()
     }
 
-    suspend fun getLeaderboard() {
+    private suspend fun getLeaderboard() {
         val competitors : HashMap<DocumentReference?, HashMap<DocumentReference, LeaderboardModel>> = hashMapOf()
 
         competitors[null] = hashMapOf()
         globalCategories.add(Pair("Global", null))
 
-        for ((categoryRef, category) in CategoryDictionnary.dictionary) {
+        for ((categoryRef, category) in CategoryDictionary.dictionary) {
             competitors[categoryRef] = hashMapOf()
             globalCategories.add((Pair(category.name, categoryRef)))
         }
@@ -147,7 +147,7 @@ class Leaderboard : Fragment() {
         setLeaderboard()
     }
 
-    fun setLeaderboard() {
+    private fun setLeaderboard() {
         textCategorie.text = globalCategories[categorieIndex].first
 
         rv.adapter = LeaderboardRowAdapter(leaderboard[globalCategories[categorieIndex].second] ?: listOf(), this)
@@ -163,7 +163,7 @@ class Leaderboard : Fragment() {
         val buttonFiltre = view.findViewById<Button>(R.id.filtre)
         val buttonChangeL = view.findViewById<Button>(R.id.fleche_gauche)
         val buttonChangeR = view.findViewById<Button>(R.id.fleche_droite)
-        textCategorie = view.findViewById<TextView>(R.id.text_middle_categorie)
+        textCategorie = view.findViewById(R.id.text_middle_categorie)
 
         lifecycleScope.launch {
             getLeaderboard()

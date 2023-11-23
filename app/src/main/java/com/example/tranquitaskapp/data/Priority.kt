@@ -1,4 +1,4 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.data
 
 object Priorities {
     var dictionary : HashMap<Int, String> = hashMapOf(

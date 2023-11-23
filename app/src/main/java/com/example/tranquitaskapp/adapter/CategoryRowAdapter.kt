@@ -1,6 +1,5 @@
 package com.example.tranquitaskapp.adapter
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater

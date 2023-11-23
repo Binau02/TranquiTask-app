@@ -11,7 +11,7 @@ import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.databinding.ActivityMainBinding
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.example.tranquitaskapp.User
+import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.google.firebase.FirebaseApp
 
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this);
+        FirebaseApp.initializeApp(this)
         binding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(SignIn())
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener {
         coinHeader.text = User.coins.toString()
     }
 
-    fun onClickSignOut() {
+    private fun onClickSignOut() {
         MyFirebaseAuth.signOut()
         // Naviguer vers l'écran de connexion ou effectuer d'autres actions après la déconnexion
     }

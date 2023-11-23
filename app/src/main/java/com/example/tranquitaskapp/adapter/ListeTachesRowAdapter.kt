@@ -1,7 +1,6 @@
 package com.example.tranquitaskapp.adapter
 
 import android.content.ContentValues.TAG
-import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.firebase.MyFirebase
-import com.example.tranquitaskapp.fragment.ListTaches
 import com.example.tranquitaskapp.interfaces.TaskButtonClickListener
 import com.example.tranquitaskapp.ui.CustomPopup
 
@@ -26,18 +24,18 @@ class ListeTachesRowAdapter(
 ) :
     RecyclerView.Adapter<ListeTachesRowAdapter.MyViewHolder>() {
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
-        val imageView = row.findViewById<ImageView>(R.id.logoImageView)
-        val pseudoView = row.findViewById<TextView>(R.id.nameTextView)
-        val progressBar = row.findViewById<ProgressBar>(R.id.progressBarFront)
+        val imageView: ImageView = row.findViewById(R.id.logoImageView)
+        val pseudoView: TextView = row.findViewById(R.id.nameTextView)
+        val progressBar: ProgressBar = row.findViewById(R.id.progressBarFront)
 
-        val cardView = row.findViewById<CardView>(R.id.task_card_view)
-        val taskDuration = row.findViewById<TextView>(R.id.task_duration)
-        val taskDeadline = row.findViewById<TextView>(R.id.task_deadline)
-        val taskPriority = row.findViewById<TextView>(R.id.task_priority)
-        val taskCategory = row.findViewById<TextView>(R.id.task_category)
-        val imageDevelop = row.findViewById<ImageView>(R.id.image_develop)
-        val buttonStart = row.findViewById<Button>(R.id.buttonStart)
-        val delete = row.findViewById<ImageView>(R.id.delete)
+        val cardView: CardView = row.findViewById(R.id.task_card_view)
+        val taskDuration: TextView = row.findViewById(R.id.task_duration)
+        val taskDeadline: TextView = row.findViewById(R.id.task_deadline)
+        val taskPriority: TextView = row.findViewById(R.id.task_priority)
+        val taskCategory: TextView = row.findViewById(R.id.task_category)
+        val imageDevelop: ImageView = row.findViewById(R.id.image_develop)
+        val buttonStart: Button = row.findViewById(R.id.buttonStart)
+        val delete: ImageView = row.findViewById(R.id.delete)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -50,6 +48,7 @@ class ListeTachesRowAdapter(
         return MyViewHolder(layout)
     }
 
+    // TODO : android studio annonce une erreur ici, mais ça marche ¯\_(ツ)_/¯
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.buttonStart.setOnClickListener {
             buttonClickListener.onStartButtonClick(position)
@@ -90,7 +89,8 @@ class ListeTachesRowAdapter(
                                 )
                             }
                     }
-                })
+                }
+            )
         }
 
 
@@ -108,7 +108,7 @@ class ListeTachesRowAdapter(
 
     override fun getItemCount(): Int = data.size
 
-    fun convertMinutesToTimeString(totalMinutes: Int): String {
+    private fun convertMinutesToTimeString(totalMinutes: Int): String {
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
 

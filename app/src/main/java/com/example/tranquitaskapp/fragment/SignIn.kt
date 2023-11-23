@@ -15,12 +15,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
-import com.example.tranquitaskapp.Category
-import com.example.tranquitaskapp.CategoryDictionnary
-import com.example.tranquitaskapp.ListTask
+import com.example.tranquitaskapp.data.Category
+import com.example.tranquitaskapp.data.CategoryDictionary
+import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.Task
-import com.example.tranquitaskapp.User
+import com.example.tranquitaskapp.data.Task
+import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
@@ -58,12 +58,12 @@ class SignIn : Fragment() {
                     val username = documents.documents[0].getString("username")
 
                     val coins = documents.documents[0].getLong("coins")
-                    val profile_picture = documents.documents[0].getString("profile_picture")
-                    if (username != null && coins != null && profile_picture != null) {
+                    val profilePicture = documents.documents[0].getString("profile_picture")
+                    if (username != null && coins != null && profilePicture != null) {
                         User.username = username
                         User.mail = email
                         User.coins = coins
-                        User.profile_picture = profile_picture
+                        User.profile_picture = profilePicture
                         User.id = documents.documents[0].id
                     }
                     val fragment = Home()
@@ -74,14 +74,13 @@ class SignIn : Fragment() {
             }
             .addOnFailureListener { exception ->
                 // Gérer les erreurs éventuelles
-                Log.e("ERROR", "Erreur lors de la récupération du user")
+                Log.e("ERROR", "Erreur lors de la récupération du user : $exception")
             }
     }
 
-    suspend fun getInformations(email : String) {
+    private suspend fun getInformations(email : String) {
         val packageName = this.context?.packageName
 
-        val categories : MutableList<DocumentReference> = mutableListOf()
         // récupérer l'utilisateur
         try {
             val userDocs = withContext(Dispatchers.IO) {
@@ -133,7 +132,7 @@ class SignIn : Fragment() {
                         }
                     }
                     else {
-                        ListTask.list.add(newTask);
+                        ListTask.list.add(newTask)
                     }
                 } catch (e: Exception) {
                     Log.e("ERROR", "Error getting task document: $e")
@@ -154,7 +153,7 @@ class SignIn : Fragment() {
                         name = getString(resourceId),
                         icon = categoryDoc.getString("icon") ?: ""
                     )
-                    CategoryDictionnary.dictionary.put(categoryDoc.reference, category)
+                    CategoryDictionary.dictionary[categoryDoc.reference] = category
                 }
                 else {
                     Log.e("ERROR", "Ctegory name not found")
@@ -201,7 +200,7 @@ class SignIn : Fragment() {
         val checkBoxStillConnected = view.findViewById<CheckBox>(R.id.checkBoxStillConnected)
 
         // Charger l'état de la case à cocher depuis les préférences partagées
-        val isCheckBoxChecked = sharedPreferences.getBoolean("checkBoxState", false)
+        var isCheckBoxChecked = sharedPreferences.getBoolean("checkBoxState", false)
         checkBoxStillConnected.isChecked = isCheckBoxChecked
 
         if (storedEmail != null && storedPassword != null) {
@@ -239,7 +238,7 @@ class SignIn : Fragment() {
                 Toast.makeText(this.context, "Textes vides", Toast.LENGTH_SHORT).show()
             } else {
                 // Vérifier si la case à cocher est cochée
-                val isCheckBoxChecked = checkBoxStillConnected.isChecked
+                isCheckBoxChecked = checkBoxStillConnected.isChecked
 
                 if (isCheckBoxChecked) {
                     // Sauvegarder l'état de la case à cocher et les identifiants dans les préférences partagées

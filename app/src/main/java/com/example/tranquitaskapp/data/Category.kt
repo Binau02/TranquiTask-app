@@ -1,4 +1,4 @@
-package com.example.tranquitaskapp
+package com.example.tranquitaskapp.data
 
 import com.google.firebase.firestore.DocumentReference
 
@@ -8,6 +8,6 @@ data class Category(
     var icon : String
 )
 
-object CategoryDictionnary {
+object CategoryDictionary {
     var dictionary : HashMap<DocumentReference, Category> = hashMapOf()
 }

@@ -13,7 +13,7 @@ import kotlin.math.cos
 class CircularProgressBar(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val paint = Paint()
     private var _percentage: Float = 100f // Attribut pour stocker le pourcentage de progression
-    var percentage: Float
+    private var percentage: Float
         get() = _percentage
         set(value) {
             _percentage = value

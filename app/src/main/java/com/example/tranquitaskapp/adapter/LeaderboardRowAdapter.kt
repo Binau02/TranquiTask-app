@@ -9,17 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.User
-import com.example.tranquitaskapp.data.FriendsModel
 import com.example.tranquitaskapp.data.LeaderboardModel
 
 class LeaderboardRowAdapter(val data: List<LeaderboardModel>, val fragment : Fragment) :
     RecyclerView.Adapter<LeaderboardRowAdapter.MyViewHolder>() {
-    class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
-        val imageView = row.findViewById<ImageView>(R.id.avatar)
-        val pseudoView = row.findViewById<TextView>(R.id.pseudo)
-        val coinView = row.findViewById<TextView>(R.id.coin_amount)
-        val rankView = row.findViewById<TextView>(R.id.rank)
+    class MyViewHolder(row: View) : RecyclerView.ViewHolder(row) {
+        val imageView: ImageView = row.findViewById(R.id.avatar)
+        val pseudoView: TextView = row.findViewById(R.id.pseudo)
+        val coinView: TextView = row.findViewById(R.id.coin_amount)
+        val rankView: TextView = row.findViewById(R.id.rank)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):

@@ -15,7 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.User
+import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.FriendsRowAdapter
 import com.example.tranquitaskapp.data.FriendsModel
@@ -62,7 +62,7 @@ class Friends : Fragment() {
 
     private lateinit var badge : TextView
 
-    suspend fun getFriends() {
+    private suspend fun getFriends() {
         // récupérer les amis
         try {
             val friends = withContext(Dispatchers.IO) {
@@ -104,7 +104,7 @@ class Friends : Fragment() {
         }
     }
 
-    fun addFriend(friendDoc : DocumentSnapshot?) {
+    private fun addFriend(friendDoc : DocumentSnapshot?) {
         val name = friendDoc?.getString("username")
         val pp = friendDoc?.getString("profile_picture")
         if (name != null && pp != null){
@@ -112,14 +112,14 @@ class Friends : Fragment() {
         }
     }
 
-    suspend fun getNotificationNumber() {
+    private suspend fun getNotificationNumber() {
         try {
             val user = withContext(Dispatchers.IO) {
                 Tasks.await(db.collection("user").document(User.id).get())
             }
             val demandes = user.get("demandes") as List<DocumentReference>
-            if (demandes.size > 0) {
-                badge.setText(demandes.size.toString())
+            if (demandes.isNotEmpty()) {
+                badge.text = demandes.size.toString()
             }
             else {
                 badge.visibility = View.INVISIBLE
@@ -138,13 +138,13 @@ class Friends : Fragment() {
         bottomBarListener?.setBottomBarVisibility(this)
     }
 
-    fun onClickFriends(){
+    private fun onClickFriends(){
         Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()
     }
-    fun onClickNewFriend(){
+    private fun onClickNewFriend(){
         Toast.makeText(this.context, "Le bouton Demandes d'ami a été cliqué !", Toast.LENGTH_SHORT).show()
     }
-    fun onClickAddFriend(){
+    private fun onClickAddFriend(){
         Toast.makeText(this.context, "Le bouton Ajouter un ami a été cliqué !", Toast.LENGTH_SHORT).show()
     }
 

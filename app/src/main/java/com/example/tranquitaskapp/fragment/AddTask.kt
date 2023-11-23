@@ -17,10 +17,10 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
-import com.example.tranquitaskapp.CategoryDictionnary
-import com.example.tranquitaskapp.Priorities
+import com.example.tranquitaskapp.data.CategoryDictionary
+import com.example.tranquitaskapp.data.Priorities
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.User
+import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.firestore.DocumentReference
@@ -45,8 +45,6 @@ class AddTask : Fragment() {
     private val listPriority = HashMap<String, Int>()
 
     private val db = MyFirebase.getFirestoreInstance()
-
-    private val packageName = this.context?.packageName
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -216,7 +214,7 @@ class AddTask : Fragment() {
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         // Récupération des ressources de chaînes et ajout à l'Adapter
-        for ((ref, category) in CategoryDictionnary.dictionary) {
+        for ((ref, category) in CategoryDictionary.dictionary) {
             adapter?.add(category.name)
             listCategory[category.name] = ref
         }
