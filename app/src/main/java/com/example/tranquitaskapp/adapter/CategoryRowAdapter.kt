@@ -36,10 +36,6 @@ class CategoryRowAdapter(val data: List<CategoryModel>) :
         val imageResourceName = data[position].logoResId // Exemple de nom de la ressource
         val imageResourceId = holder.itemView.context.resources.getIdentifier(imageResourceName, "drawable", packageName)
 
-        val stringResourceName = data[position].name // Exemple de nom de la ressource
-        val stringResourceId = holder.itemView.context.resources.getIdentifier(stringResourceName, "string", packageName)
-
-//        holder.nameView.text = holder.itemView.context.getString(stringResourceId)
         holder.nameView.text = data[position].name
         holder.imageView.setImageResource(imageResourceId)
         holder.imageView.setColorFilter(Color.BLACK)
