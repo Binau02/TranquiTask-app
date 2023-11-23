@@ -79,11 +79,12 @@ class SignIn : Fragment() {
     }
 
     suspend fun getInformations(email : String) {
+        val packageName = this.context?.packageName
+
         val categories : MutableList<DocumentReference> = mutableListOf()
         // récupérer l'utilisateur
         try {
             val userDocs = withContext(Dispatchers.IO) {
-//                Tasks.await(db.collection("user").document(User.id).get())
                 Tasks.await(db.collection("user").whereEqualTo("email", email).get())
             }
             val user = userDocs.documents[0]
@@ -94,45 +95,49 @@ class SignIn : Fragment() {
             User.profile_picture = user.getString("profile_picture") ?: ""
             User.id = user.id
             val tasks = user.get("taches") as List<DocumentReference>
+            // récupérer chaque tâche de l'utilisateur
             for (task in tasks) {
-                // récupérer chaque tâche de l'utilisateur
                 try {
                     val taskDoc = withContext(Dispatchers.IO) {
                         Tasks.await(task.get())
                     }
                     val home = Home()
 
-                    val newTask = Task (
-                        name = taskDoc.getString("name") ?: "",
-                        concentration = taskDoc.getBoolean("concentration") ?: false,
-                        divisible = taskDoc.getBoolean("divisible") ?: false,
-                        done = (taskDoc.getLong("done") ?: 0).toInt(),
-                        duree = (taskDoc.getLong("duree") ?: 0).toInt(),
-                        deadline = taskDoc.getTimestamp("deadline"),
-                        categorie = taskDoc.getDocumentReference("categorie"),
-                        priorite = (taskDoc.getLong("priorite") ?: 0).toInt(),
-                        ref = taskDoc.reference
-                    )
+                    val resourceId = resources.getIdentifier(taskDoc.getString("name") ?: "", "string", packageName)
+                    if (resourceId != 0) {
+                        val name = getString(resourceId)
 
-                    if (!home.isOnWeek(newTask.deadline) && newTask.done == 100) {
-                        val documentReference: DocumentReference = taskDoc.reference
+                        val newTask = Task(
+                            name = name,
+                            concentration = taskDoc.getBoolean("concentration") ?: false,
+                            divisible = taskDoc.getBoolean("divisible") ?: false,
+                            done = (taskDoc.getLong("done") ?: 0).toInt(),
+                            duree = (taskDoc.getLong("duree") ?: 0).toInt(),
+                            deadline = taskDoc.getTimestamp("deadline"),
+                            categorie = taskDoc.getDocumentReference("categorie"),
+                            priorite = (taskDoc.getLong("priorite") ?: 0).toInt(),
+                            ref = taskDoc.reference
+                        )
 
-                        documentReference.let { reference ->
-                            reference.delete()
-                                .addOnSuccessListener {}
-                                .addOnFailureListener { e ->
-                                    Log.e("ERROR", "Error deleting document", e)
-                                }
+                        if (!home.isOnWeek(newTask.deadline) && newTask.done == 100) {
+                            val documentReference: DocumentReference = taskDoc.reference
+
+                            documentReference.let { reference ->
+                                reference.delete()
+                                    .addOnSuccessListener {}
+                                    .addOnFailureListener { e ->
+                                        Log.e("ERROR", "Error deleting document", e)
+                                    }
+                            }
+
+                            val taskArray = user.get("taches") as? ArrayList<DocumentReference>
+                            taskArray?.remove(documentReference)
+                            user.reference.update("taches", taskArray).addOnFailureListener { e ->
+                                Log.e("ERROR", "Error updating user", e)
+                            }
+                        } else {
+                            ListTask.list.add(newTask);
                         }
-
-                        val taskArray = user.get("taches") as? ArrayList<DocumentReference>
-                        taskArray?.remove(documentReference)
-                        user.reference.update("taches", taskArray).addOnFailureListener { e ->
-                            Log.e("ERROR", "Error updating user", e)
-                        }
-                    }
-                    else {
-                        ListTask.list.add(newTask);
                     }
                 } catch (e: Exception) {
                     Log.e("ERROR", "Error getting task document: $e")

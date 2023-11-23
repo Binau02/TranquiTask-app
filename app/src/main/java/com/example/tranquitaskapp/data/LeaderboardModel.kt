@@ -1,8 +1,8 @@
 package com.example.tranquitaskapp.data
 
 data class LeaderboardModel(
-    val pseudo: String,
-    val avatar: String,
-    val coin: String,
-    val rank: String
+    var pseudo: String,
+    var avatar: String,
+    var coin: Int,
+    var rank: String
 )

@@ -121,7 +121,6 @@ class Home : Fragment() {
 
             progressBar.setPercentageExternal(100F)
         }
-        Log.d("TEST", "on est là")
         rv.adapter = CategoryRowAdapter(listCategoryModel)
     }
 

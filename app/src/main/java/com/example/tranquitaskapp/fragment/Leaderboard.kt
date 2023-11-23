@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tranquitaskapp.CategoryDictionnary
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.adapter.LeaderboardRowAdapter
@@ -34,11 +35,6 @@ private const val ARG_PARAM2 = "param2"
  * Use the [Leaderboard.newInstance] factory method to
  * create an instance of this fragment.
  */
-data class UserData(val ref: DocumentReference, var totalAmount: Int, val categories : MutableList<CategorieData>)
-
-data class CategorieData(val ref: DocumentReference, var totalAmount: Int)
-
-data class Categorie(val ref: DocumentReference?, val name: String)
 
 class Leaderboard : Fragment() {
     // TODO: Rename and change types of parameters
@@ -49,31 +45,16 @@ class Leaderboard : Fragment() {
      */
 
     private val db = MyFirebase.getFirestoreInstance()
-//    private val listLeaderboardModel = mutableListOf<LeaderboardModel>(
-//        LeaderboardModel("Pseudo 1",R.drawable.arbre_removebg,"976", "#1"),
-//        LeaderboardModel("Pseudo 2",R.drawable.leaderboard_icon, "965", "#2"),
-//        LeaderboardModel("Pseudo 3",R.drawable.or, "875", "#3"),
-//        LeaderboardModel("Pseudo 4",R.drawable.leaderboard_icon, "834", "#4"),
-//        LeaderboardModel("Pseudo 5",R.drawable.arbre_removebg, "621", "#5"),
-//        LeaderboardModel("Pseudo 6",R.drawable.add, "608", "#6"),
-//        LeaderboardModel("Pseudo 7",R.drawable.or, "487", "#7"),
-//        LeaderboardModel("Pseudo 8",R.drawable.leaderboard_icon, "435", "#8"),
-//        LeaderboardModel("Pseudo 9",R.drawable.add, "384", "#9"),
-//        LeaderboardModel("Pseudo 10",R.drawable.arbre_removebg, "104", "#10"),
-//    )
-    private var listLeaderboardModel = mutableListOf<LeaderboardModel>()
-
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
     private lateinit var rv : RecyclerView
     private lateinit var textCategorie : TextView
 
-    private val users : MutableList<UserData> = mutableListOf()
-
-    private val globalCategories: MutableList<Categorie> = mutableListOf()
+    private val globalCategories: MutableList<Pair<String, DocumentReference?>> = mutableListOf()
     private var categorieIndex: Int = 0
 
+    private val leaderboard: HashMap<DocumentReference?, List<LeaderboardModel>> = hashMapOf()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -92,9 +73,7 @@ class Leaderboard : Fragment() {
         if (categorieIndex == -1) {
             categorieIndex = globalCategories.size - 1
         }
-        lifecycleScope.launch {
-            setLeaderboard()
-        }
+        setLeaderboard()
     }
     fun onClickChangeRight(){
 //        Toast.makeText(this.context, "Le bouton > a été cliqué !", Toast.LENGTH_SHORT).show()
@@ -102,66 +81,58 @@ class Leaderboard : Fragment() {
         if (categorieIndex == globalCategories.size) {
             categorieIndex = 0
         }
-        lifecycleScope.launch {
-            setLeaderboard()
-        }
+        setLeaderboard()
     }
     fun onClickText(){
 //        Toast.makeText(this.context, "Le texte a été cliqué !", Toast.LENGTH_SHORT).show()
         categorieIndex = 0
-        lifecycleScope.launch {
-            setLeaderboard()
-        }
+        setLeaderboard()
     }
 
     // TODO : modify with local categories
     suspend fun getLeaderboard() {
-        val emptyCategories : MutableList<CategorieData> = mutableListOf()
+        val competitors : HashMap<DocumentReference?, HashMap<DocumentReference, LeaderboardModel>> = hashMapOf()
 
-        globalCategories.add(Categorie(null, "Global"))
+        competitors[null] = hashMapOf()
+        globalCategories.add(Pair("Global", null))
 
-        try {
-            val categories = withContext(Dispatchers.IO) {
-                Tasks.await(db.collection("tache_categorie").get())
-            }
-            for (category in categories) {
-                val name = category.getString("name")
-                val categoryRef = category.reference
-                if (name != null) {
-                    emptyCategories.add(CategorieData(categoryRef, 0))
-                    globalCategories.add(Categorie(categoryRef, name))
-                }
-            }
-        } catch (e : Exception) {
-            Log.e("ERROR", "error in getting categories document: $e")
+        for ((categoryRef, category) in CategoryDictionnary.dictionary) {
+            competitors[categoryRef] = hashMapOf()
+            globalCategories.add((Pair(category.name, categoryRef)))
         }
+
         try {
             val transactions = withContext(Dispatchers.IO) {
                 Tasks.await(db.collection("transaction").get())
             }
             for (transaction in transactions) {
-                val amount = transaction.getLong("amount")?.toInt()
+                val amount = (transaction.getLong("amount") ?: 0).toInt()
                 val date = transaction.getDate("date")
                 val userRef = transaction.getDocumentReference("user")
                 val categorieRef = transaction.getDocumentReference("categorie")
 
-                if (userRef != null && amount != null) {
-                    // Check if the user already exists in the list
-                    val existingUser = users.find { it.ref == userRef }
-
-                    if (existingUser != null) {
-                        // Update the total amount for the existing user
-                        existingUser.totalAmount += amount
-                        val categorieAmount = existingUser.categories.find { it.ref == categorieRef }?.totalAmount
-                        if (categorieAmount != null) {
-                            existingUser.categories.find { it.ref == categorieRef }?.totalAmount = categorieAmount + amount
+                if (userRef != null) {
+                    val refs = listOf(null, categorieRef)
+                    for (ref in refs) {
+                        if (competitors[ref] != null) {
+                            if (competitors[ref]!!.containsKey(userRef)) {
+                                competitors[ref]!![userRef]!!.coin = competitors[ref]!![userRef]!!.coin + amount
+                            } else {
+                                try {
+                                    val user = withContext(Dispatchers.IO) {
+                                        Tasks.await(userRef.get())
+                                    }
+                                    competitors[ref]!![userRef] = LeaderboardModel(
+                                        pseudo = user.getString("username") ?: "",
+                                        avatar = user.getString("profile_picture") ?: "",
+                                        coin = amount,
+                                        rank = ""
+                                    )
+                                } catch (e : Exception) {
+                                    Log.e("ERROR", "Error getting user : $e")
+                                }
+                            }
                         }
-                    }
-                    else {
-                        // Add a new user to the list
-                        val newList = emptyCategories.map { it.copy() }.toMutableList()
-                        newList.find { it.ref == categorieRef }?.totalAmount = amount
-                        users.add(UserData(userRef, amount, newList))
                     }
                 }
             }
@@ -169,59 +140,18 @@ class Leaderboard : Fragment() {
         } catch (e : Exception) {
             Log.e("ERROR", "error getting transactions : $e")
         }
+
+        for ((category, categoryCompetitors) in competitors) {
+            leaderboard[category] = categoryCompetitors.values.sortedByDescending { it.coin }.take(10)
+        }
+
+        setLeaderboard()
     }
 
-    suspend fun setLeaderboard() {
-        textCategorie.text = globalCategories[categorieIndex].name
+    fun setLeaderboard() {
+        textCategorie.text = globalCategories[categorieIndex].first
 
-        listLeaderboardModel.clear()
-
-//        Log.d("TEST", "actual cat ${globalCategories[categorieIndex]}")
-//        for (user in users) {
-//            for (category in user.categories) {
-//                Log.d("TEST", "${user.totalAmount} cats ${category}")
-//            }
-//        }
-
-        if (globalCategories[categorieIndex].name == "Global") {
-            users.sortByDescending { it.totalAmount }
-        }
-        else {
-            users.sortByDescending { user -> user.categories.find { it.ref == globalCategories[categorieIndex].ref }?.totalAmount }
-        }
-
-        var i = 0
-        for (user in users) {
-            i++
-            try {
-                val userDoc = withContext(Dispatchers.IO) {
-                    Tasks.await(user.ref.get())
-                }
-                val pseudo = userDoc.getString("username")
-                val pp = userDoc.getString("profile_picture")
-                var amount : Int
-                if (globalCategories[categorieIndex].name == "Global") {
-                    amount = user.totalAmount
-                }
-                else {
-                    amount = user.categories.find { it.ref == globalCategories[categorieIndex].ref }?.totalAmount
-                        ?: 0
-                }
-                if (pseudo != null && pp != null) {
-                    listLeaderboardModel.add(
-                        LeaderboardModel(
-                            pseudo,
-                            pp,
-                            amount.toString(),
-                            "#" + i.toString()
-                        )
-                    )
-                }
-            } catch (e: Exception) {
-                Log.e("ERROR", "Error getting categorie document: $e")
-            }
-        }
-        rv.adapter = LeaderboardRowAdapter(listLeaderboardModel, this)
+        rv.adapter = LeaderboardRowAdapter(leaderboard[globalCategories[categorieIndex].second] ?: listOf(), this)
     }
 
     override fun onCreateView(

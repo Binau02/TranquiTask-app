@@ -43,7 +43,7 @@ class LeaderboardRowAdapter(val data: List<LeaderboardModel>, val fragment : Fra
         else {
             holder.imageView.setImageResource(R.drawable.default_profil_picture)
         }
-        holder.coinView.text = data[position].coin
+        holder.coinView.text = data[position].coin.toString()
         holder.rankView.text = data[position].rank
     }
 

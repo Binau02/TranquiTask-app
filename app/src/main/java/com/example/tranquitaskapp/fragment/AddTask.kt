@@ -205,8 +205,6 @@ class AddTask : Fragment() {
     }
 
     private fun getCategories(spinnerCategory: Spinner) {
-        val packageName = this.context?.packageName
-
         val adapter = this.context?.let {
             ArrayAdapter<String>(
                 it,
@@ -219,11 +217,8 @@ class AddTask : Fragment() {
 
         // Récupération des ressources de chaînes et ajout à l'Adapter
         for ((ref, category) in CategoryDictionnary.dictionary) {
-            Log.d("TEST", "name : ${category.name}")
-            val resourceId = resources.getIdentifier(category.name, "string", packageName)
-            val name = getString(resourceId)
-            adapter?.add(name)
-            listCategory[name] = ref
+            adapter?.add(category.name)
+            listCategory[category.name] = ref
         }
 
         // Attribution de l'Adapter au Spinner
