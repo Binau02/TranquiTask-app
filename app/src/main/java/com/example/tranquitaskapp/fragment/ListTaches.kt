@@ -41,9 +41,9 @@ class ListTaches () : Fragment(), TaskButtonClickListener {
 
 
     override fun onStartButtonClick(position: Int) {
-//        val fragment = StartTask(ListTask[position]) // Remplacez par le fragment que vous souhaitez afficher
-//        val transaction = fragmentManager?.beginTransaction()
-//        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+        val fragment = StartTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
     override fun onAttach(context: Context) {

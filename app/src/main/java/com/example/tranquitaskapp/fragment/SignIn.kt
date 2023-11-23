@@ -110,7 +110,8 @@ class SignIn : Fragment() {
                         duree = (taskDoc.getLong("duree") ?: 0).toInt(),
                         deadline = taskDoc.getTimestamp("deadline"),
                         categorie = taskDoc.getDocumentReference("categorie"),
-                        priorite = (taskDoc.getLong("priorite") ?: 0).toInt()
+                        priorite = (taskDoc.getLong("priorite") ?: 0).toInt(),
+                        ref = taskDoc.reference
                     )
 
                     if (!home.isOnWeek(newTask.deadline) && newTask.done == 100) {

@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.Task
 import com.example.tranquitaskapp.User
 import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.firebase.MyFirebase
@@ -21,7 +22,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.Locale
 
-class StartTask(private val task: TacheModel) : Fragment() {
+class StartTask(private val task: Task) : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
     private lateinit var textViewTimer: TextView
@@ -30,7 +31,7 @@ class StartTask(private val task: TacheModel) : Fragment() {
     private lateinit var buttonValider: Button
     private lateinit var countdownTimer: CountDownTimer
     private val db = MyFirebase.getFirestoreInstance()
-    private val initialMillis: Long = (task.duration * 60000).toLong() // 30 secondes
+    private val initialMillis: Long = (task.duree * 60000).toLong() // 30 secondes
     private var timeLeftMillis: Long = initialMillis
     private var timerRunning = false
 
@@ -83,12 +84,11 @@ class StartTask(private val task: TacheModel) : Fragment() {
 
     private fun addCoinToUser(){
         val transactionCollection = db.collection("transaction")
-        val categorieReference = db.collection("tache_categorie").document(task.category)
         val userReference = db.collection("user").document(User.id)
 
         val transactionData = hashMapOf(
-            "amount" to task.duration,
-            "categorie" to categorieReference,
+            "amount" to task.duree,
+            "categorie" to task.categorie,
             "date" to Timestamp.now(),
             "user" to userReference,
         )
@@ -96,16 +96,17 @@ class StartTask(private val task: TacheModel) : Fragment() {
             .addOnSuccessListener {
             }
             .addOnFailureListener { e ->
+                Log.e("ERROR", "Error adding in transactionCollection : $e")
             }
     }
 
     private fun onClickValidate(){
-        val taskRef = db.collection("tache").document(task.id)
+        val taskRef = task.ref
         taskRef.update("done", 100)
             .addOnSuccessListener {
                 // La mise à jour a réussi
                 Log.d("Update", "La tache a ete modifiée")
-                Toast.makeText(this.context, "Vous avez gagné ${task.duration} coins", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Vous avez gagné ${task.duree} coins", Toast.LENGTH_SHORT).show()
                 addCoinToUser()
                 val fragment = Home()
                 val transaction = fragmentManager?.beginTransaction()
