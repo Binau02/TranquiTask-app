@@ -2,6 +2,7 @@ package com.example.tranquitaskapp.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,9 @@ class CategoryRowAdapter(val data: List<CategoryModel>) :
         holder.imageView.setImageResource(imageResourceId)
         holder.imageView.setColorFilter(Color.BLACK)
         holder.progressBar.progress = data[position].progress
+        holder.row.setOnClickListener{
+            Log.d("TEST","Appuie sur la categorie "+holder.nameView.text)
+        }
     }
 
     override fun getItemCount(): Int = data.size
