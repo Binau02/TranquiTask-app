@@ -9,5 +9,6 @@ data class Category(
 )
 
 object CategoryDictionary {
-    var dictionary : HashMap<DocumentReference, Category> = hashMapOf()
+    val dictionary : HashMap<DocumentReference, Category> = hashMapOf()
+    val nameToDocumentReference : HashMap<String, DocumentReference> = hashMapOf()
 }
