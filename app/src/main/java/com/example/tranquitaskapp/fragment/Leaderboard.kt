@@ -64,9 +64,13 @@ class Leaderboard : Fragment() {
         bottomBarListener?.setBottomBarVisibility(this)
     }
 
+
     private fun onClickFiltre(){
-        Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()
+        val fragment = LeaderboardFilter()
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
+
     private fun onClickChangeLeft(){
 //        Toast.makeText(this.context, "Le bouton < a été cliqué !", Toast.LENGTH_SHORT).show()
         categorieIndex--
