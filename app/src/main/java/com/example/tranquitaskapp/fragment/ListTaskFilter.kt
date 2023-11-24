@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
@@ -35,7 +37,12 @@ class ListTaskFilter : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_list_task_filter, container, false)
-
+        val buttonback = view.findViewById<ImageView>(R.id.btn_back)
+        buttonback.setOnClickListener {
+            val fragment = ListTaches()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout, fragment)?.commit()
+        }
         setRadioButtons(view)
 
         return view

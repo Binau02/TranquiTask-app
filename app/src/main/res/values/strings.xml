@@ -27,7 +27,7 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="RememberMe">Remember me</string>
-    <string name="ForgotPassword">I forgot my password</string>
+    <string name="ForgotPassword">Forgot password ?</string>
     <string name="signin">Sign In</string>
     <string name="ConfirmPassword">Confirm Password</string>
     <string name="NewAccount">Already an account ?</string>
