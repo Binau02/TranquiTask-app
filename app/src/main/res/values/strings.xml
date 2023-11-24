@@ -52,6 +52,9 @@
     <string name="task_filter">Task filter</string>
     <string name="period">Period</string>
     <string name="all">All</string>
+    <string name="enter_email_friend">Enter the email address of your friend.</string>
+    <string name="add_friend">Add a friend</string>
+    <string name="friend_not_exist">This email is unknown</string>
 
 
 </resources>
