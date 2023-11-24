@@ -128,8 +128,6 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     }
 
     private fun startTimer() {
-        val packageName = this.context?.packageName
-
         countdownTimer = object : CountDownTimer(timeLeftMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftMillis = millisUntilFinished
@@ -139,7 +137,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
             override fun onFinish() {
                 timerRunning = false
                 updateTimer()
-                textViewTimer.text = getString(resources.getIdentifier("end", "string", packageName))
+                textViewTimer.text = getString(R.string.end)
                 // onClickValidate()
             }
         }.start()

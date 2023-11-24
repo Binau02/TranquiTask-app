@@ -5,6 +5,6 @@ enum class Period {
 }
 
 object PeriodDictionary {
-    val periodToStringId : HashMap<Period, Int> = hashMapOf()
+    val periodToString : HashMap<Period, String> = hashMapOf()
     val stringToPeriod : HashMap<String, Period> = hashMapOf()
 }

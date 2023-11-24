@@ -31,10 +31,7 @@ class AddFriend : Fragment() {
                 }
             }
             else {
-                val packageName = this.context?.packageName
-
-                val message = getString(resources.getIdentifier("friend_not_exist", "string", packageName))
-                Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, getString(R.string.friend_not_exist), Toast.LENGTH_SHORT).show()
             }
 
         }

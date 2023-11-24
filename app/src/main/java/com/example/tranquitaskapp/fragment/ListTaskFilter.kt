@@ -42,19 +42,17 @@ class ListTaskFilter : Fragment() {
     }
 
     private fun setRadioButtons(view : View) {
-        val packageName = this.context?.packageName
-
         var buttonId : Int = 0
 
         // set period radio buttons
         val periodRadioGroup = view.findViewById<RadioGroup>(R.id.period_group)
-        for ((period, option) in PeriodDictionary.periodToStringId) {
+        for ((period, option) in PeriodDictionary.periodToString) {
             val radioButton = RadioButton(context)
             radioButton.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            radioButton.text = getString(option)
+            radioButton.text = option
             periodRadioGroup.addView(radioButton)
             if (period == ListTaskFilter.period) {
 //                radioButton.isChecked = true
@@ -81,7 +79,7 @@ class ListTaskFilter : Fragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        radioButtonCategory.text = getString(resources.getIdentifier("all", "string", packageName))
+        radioButtonCategory.text = getString(R.string.all)
         categoryRadioGroup.addView(radioButtonCategory)
         if (ListTaskFilter.category == null) {
 //            radioButtonCategory.isChecked = true
@@ -122,7 +120,7 @@ class ListTaskFilter : Fragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        radioButtonPriority.text = getString(resources.getIdentifier("all", "string", packageName))
+        radioButtonPriority.text = getString(R.string.all)
         priorityRadioGroup.addView(radioButtonPriority)
         if (ListTaskFilter.priority == -1) {
 //            radioButtonPriority.isChecked = true

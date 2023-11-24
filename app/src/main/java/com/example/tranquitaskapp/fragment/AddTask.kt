@@ -237,8 +237,6 @@ class AddTask : Fragment() {
     }
 
     private fun getPriority(spinnerPriority: Spinner) {
-        val packageName = this.context?.packageName
-
         val adapter = this.context?.let {
             ArrayAdapter<String>(
                 it,

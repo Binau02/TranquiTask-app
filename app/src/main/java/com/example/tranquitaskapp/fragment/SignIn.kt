@@ -168,17 +168,13 @@ class SignIn : Fragment() {
             Log.e("ERROR", "Error finding categories : $e")
         }
 
-        val idDay = resources.getIdentifier("today", "string", packageName)
-        val idWeek = resources.getIdentifier("this_week", "string", packageName)
-        val idAll = resources.getIdentifier("any_time", "string", packageName)
+        PeriodDictionary.periodToString[Period.DAY] = getString(R.string.today)
+        PeriodDictionary.periodToString[Period.WEEK] = getString(R.string.this_week)
+        PeriodDictionary.periodToString[Period.ALL] = getString(R.string.any_time)
 
-        PeriodDictionary.periodToStringId[Period.DAY] = idDay
-        PeriodDictionary.periodToStringId[Period.WEEK] = idWeek
-        PeriodDictionary.periodToStringId[Period.ALL] = idAll
-
-        PeriodDictionary.stringToPeriod[getString(idDay)] = Period.DAY
-        PeriodDictionary.stringToPeriod[getString(idWeek)] = Period.WEEK
-        PeriodDictionary.stringToPeriod[getString(idAll)] = Period.ALL
+        PeriodDictionary.stringToPeriod[getString(R.string.today)] = Period.DAY
+        PeriodDictionary.stringToPeriod[getString(R.string.this_week)] = Period.WEEK
+        PeriodDictionary.stringToPeriod[getString(R.string.any_time)] = Period.ALL
 
         for ((value, name) in Priorities.dictionary) {
             val id = resources.getIdentifier(name, "string", packageName)
