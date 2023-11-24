@@ -19,6 +19,9 @@ import com.example.tranquitaskapp.data.Category
 import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.Period
+import com.example.tranquitaskapp.data.PeriodDictionary
+import com.example.tranquitaskapp.data.Priorities
 import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
@@ -93,6 +96,7 @@ class SignIn : Fragment() {
             User.coins = user.getLong("coins") ?: 0
             User.profile_picture = user.getString("profile_picture") ?: ""
             User.id = user.id
+            User.ref = user.reference
             val tasks = user.get("taches") as List<DocumentReference>
             // récupérer chaque tâche de l'utilisateur
             for (task in tasks) {
@@ -154,6 +158,7 @@ class SignIn : Fragment() {
                         icon = categoryDoc.getString("icon") ?: ""
                     )
                     CategoryDictionary.dictionary[categoryDoc.reference] = category
+                    CategoryDictionary.nameToDocumentReference[getString(resourceId)] = categoryDoc.reference
                 }
                 else {
                     Log.e("ERROR", "Ctegory name not found")
@@ -163,20 +168,23 @@ class SignIn : Fragment() {
             Log.e("ERROR", "Error finding categories : $e")
         }
 
-//        try {
-//            val priorityDocs = withContext(Dispatchers.IO) {
-//                Tasks.await(db.collection("tache_priorite").get())
-//            }
-//            for (priorityDoc in priorityDocs) {
-//                val priority = Priority (
-//                    name = priorityDoc.getString("name") ?: "",
-//                    value = priorityDoc.getLong("value")?.toInt() ?: 0
-//                )
-//                PriorityDictionnary.dictionary.put(priorityDoc.reference, priority)
-//            }
-//        } catch (e: Exception) {
-//            Log.e("ERROR", "Error finding priorities : $e")
-//        }
+        val idDay = resources.getIdentifier("today", "string", packageName)
+        val idWeek = resources.getIdentifier("this_week", "string", packageName)
+        val idAll = resources.getIdentifier("any_time", "string", packageName)
+
+        PeriodDictionary.periodToStringId[Period.DAY] = idDay
+        PeriodDictionary.periodToStringId[Period.WEEK] = idWeek
+        PeriodDictionary.periodToStringId[Period.ALL] = idAll
+
+        PeriodDictionary.stringToPeriod[getString(idDay)] = Period.DAY
+        PeriodDictionary.stringToPeriod[getString(idWeek)] = Period.WEEK
+        PeriodDictionary.stringToPeriod[getString(idAll)] = Period.ALL
+
+        for ((value, name) in Priorities.dictionary) {
+            val id = resources.getIdentifier(name, "string", packageName)
+            Priorities.dictionary[value] = getString(id)
+            Priorities.reversedDictionary[getString(id)] = value
+        }
 
         val fragment = Home()
         val transaction = fragmentManager?.beginTransaction()

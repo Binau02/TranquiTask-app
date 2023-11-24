@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp.adapter
 
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.data.FriendsModel
+import com.example.tranquitaskapp.fragment.Friends
 
-class FriendsRowAdapter(val data: List<FriendsModel>, val fragment : Fragment) :
+class FriendsRowAdapter(val data: List<FriendsModel>, val fragment : Friends, val isFriend : Boolean = true) :
     RecyclerView.Adapter<FriendsRowAdapter.MyViewHolder>() {
     class MyViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         val imageView: ImageView = row.findViewById(R.id.avatar)
         val pseudoView: TextView = row.findViewById(R.id.pseudo_row)
+        val button1: TextView = row.findViewById(R.id.yes)
+        val button2: TextView = row.findViewById(R.id.no)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -38,6 +42,12 @@ class FriendsRowAdapter(val data: List<FriendsModel>, val fragment : Fragment) :
         }
         else {
             holder.imageView.setImageResource(R.drawable.default_profil_picture)
+        }
+        if (!isFriend) {
+            holder.button1.visibility = View.VISIBLE
+            holder.button2.visibility = View.VISIBLE
+            holder.button1.setOnClickListener{fragment.acceptNewFriend(position)}
+            holder.button2.setOnClickListener{fragment.denyNewFriend(position)}
         }
     }
 

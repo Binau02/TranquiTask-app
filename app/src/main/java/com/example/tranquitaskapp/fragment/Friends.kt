@@ -44,23 +44,17 @@ class Friends : Fragment() {
 
     private val db = MyFirebase.getFirestoreInstance()
     private lateinit var rv: RecyclerView
-//    private val listFriendsModel = mutableListOf<FriendsModel>(
-//        FriendsModel("Pseudo 1",R.drawable.arbre_removebg),
-//        FriendsModel("Pseudo 2",R.drawable.leaderboard_icon),
-//        FriendsModel("Pseudo 3",R.drawable.or),
-//        FriendsModel("Pseudo 4",R.drawable.leaderboard_icon),
-//        FriendsModel("Pseudo 5",R.drawable.arbre_removebg),
-//        FriendsModel("Pseudo 6",R.drawable.add),
-//        FriendsModel("Pseudo 7",R.drawable.or),
-//        FriendsModel("Pseudo 8",R.drawable.leaderboard_icon),
-//        FriendsModel("Pseudo 9",R.drawable.add),
-//        FriendsModel("Pseudo 10",R.drawable.arbre_removebg),
-//    )
-    private val listFriendsModel = mutableListOf<FriendsModel>()
+
+    private val globalFriends = mutableListOf<FriendsModel>()
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
     private lateinit var badge : TextView
+
+    private var friendsSelected : Boolean = true
+    private val globalDemandes : MutableList<FriendsModel> = mutableListOf()
+    private lateinit var user : DocumentSnapshot
+    private lateinit var demandes : MutableList<DocumentReference>
 
     private suspend fun getFriends() {
         // récupérer les amis
@@ -98,35 +92,88 @@ class Friends : Fragment() {
                     addFriend(ami1Doc)
                 }
             }
-            rv.adapter = FriendsRowAdapter(listFriendsModel, this)
+            setFriends()
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding friend: $e")
         }
+    }
+
+    private suspend fun getDemandes() {
+        try {
+            user = withContext(Dispatchers.IO) {
+                Tasks.await(db.collection("user").document(User.id).get())
+            }
+            demandes = user.get("demandes") as MutableList<DocumentReference>
+            for (demandeDoc in demandes) {
+                try {
+                    val demande = withContext(Dispatchers.IO) {
+                        Tasks.await(demandeDoc.get())
+                    }
+                    globalDemandes.add(
+                        FriendsModel(
+                            pseudo = demande.getString("username") ?: "",
+                            avatar = demande.getString("profile_picture") ?: "",
+                            ref = demandeDoc
+                        )
+                    )
+                } catch (e : Exception) {
+                    Log.e("ERROR", "Error finding demande : $e")
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("ERROR", "Error finding user: $e")
+        }
+        if (!friendsSelected) {
+            setDemandes()
+        }
+        badge.text = globalDemandes.size.toString()
     }
 
     private fun addFriend(friendDoc : DocumentSnapshot?) {
         val name = friendDoc?.getString("username")
         val pp = friendDoc?.getString("profile_picture")
         if (name != null && pp != null){
-            listFriendsModel.add(FriendsModel(name, pp))
+            globalFriends.add(FriendsModel(name, pp))
         }
     }
 
-    private suspend fun getNotificationNumber() {
-        try {
-            val user = withContext(Dispatchers.IO) {
-                Tasks.await(db.collection("user").document(User.id).get())
-            }
-            val demandes = user.get("demandes") as List<DocumentReference>
-            if (demandes.isNotEmpty()) {
-                badge.text = demandes.size.toString()
-            }
-            else {
-                badge.visibility = View.INVISIBLE
-            }
-        } catch (e: Exception) {
-            Log.e("ERROR", "Error finding user: $e")
+    private fun setFriends() {
+        rv.adapter = FriendsRowAdapter(globalFriends, this)
+        if (globalDemandes.isNotEmpty()) {
+            badge.visibility = View.VISIBLE
         }
+        else {
+            badge.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun setDemandes() {
+        rv.adapter = FriendsRowAdapter(globalDemandes, this, false)
+        badge.visibility = View.INVISIBLE
+    }
+
+    fun acceptNewFriend(position: Int) {
+        val newFriend = hashMapOf(
+            "ami1" to User.ref,
+            "ami2" to globalDemandes[position].ref
+        )
+        db.collection("ami").add(newFriend)
+        globalFriends.add(globalDemandes[position])
+        deleteDemande(position)
+    }
+
+    fun denyNewFriend(position: Int) {
+        deleteDemande(position)
+    }
+
+    private fun deleteDemande(position: Int) {
+        demandes.remove(globalDemandes[position].ref)
+        user.reference.update("demandes", demandes).addOnFailureListener {e ->
+            Log.d("ERROR", "Error updating demandes of user : $e")
+        }
+        globalDemandes.removeAt(position)
+        badge.text = globalDemandes.size.toString()
+        setDemandes()
     }
 
 
@@ -139,10 +186,18 @@ class Friends : Fragment() {
     }
 
     private fun onClickFriends(){
-        Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()
+        if (!friendsSelected) {
+            friendsSelected = true
+            setFriends()
+        }
     }
     private fun onClickNewFriend(){
-        Toast.makeText(this.context, "Le bouton Demandes d'ami a été cliqué !", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this.context, "Le bouton Demandes d'ami a été cliqué !", Toast.LENGTH_SHORT).show()
+        if (friendsSelected) {
+            friendsSelected = false
+            setDemandes()
+        }
     }
     private fun onClickAddFriend(){
         Toast.makeText(this.context, "Le bouton Ajouter un ami a été cliqué !", Toast.LENGTH_SHORT).show()
@@ -185,7 +240,7 @@ class Friends : Fragment() {
             getFriends()
         }
         lifecycleScope.launch {
-            getNotificationNumber()
+            getDemandes()
         }
 
         rv.layoutManager = LinearLayoutManager(requireContext())

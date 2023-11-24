@@ -51,5 +51,6 @@
     <string name="end">END</string>
     <string name="task_filter">Filtre des tâches</string>
     <string name="period">Période</string>
+    <string name="all">Tout</string>
 
 </resources>

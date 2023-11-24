@@ -14,7 +14,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.data.CategoryDictionary
-import com.example.tranquitaskapp.data.LeaderboardFilter
+import com.example.tranquitaskapp.data.ListTaskFilter
 import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.data.Period
 import com.example.tranquitaskapp.data.Priorities
@@ -57,6 +57,9 @@ class ListTaches : Fragment(), TaskButtonClickListener {
 
     private fun onClickFiltre(){
         Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()
+        val fragment = ListTaskFilter()
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
     private fun onClickBack(){
         val fragment = Home()
@@ -71,7 +74,7 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         val home = Home()
 
         // filter by period
-        tasks = when (LeaderboardFilter.period) {
+        tasks = when (ListTaskFilter.period) {
             Period.DAY -> {
                 ListTask.list.filter { task -> home.isToday(task.deadline) }
             }
@@ -84,13 +87,13 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         }
 
         // filter by category
-        if (LeaderboardFilter.category != null) {
-            tasks = tasks.filter { task -> task.categorie == LeaderboardFilter.category }
+        if (ListTaskFilter.category != null) {
+            tasks = tasks.filter { task -> task.categorie == ListTaskFilter.category }
         }
 
         // filter by priority
-        if (LeaderboardFilter.priority != -1) {
-            tasks = tasks.filter { task -> task.priorite == LeaderboardFilter.priority }
+        if (ListTaskFilter.priority != -1) {
+            tasks = tasks.filter { task -> task.priorite == ListTaskFilter.priority }
         }
 
         // filter by searching
@@ -105,11 +108,9 @@ class ListTaches : Fragment(), TaskButtonClickListener {
 
         for (task in tasks) {
             val taskCategory = CategoryDictionary.dictionary[task.categorie]
-            val taskPriority = Priorities.dictionary[task.priorite]
-            val priorityStringId = resources?.getIdentifier(taskPriority, "string", packageName)
             val imageId = resources?.getIdentifier(taskCategory?.icon ?: "", "drawable", packageName)
 
-            if (taskCategory != null && taskPriority != null && imageId != null && priorityStringId != null && task.deadline != null) {
+            if (taskCategory != null && imageId != null && task.deadline != null) {
                 listeTacheModel.add(
                     TacheModel(
                         "",
@@ -120,14 +121,14 @@ class ListTaches : Fragment(), TaskButtonClickListener {
                         task.duree,
                         SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                             .format(task.deadline!!.toDate()),
-                        getString(priorityStringId),
+                        Priorities.dictionary[task.priorite] ?: "",
                         taskCategory.name
                     )
                 )
             }
         }
 
-        rv.adapter = ListeTachesRowAdapter(listeTacheModel, this){
+        rv.adapter = ListeTachesRowAdapter(listeTacheModel, this) {
             val fragment = ListTaches()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()

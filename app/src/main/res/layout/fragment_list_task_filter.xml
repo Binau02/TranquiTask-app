@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListTaskFilter">
+    tools:context=".fragment.ListTaskFilter">
 
     <LinearLayout
         android:id="@+id/title_bar"
@@ -87,24 +87,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/period_bar">
 
-                <RadioButton
-                    android:id="@+id/period_radioButton1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/today" />
-
-                <RadioButton
-                    android:id="@+id/period_radioButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/this_week" />
-
-                <RadioButton
-                    android:id="@+id/period_radioButton3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/any_time" />
-
             </RadioGroup>
         </LinearLayout>
 
@@ -151,20 +133,55 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view">
 
-                <RadioButton
-                    android:id="@+id/category_radioButton1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hobbies" />
+            </RadioGroup>
+        </LinearLayout>
 
-                <RadioButton
-                    android:id="@+id/category_radioButton2"
+        <!-- Layout for one category -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/priority_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/arrow_down" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="... (à générer par le code)" />
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="@string/task_priority"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/priority_bar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/category_name"/>
+
+            <RadioGroup
+                android:id="@+id/priority_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view">
 
             </RadioGroup>
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
