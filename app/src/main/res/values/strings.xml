@@ -55,6 +55,7 @@
     <string name="enter_email_friend">Enter the email address of your friend.</string>
     <string name="add_friend">Add a friend</string>
     <string name="friend_not_exist">This email is unknown</string>
+    <string name="buy">Buy</string>
 
 
 </resources>
