@@ -108,9 +108,12 @@ class Home : Fragment() {
             }
         }
         else {
+            val packageName = context?.packageName
+
             listCategoryModel.add(
                 CategoryModel(
-                    "no_task",
+//                    getString(resources.getIdentifier("no_task", "string", packageName)),
+                    getString(R.string.no_task),
                     "empty",
                     0
                 )
