@@ -1,6 +1,9 @@
 package com.example.tranquitaskapp.fragment
 
+import ScreenStateReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -18,7 +21,9 @@ import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.Timestamp
 
-class StartTask(private val task: Task) : Fragment() {
+class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.ScreenStateListener {
+
+    private lateinit var screenStateReceiver: ScreenStateReceiver
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
     private lateinit var textViewTimer: TextView
@@ -32,6 +37,7 @@ class StartTask(private val task: Task) : Fragment() {
     private var timerRunning = false
 
     private var isStopOnce = false
+    private var isSreenOFF_once = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,7 +60,10 @@ class StartTask(private val task: Task) : Fragment() {
         buttonValider.visibility = View.INVISIBLE
         buttonPause.visibility = View.INVISIBLE
 
+        // Initialisation du BroadcastReceiver
+        screenStateReceiver = ScreenStateReceiver(this)
 
+        // Bouton
         buttonStart.setOnClickListener {
             startTimer()
             buttonStart.visibility = View.INVISIBLE
@@ -73,6 +82,9 @@ class StartTask(private val task: Task) : Fragment() {
         }
 
         updateTimer()
+
+        //Toast.makeText(this.context, "OC | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
+
 
         return view
     }
@@ -116,8 +128,6 @@ class StartTask(private val task: Task) : Fragment() {
     }
 
     private fun startTimer() {
-        val packageName = this.context?.packageName
-
         countdownTimer = object : CountDownTimer(timeLeftMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeLeftMillis = millisUntilFinished
@@ -127,7 +137,7 @@ class StartTask(private val task: Task) : Fragment() {
             override fun onFinish() {
                 timerRunning = false
                 updateTimer()
-                textViewTimer.text = getString(resources.getIdentifier("end", "string", packageName))
+                textViewTimer.text = getString(R.string.end)
                 // onClickValidate()
             }
         }.start()
@@ -165,10 +175,25 @@ class StartTask(private val task: Task) : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        // Toast.makeText(this.context, "OS_1 | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
         if (isStopOnce and timerRunning){
             Toast.makeText(this.context, "Vous avez quitté l'application donc vous ne gagnez pas de coins", Toast.LENGTH_LONG).show()
             cancelTimer()
         }
+
+        if (isSreenOFF_once){
+            Toast.makeText(this.context, "écran OFF", Toast.LENGTH_LONG).show()
+            // cancelTimer()
+        }
+
+        // Enregistrement du BroadcastReceiver
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_OFF)
+            addAction(Intent.ACTION_SCREEN_ON)
+        }
+        activity?.registerReceiver(screenStateReceiver, filter)
+
+        // Toast.makeText(this.context, "OS_2 | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStop() {
@@ -178,6 +203,21 @@ class StartTask(private val task: Task) : Fragment() {
             Toast.makeText(this.context, "Vous avez quitté la page donc vous ne gagnez pas de coins", Toast.LENGTH_LONG)
                 .show()
         }
+        // Désenregistrement du BroadcastReceiver
+        activity?.unregisterReceiver(screenStateReceiver)
+    }
+
+    // Méthodes de l'interface ScreenStateListener
+    override fun onScreenOff() {
+        // L'écran est verrouillé, l'utilisateur peut avoir quitté l'application
+        isSreenOFF_once = true
+        Toast.makeText(this.context, "off", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onScreenOn() {
+        // L'écran est déverrouillé, l'utilisateur peut être revenu à l'application
+        isSreenOFF_once = false
+        Toast.makeText(this.context, "on", Toast.LENGTH_SHORT).show()
     }
 
 }

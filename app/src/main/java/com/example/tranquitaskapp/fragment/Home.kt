@@ -110,7 +110,7 @@ class Home : Fragment() {
         else {
             listCategoryModel.add(
                 CategoryModel(
-                    "no_task",
+                    getString(R.string.no_task),
                     "empty",
                     0
                 )
