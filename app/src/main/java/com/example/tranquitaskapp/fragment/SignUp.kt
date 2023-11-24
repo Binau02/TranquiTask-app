@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.example.tranquitaskapp.R
@@ -91,7 +93,7 @@ class SignUp : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_up, container, false)
         val buttonSignUp = view.findViewById<Button>(R.id.btnSignUp)
-        val buttonCancel = view.findViewById<Button>(R.id.btnCancel)
+        val buttonCancel = view.findViewById<TextView>(R.id.btnCancel)
 
         buttonSignUp.setOnClickListener {
             val reg_mail = view.findViewById<EditText>(R.id.reg_mail)

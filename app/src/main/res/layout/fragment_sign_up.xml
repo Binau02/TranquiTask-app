@@ -1,157 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bg">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/my_primary"
-        android:alpha="0.7"/>
-
+    android:background="@drawable/bg_login">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="28dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="38sp"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@color/white"/>
-
-
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:cardCornerRadius="28dp"
-        android:layout_marginBottom="-20dp"
-        android:id="@+id/card_view">
-
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/welcome"
-                android:textColor="@color/my_primary"
-                android:textSize="32sp"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="30dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/pacifico"
+                        android:text="Tranqui'Task"
+                        android:textColor="@color/white"
+                        android:textSize="55dp"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="3"/>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"/>
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email"
-                android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/reg_mail"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_login_background"
+                    android:elevation="12dp"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/logo" />
+                </RelativeLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/username"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/reg_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:text="@string/password"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/reg_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/password_icon"
-                android:inputType="textPassword" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:text="@string/ConfirmPassword"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/reg_passwordconfirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/password_icon"
-                android:inputType="textPassword" />
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:layout_alignParentTop="true">
 
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="30dp" />
 
 
-            <Button
-                android:id="@+id/btnSignUp"
-                android:layout_width="369dp"
-                android:layout_height="60dp"
-                android:text="@string/signin" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="0dp"
+                    android:padding="10dp"
+                    android:id="@+id/card_view"
+                    android:background="@color/my_primary_light">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:background="@color/my_primary_light">
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Menu Inscription"
+                                android:textStyle="bold"
+                                android:textSize="24dp"/>
+                        </LinearLayout>
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp"/>
+                        <EditText
+                            android:id="@+id/reg_mail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Email"
+                            android:inputType="textEmailAddress"/>
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp"/>
+                        <EditText
+                            android:id="@+id/reg_username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/username"
+                            android:inputType="text|textNoSuggestions"/>
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp"/>
+                        <EditText
+                            android:id="@+id/reg_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/password_icon"
+                            android:hint="@string/password"
+                            android:inputType="textPassword"/>
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp"/>
+                        <EditText
+                            android:id="@+id/reg_passwordconfirm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/password_icon"
+                            android:hint="@string/ConfirmPassword"
+                            android:inputType="textPassword"/>
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp"/>
+                        <LinearLayout
+                            android:id="@+id/linearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+                            </RelativeLayout>
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:padding="6dp">
+                                    <Button
+                                        android:id="@+id/btnSignUp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="60dp"
+                                        android:text="@string/signin"
+                                        android:elevation="15dp"
+                                        android:background="@color/my_secondary"/>
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+                            </RelativeLayout>
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3">
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:padding="6dp">
+
+                                    <TextView
+                                        android:id="@+id/btnCancel"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Retour"/>
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="20dp" />
 
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="369dp"
-                android:layout_height="60dp"
-                android:text="Cancel" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="20dp" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
