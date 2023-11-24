@@ -83,7 +83,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
         updateTimer()
 
-        Toast.makeText(this.context, "OC | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this.context, "OC | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
 
 
         return view
@@ -177,7 +177,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
     override fun onStart() {
         super.onStart()
-        Toast.makeText(this.context, "OS_1 | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(this.context, "OS_1 | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
         if (isStopOnce and timerRunning){
             Toast.makeText(this.context, "Vous avez quitté l'application donc vous ne gagnez pas de coins", Toast.LENGTH_LONG).show()
             cancelTimer()
@@ -195,7 +195,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         }
         activity?.registerReceiver(screenStateReceiver, filter)
 
-        Toast.makeText(this.context, "OS_2 | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(this.context, "OS_2 | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStop() {

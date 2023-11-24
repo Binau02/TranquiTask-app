@@ -37,18 +37,13 @@ class Profile : Fragment() {
         bottomBarListener?.setBottomBarVisibility(this)
     }
 
-    /*
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private fun replaceFragment(fragment: Fragment){
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
-     */
+
     private fun onClickModifProfile(){
-        Toast.makeText(this.context, "Le bouton Modifier profil a été cliqué !", Toast.LENGTH_SHORT)
-            .show()
+        replaceFragment(ModifyProfile())
     }
     private fun onClickScenery(){
         Toast.makeText(this.context, "Le bouton Modifier Décor a été cliqué !", Toast.LENGTH_SHORT).show()
@@ -56,6 +51,7 @@ class Profile : Fragment() {
     private fun onClickShop(){
         Toast.makeText(this.context, "Le bouton Boutique a été cliqué !", Toast.LENGTH_SHORT).show()
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
