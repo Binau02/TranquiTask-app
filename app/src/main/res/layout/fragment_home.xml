@@ -1,92 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.Home">
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/profileimage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="200dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/default_profil_picture"
-        app:shapeAppearanceOverlay="@style/roundedimageview" />
-
-    <com.example.tranquitaskapp.ui.CircularProgressBar
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="200dp"
-        android:padding="100dp"
-        app:percentage="100.01" />
-
-    <com.example.tranquitaskapp.ui.CircularProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="200dp"
-        android:padding="100dp"
-        app:percentage="0" />
-
+    tools:context=".fragment.Test">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginBottom="175dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/todayButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:text="@string/today"
-            android:onClick="test"
-            android:textColor="@color/white" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_below="@+id/Bottomlayout">
 
-        <Button
-            android:id="@+id/weekButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:text="@string/this_week"
-            android:textColor="@color/white" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="40dp"
+                android:layout_marginTop="-60dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/my_primary"
+                    android:gravity="center_horizontal|bottom">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/relativeLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal">
+                        <!-- Image circulaire -->
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/profileimage"
+                            android:layout_width="125dp"
+                            android:layout_height="125dp"
+                            android:src="@drawable/default_profil_picture"
+                            app:layout_constraintBottom_toBottomOf="@+id/circularProgressBar2"
+                            app:layout_constraintEnd_toEndOf="@+id/circularProgressBar2"
+                            app:layout_constraintStart_toStartOf="@+id/circularProgressBar2"
+                            app:layout_constraintTop_toTopOf="@+id/circularProgressBar2"
+                            app:layout_constraintVertical_bias="0.51"
+                            app:shapeAppearanceOverlay="@style/roundedimageview" />
+
+                        <com.example.tranquitaskapp.ui.CircularProgressBar
+                            android:id="@+id/circularProgressBar2"
+                            android:layout_width="250dp"
+                            android:layout_height="250dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="61dp"
+                            android:padding="100dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.513"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:percentage="100.01" />
+
+                        <com.example.tranquitaskapp.ui.CircularProgressBar
+                            android:id="@+id/progressBar"
+                            android:layout_width="250dp"
+                            android:layout_height="250dp"
+                            android:layout_gravity="center"
+                            android:padding="100dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/circularProgressBar2"
+                            app:layout_constraintEnd_toEndOf="@+id/circularProgressBar2"
+                            app:layout_constraintStart_toStartOf="@+id/circularProgressBar2"
+                            app:layout_constraintTop_toTopOf="@+id/circularProgressBar2"
+                            app:layout_constraintVertical_bias="0.51"
+                            app:percentage="0" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/Bottomlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_marginTop="-50dp">>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="30dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:background="@color/my_primary_light">
+
+                        <RelativeLayout
+                            android:id="@+id/todayButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_weight="2"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:background="@color/my_primary_light">
+                            <TextView
+                                android:id="@+id/tvToday"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/today"
+                                android:textSize="20dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/my_dark"/>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/weekButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_weight="2"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:background="@color/my_dark">
+                            <TextView
+                                android:id="@+id/tvWeek"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/this_week"
+                                android:textStyle="bold"
+                                android:textSize="20dp"
+                                android:textColor="@color/my_primary_light"/>
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv"
+                        android:layout_width="370dp"
+                        android:layout_height="320dp"
+                        android:layout_gravity="center"
+                        android:paddingTop="20dp">
+                    </androidx.recyclerview.widget.RecyclerView>
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".YourActivity"
+                >
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/list_icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:backgroundTint="@color/my_secondary"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="370dp"
-        android:layout_height="320dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="150dp">
-
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".YourActivity">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab2"
-            android:src="@drawable/list_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</RelativeLayout>

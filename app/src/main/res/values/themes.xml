@@ -5,7 +5,7 @@
 
     <style name="roundedimageview" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50dp</item>
+        <item name="cornerSize">63dp</item>
         <item name="color">@color/white</item>
     </style>
 

@@ -4,8 +4,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.example.tranquitaskapp.R
 import kotlin.math.sin
 import kotlin.math.cos
@@ -32,6 +34,9 @@ class CircularProgressBar(context: Context, attrs: AttributeSet) : View(context,
     public override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        val my_dark = ContextCompat.getColor(context, R.color.my_dark)
+        val my_primary_light = ContextCompat.getColor(context, R.color.my_primary_light)
+
         val centerX = width / 2f
         val centerY = height / 2f
 //        val radius = (Math.min(centerX, centerY) * 0.9).toFloat()
@@ -41,9 +46,9 @@ class CircularProgressBar(context: Context, attrs: AttributeSet) : View(context,
         val radius = ((Math.min(centerX, centerY) - padding) * 0.9).toFloat()
 
         if(percentage<=100f) {
-            paint.color = Color.BLACK // Couleur de la barre de progression
+            paint.color = my_dark // Couleur de la barre de progression
         }else{
-            paint.color = Color.LTGRAY // Couleur de la barre de progression
+            paint.color = my_primary_light // Couleur de la barre de progression
         }
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 50f // Largeur de la barre
@@ -65,8 +70,9 @@ class CircularProgressBar(context: Context, attrs: AttributeSet) : View(context,
 
             val text = "$percentage%" // Texte à afficher
             paint.color = Color.WHITE // Couleur du texte
-            paint.textSize = 40f // Taille du texte
+            paint.textSize = 37f // Taille du texte
             paint.textAlign = Paint.Align.CENTER
+            paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
             canvas.drawText(text, circleX, circleY + paint.textSize / 2, paint)
         }
 

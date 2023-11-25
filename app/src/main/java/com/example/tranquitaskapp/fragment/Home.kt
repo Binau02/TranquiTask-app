@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.data.Category
@@ -35,8 +38,21 @@ class Home : Fragment() {
     private var day : Boolean = true
 
 
+    var currentState: ButtonState = ButtonState.TODAY
+
+    enum class ButtonState {
+        TODAY, WEEK
+    }
+
+
+    // Définissez les couleurs
+    private var colorPrimary: Int = 0
+    private var colorDark: Int = 0
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        colorPrimary = ContextCompat.getColor(requireContext(), R.color.my_primary_light)
+        colorDark = ContextCompat.getColor(requireContext(), R.color.my_dark)
         if (context is BottomBarVisibilityListener) {
             bottomBarListener = context
         }
@@ -44,6 +60,7 @@ class Home : Fragment() {
     }
 
     private fun onClickToday() {
+
         if (!day) {
             day = true
             setTasks(true)
@@ -171,8 +188,11 @@ class Home : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         rv = view.findViewById(R.id.rv)
         progressBar = view.findViewById(R.id.progressBar)
-        val buttonToday = view.findViewById<Button>(R.id.todayButton)
-        val buttonWeek = view.findViewById<Button>(R.id.weekButton)
+        val tvToday = view.findViewById<TextView>(R.id.tvToday)
+        val tvWeek = view.findViewById<TextView>(R.id.tvWeek)
+
+        val buttonToday = view.findViewById<RelativeLayout>(R.id.todayButton)
+        val buttonWeek = view.findViewById<RelativeLayout>(R.id.weekButton)
         val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.fab2)
 
@@ -187,10 +207,28 @@ class Home : Fragment() {
 
 
         buttonToday.setOnClickListener {
-            onClickToday()
+            if (currentState != ButtonState.TODAY) {
+                // Mettez à jour l'état et les couleurs
+                currentState = ButtonState.TODAY
+                buttonToday.setBackgroundColor(colorPrimary)
+                buttonWeek.setBackgroundColor(colorDark)
+                tvToday.setTextColor(colorDark)
+                tvWeek.setTextColor(colorPrimary)
+                // Appel de la fonction associée au clic sur "Today"
+                onClickToday()
+            }
         }
         buttonWeek.setOnClickListener {
-            onClickWeek()
+            if (currentState != ButtonState.WEEK) {
+                // Mettez à jour l'état et les couleurs
+                currentState = ButtonState.WEEK
+                buttonWeek.setBackgroundColor(colorPrimary)
+                buttonToday.setBackgroundColor(colorDark)
+                tvWeek.setTextColor(colorDark)
+                tvToday.setTextColor(colorPrimary)
+                // Appel de la fonction associée au clic sur "Week"
+                onClickWeek()
+            }
         }
         rv.layoutManager = LinearLayoutManager(requireContext())
 
