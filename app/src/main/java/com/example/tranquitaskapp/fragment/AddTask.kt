@@ -106,7 +106,7 @@ class AddTask : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_addtask, container, false)
-        val saveBtn : Button = view.findViewById(R.id.btnSave)
+        val saveBtn = view.findViewById<ImageView>(R.id.btnSave)
         imgTimeView = view.findViewById(R.id.imgTimeView)
         val tvSelectedTime = view.findViewById<TextView>(R.id.tvSelectedTime)
         val spinnerCategory = view.findViewById<Spinner>(R.id.spinnerCategory)

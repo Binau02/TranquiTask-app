@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
@@ -192,7 +193,7 @@ class SignIn : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_in, container, false)
-        val buttonSignIn = view.findViewById<Button>(R.id.btnLogIn)
+        val buttonSignIn = view.findViewById<ImageView>(R.id.btnLogIn)
         val textSignUp = view.findViewById<TextView>(R.id.tvSignIn)
         val logUsername = view.findViewById<EditText>(R.id.log_username)
         val forgotPassword = view.findViewById<TextView>(R.id.tvForgotPassword)

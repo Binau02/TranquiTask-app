@@ -2,14 +2,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/light_gray" /> <!-- Couleur de fond lorsqu'appuyé -->
-            <corners android:radius="20dp" /> <!-- Rayon pour les coins arrondis -->
+            <solid android:color="@color/my_secondary_light" /> <!-- Couleur de fond lorsqu'appuyé -->
+            <corners android:radius="30dp" /> <!-- Rayon pour les coins arrondis -->
         </shape>
     </item>
     <item>
         <shape>
-            <solid android:color="@color/white" /> <!-- Couleur de fond par défaut -->
-            <corners android:radius="20dp" /> <!-- Rayon pour les coins arrondis -->
+            <solid android:color="@color/my_secondary" /> <!-- Couleur de fond par défaut -->
+            <corners android:radius="30dp" /> <!-- Rayon pour les coins arrondis -->
         </shape>
     </item>
 </selector>

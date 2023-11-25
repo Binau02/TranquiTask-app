@@ -92,7 +92,7 @@ class SignUp : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_up, container, false)
-        val buttonSignUp = view.findViewById<Button>(R.id.btnSignUp)
+        val buttonSignUp = view.findViewById<ImageView>(R.id.btnSignUp)
         val buttonCancel = view.findViewById<TextView>(R.id.btnCancel)
 
         buttonSignUp.setOnClickListener {
