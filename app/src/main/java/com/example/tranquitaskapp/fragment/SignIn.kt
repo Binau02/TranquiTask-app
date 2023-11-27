@@ -90,13 +90,15 @@ class SignIn : Fragment() {
                 Tasks.await(db.collection("user").whereEqualTo("email", email).get())
             }
             val user = userDocs.documents[0]
-
+            Log.d("TEST","Boup1 " + user.data?.get("username").toString())
             User.username = user.getString("username") ?: ""
             User.mail = email
             User.coins = user.getLong("coins") ?: 0
             User.profile_picture = user.getString("profile_picture") ?: ""
             User.id = user.id
             User.ref = user.reference
+            Log.d("TEST","Boup " + user.getString("username").toString())
+
             val tasks = user.get("taches") as List<DocumentReference>
             // récupérer chaque tâche de l'utilisateur
             for (task in tasks) {
