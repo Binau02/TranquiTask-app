@@ -10,6 +10,7 @@ import android.widget.ImageView
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.firebase.MyFirebase
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import com.example.tranquitaskapp.data.User
 import com.google.firebase.firestore.FieldValue
@@ -41,14 +42,30 @@ class AddFriend : Fragment() {
         }
     }
 
+    private fun replaceFragment(fragment: Fragment){
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+    }
+
+    private fun onClickBack(){
+        replaceFragment(Friends())
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_friend, container, false)
 
+        val buttonBack = view.findViewById<ImageView>(R.id.back)
+
         view.findViewById<ImageView>(R.id.search).setOnClickListener {
             addFriend(view)
+        }
+
+        buttonBack.setOnClickListener {
+            onClickBack()
         }
 
         return view
