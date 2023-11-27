@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/back2"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="←"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/reg_logo"
         android:layout_width="wrap_content"
@@ -34,7 +45,7 @@
         android:id="@+id/button_pause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pause"
+        android:text="@string/break_str"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_start"
         app:layout_constraintTop_toBottomOf="@+id/countdown"
@@ -44,7 +55,7 @@
         android:id="@+id/button_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="START"
+        android:text="@string/start"
         app:layout_constraintStart_toEndOf="@+id/button_pause"
         app:layout_constraintEnd_toStartOf="@+id/button_valider"
         app:layout_constraintTop_toBottomOf="@+id/countdown"
@@ -54,7 +65,7 @@
         android:id="@+id/button_valider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Valider"
+        android:text="@string/validate"
         app:layout_constraintStart_toEndOf="@+id/button_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/countdown"

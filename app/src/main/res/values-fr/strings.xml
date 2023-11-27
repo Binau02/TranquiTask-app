@@ -56,7 +56,9 @@
     <string name="add_friend">Ajouter un ami</string>
     <string name="friend_not_exist">Cet email est inconnu</string>
     <string name="buy">Acheter</string>
-
+    <string name="add">Ajouter</string>
+    <string name="break_str">Pause</string>
+    <string name="start">Démarrer</string>
 
 
 </resources>

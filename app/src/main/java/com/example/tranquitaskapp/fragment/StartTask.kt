@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.R
@@ -47,6 +48,15 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         bottomBarListener?.setBottomBarVisibility(this)
     }
 
+    private fun replaceFragment(fragment: Fragment){
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+    }
+
+    private fun onClickBack(){
+        replaceFragment(ListTaches())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +67,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         buttonValider = view.findViewById(R.id.button_valider)
         buttonPause = view.findViewById(R.id.button_pause)
         textViewTimer = view.findViewById(R.id.countdown)
+        val buttonBack = view.findViewById<Button>(R.id.back2)
         buttonValider.visibility = View.INVISIBLE
         buttonPause.visibility = View.INVISIBLE
 
@@ -69,6 +80,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
             buttonStart.visibility = View.INVISIBLE
             buttonValider.visibility = View.VISIBLE
             buttonPause.visibility = View.VISIBLE
+            buttonBack.visibility = View.INVISIBLE
         }
         buttonPause.setOnClickListener {
             pauseTimer()
@@ -79,6 +91,9 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         buttonValider.setOnClickListener {
             timerRunning = false
             onClickValidate()
+        }
+        buttonBack.setOnClickListener {
+            onClickBack()
         }
 
         updateTimer()
