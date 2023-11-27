@@ -98,8 +98,12 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
         updateTimer()
 
-        //Toast.makeText(this.context, "OC | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
-
+        // Enregistrement du BroadcastReceiver
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_OFF)
+            addAction(Intent.ACTION_SCREEN_ON)
+        }
+        activity?.registerReceiver(screenStateReceiver, filter)
 
         return view
     }
@@ -188,27 +192,17 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         // buttonStart.text = if (timerRunning) "Pause" else "Start"
     }
 
-    override fun onStart() {
-        super.onStart()
-        // Toast.makeText(this.context, "OS_1 | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
-        if (isStopOnce and timerRunning){
+
+
+    override fun onResume() {
+        super.onResume()
+        if (isStopOnce and timerRunning and !isSreenOFF_once){
             Toast.makeText(this.context, "Vous avez quitté l'application donc vous ne gagnez pas de coins", Toast.LENGTH_LONG).show()
             cancelTimer()
         }
-
         if (isSreenOFF_once){
-            Toast.makeText(this.context, "écran OFF", Toast.LENGTH_LONG).show()
-            // cancelTimer()
+            isSreenOFF_once = false
         }
-
-        // Enregistrement du BroadcastReceiver
-        val filter = IntentFilter().apply {
-            addAction(Intent.ACTION_SCREEN_OFF)
-            addAction(Intent.ACTION_SCREEN_ON)
-        }
-        activity?.registerReceiver(screenStateReceiver, filter)
-
-        // Toast.makeText(this.context, "OS_2 | screen off : ${isSreenOFF_once}", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStop() {
@@ -218,21 +212,26 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
             Toast.makeText(this.context, "Vous avez quitté la page donc vous ne gagnez pas de coins", Toast.LENGTH_LONG)
                 .show()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         // Désenregistrement du BroadcastReceiver
         activity?.unregisterReceiver(screenStateReceiver)
     }
+
 
     // Méthodes de l'interface ScreenStateListener
     override fun onScreenOff() {
         // L'écran est verrouillé, l'utilisateur peut avoir quitté l'application
         isSreenOFF_once = true
-        Toast.makeText(this.context, "off", Toast.LENGTH_SHORT).show()
     }
 
     override fun onScreenOn() {
         // L'écran est déverrouillé, l'utilisateur peut être revenu à l'application
-        isSreenOFF_once = false
-        Toast.makeText(this.context, "on", Toast.LENGTH_SHORT).show()
+        // isSreenOFF_once = false
     }
+
+
 
 }
