@@ -1,6 +1,7 @@
 package com.example.tranquitaskapp.fragment
 
 import android.content.Context
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -164,9 +166,9 @@ class Leaderboard : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_leaderboard, container, false)
         rv = view.findViewById(R.id.rv_leaderboard)
-        val buttonFiltre = view.findViewById<Button>(R.id.filtre)
-        val buttonChangeL = view.findViewById<Button>(R.id.fleche_gauche)
-        val buttonChangeR = view.findViewById<Button>(R.id.fleche_droite)
+        val buttonFiltre = view.findViewById<ImageView>(R.id.filtre)
+        val buttonChangeL = view.findViewById<ImageView>(R.id.fleche_gauche)
+        val buttonChangeR = view.findViewById<ImageView>(R.id.fleche_droite)
         textCategorie = view.findViewById(R.id.text_middle_categorie)
 
         lifecycleScope.launch {
