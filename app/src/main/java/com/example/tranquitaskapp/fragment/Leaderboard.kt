@@ -164,6 +164,11 @@ class Leaderboard : Fragment() {
 
         for ((category, categoryCompetitors) in competitors) {
             leaderboard[category] = categoryCompetitors.values.sortedByDescending { it.coin }.take(10)
+            var i = 0
+            for (model in leaderboard[category]!!) {
+                i++
+                model.rank = "#" + i.toString()
+            }
         }
 
         setLeaderboard()
