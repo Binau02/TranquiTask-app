@@ -138,13 +138,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="90dp"
-                                android:background="@color/my_primary_light"
+                                android:background="@color/my_secondary_light"
                                 android:orientation="vertical">
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="50dp"/>
+                                    android:layout_height="60dp"/>
                                 <TextView
+                                    android:id="@+id/pseudoThird"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Pseudo"
@@ -182,12 +183,36 @@
 
                             </LinearLayout>
                             <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/avatarLeft"
+                                android:id="@+id/avatarThird"
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_marginTop="50dp"
+                                android:elevation="10dp"
                                 android:src="@drawable/default_profil_picture"
                                 android:layout_centerHorizontal="true"/>
+                            <RelativeLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:elevation="15dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="110dp"
+                                >
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:elevation="10dp"
+                                    android:src="@drawable/rounded_third"
+                                    android:layout_centerHorizontal="true"
+                                    />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="3"
+                                    android:elevation="15dp"
+                                    android:textStyle="bold"
+                                    android:textSize="19dp"/>
+                            </RelativeLayout>
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -208,8 +233,9 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="50dp"/>
+                                    android:layout_height="60dp"/>
                                 <TextView
+                                    android:id="@+id/pseudoFirst"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Pseudo"
@@ -219,8 +245,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_centerVertical="true"
-                                    android:gravity="center"
-                                    >
+                                    android:gravity="center">
 
                                     <TextView
                                         android:id="@+id/coin_amount_first"
@@ -243,12 +268,38 @@
 
                                 </RelativeLayout>
                             </LinearLayout>
+
                             <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/avatarMiddle"
+                                android:id="@+id/avatarFirst"
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
+                                android:elevation="10dp"
                                 android:src="@drawable/default_profil_picture"
                                 android:layout_centerHorizontal="true"/>
+                            <RelativeLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:elevation="15dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="60dp"
+                                >
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:elevation="10dp"
+                                    android:src="@drawable/rounded_first"
+                                    android:layout_centerHorizontal="true"
+                                    />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="1"
+                                    android:elevation="15dp"
+                                    android:textStyle="bold"
+                                    android:textSize="19dp"/>
+                            </RelativeLayout>
+
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -263,13 +314,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="65dp"
-                                android:background="@color/my_primary_light"
+                                android:background="@color/my_secondary_light"
                                 android:orientation="vertical">
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="50dp"/>
+                                    android:layout_height="60dp"/>
                                 <TextView
+                                    android:id="@+id/pseudoSecond"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Pseudo"
@@ -304,12 +356,36 @@
                                 </RelativeLayout>
                             </LinearLayout>
                             <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/avatarRight"
+                                android:id="@+id/avatarSecond"
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_marginTop="25dp"
+                                android:elevation="10dp"
                                 android:src="@drawable/default_profil_picture"
                                 android:layout_centerHorizontal="true"/>
+                            <RelativeLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:elevation="15dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="85dp"
+                                >
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:elevation="10dp"
+                                    android:src="@drawable/rounded_second"
+                                    android:layout_centerHorizontal="true"
+                                    />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:text="2"
+                                    android:elevation="15dp"
+                                    android:textStyle="bold"
+                                    android:textSize="19dp"/>
+                            </RelativeLayout>
                         </RelativeLayout>
 
                     </LinearLayout>
