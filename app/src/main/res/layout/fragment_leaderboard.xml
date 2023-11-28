@@ -33,12 +33,12 @@
                         android:layout_height="70dp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <View
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="3"/>
+                            android:layout_weight="1"/>
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                             android:id="@+id/filtre"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:src="@drawable/filter"/>
                     </LinearLayout>
                     <View
@@ -124,12 +124,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingHorizontal="40dp"
-                        android:paddingBottom="50dp"
+                        android:paddingBottom="40dp"
+                        android:paddingTop="5dp"
                         android:gravity="bottom">
 
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="210dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="2"
                             android:gravity="center|top">
 
@@ -218,7 +219,7 @@
                         <RelativeLayout
                             android:id="@+id/LayoutMiddle"
                             android:layout_width="0dp"
-                            android:layout_height="210dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="2"
                             android:gravity="center|top">
 
@@ -304,7 +305,7 @@
 
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="210dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="2"
                             android:gravity="center|top">
 
@@ -400,13 +401,14 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:layout_below="@+id/relativeLayout"
-            android:layout_marginTop="-50dp">>
+            android:layout_marginTop="-30dp">>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="10dp">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
