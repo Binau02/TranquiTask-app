@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,8 @@ class ListTaches : Fragment() {
     }
 
     private fun onEditImageClick(position: Int) {
+        Log.d("POSITION",position.toString())
+        Log.d("POSITION", ListTask.list.toString())
         val fragment = ModifyTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
@@ -175,6 +178,7 @@ class ListTaches : Fragment() {
         rv.layoutManager = LinearLayoutManager(requireContext())
 
         setTasks()
+        Log.d("Liste", ListTask.list.count().toString())
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 

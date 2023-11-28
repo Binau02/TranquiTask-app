@@ -1,6 +1,7 @@
 package com.example.tranquitaskapp.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,9 @@ class ModifyTask(private val task: Task) : Fragment() {
         getPriority(taskPriority)
 
         taskName.text = task.name
+        Log.d("CATEGORIE","${task.categorie}")
         val positionCategory = CategoryDictionary.dictionary.entries.indexOfFirst { it.key == task.categorie }
+        Log.d("CATEGORIE",positionCategory.toString())
         if (positionCategory != -1) {
             taskCategory.setSelection(positionCategory)
         }
@@ -57,6 +60,7 @@ class ModifyTask(private val task: Task) : Fragment() {
         taskDivisible.isChecked = task.divisible
         taskConcentration.isChecked = task.concentration
         val positionPriority = Priorities.dictionary.entries.indexOfFirst { it.key == task.priorite }
+        Log.d("PRIORITY",positionPriority.toString())
         if (positionPriority != -1) {
             taskPriority.setSelection(positionPriority)
         }

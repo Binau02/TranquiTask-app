@@ -81,7 +81,7 @@ class ListeTachesRowAdapter(
                         collection.document(data[position].id)
                             .delete()
                             .addOnSuccessListener {
-
+                                // AjouterSuppression liste de tache utilisateur en local et en ligne
                                 taskDeleteCallback()
                                 // Informer l'adaptateur du changement\
                             }
