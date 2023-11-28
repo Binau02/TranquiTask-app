@@ -10,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
@@ -23,6 +25,7 @@ import com.example.tranquitaskapp.data.LeaderboardModel
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -57,6 +60,19 @@ class Leaderboard : Fragment() {
     private var categorieIndex: Int = 0
 
     private val leaderboard: HashMap<DocumentReference?, List<LeaderboardModel>> = hashMapOf()
+
+    private lateinit var firstPlaceLayout: LinearLayout
+    private lateinit var secondPlaceLayout: LinearLayout
+    private lateinit var thirdPlaceLayout: LinearLayout
+    private lateinit var avatarFirstPlace: CircleImageView
+    private lateinit var avatarSecondPlace: CircleImageView
+    private lateinit var avatarThirdPlace: CircleImageView
+    private lateinit var pseudoFirstPlace: TextView
+    private lateinit var pseudoSecondPlace: TextView
+    private lateinit var pseudoThirdPlace: TextView
+    private lateinit var coinAmountFirstPlace: TextView
+    private lateinit var coinAmountSecondPlace: TextView
+    private lateinit var coinAmountThirdPlace: TextView
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -154,8 +170,54 @@ class Leaderboard : Fragment() {
     }
 
     private fun setLeaderboard() {
+        val leaderboardList = leaderboard[globalCategories[categorieIndex].second] ?: listOf()
+
         textCategorie.text = globalCategories[categorieIndex].first
 
+        if (leaderboardList.size >= 3) {
+            // Afficher les trois premiers dans le podium
+            val firstPlace = leaderboardList[0]
+            val secondPlace = leaderboardList[1]
+            val thirdPlace = leaderboardList[2]
+
+            if (firstPlace.avatar.isNotEmpty()) {
+                Glide.with(this)
+                    .load(firstPlace.avatar)
+                    .into(avatarFirstPlace)
+            } else {
+                // Charger une image par défaut si l'avatar est vide
+                avatarFirstPlace.setImageResource(R.drawable.default_profil_picture)
+            }
+            if (firstPlace.pseudo.isNotEmpty()) {
+                pseudoFirstPlace.text = firstPlace.pseudo
+            }
+            if (secondPlace.avatar.isNotEmpty()) {
+                Glide.with(this)
+                    .load(secondPlace.avatar)
+                    .into(avatarSecondPlace)
+            } else {
+                avatarFirstPlace.setImageResource(R.drawable.default_profil_picture)
+            }
+            if (secondPlace.pseudo.isNotEmpty()) {
+                pseudoSecondPlace.text = secondPlace.pseudo
+            }
+            if (thirdPlace.avatar.isNotEmpty()) {
+                Glide.with(this)
+                    .load(thirdPlace.avatar)
+                    .into(avatarThirdPlace)
+            } else {
+                // Charger une image par défaut si l'avatar est vide
+                avatarFirstPlace.setImageResource(R.drawable.default_profil_picture)
+            }
+            if (thirdPlace.pseudo.isNotEmpty()) {
+                pseudoThirdPlace.text = thirdPlace.pseudo
+            }
+            coinAmountFirstPlace.text = firstPlace.coin.toString()
+            coinAmountSecondPlace.text = secondPlace.coin.toString()
+            coinAmountThirdPlace.text = thirdPlace.coin.toString()
+
+
+        }
         rv.adapter = LeaderboardRowAdapter(leaderboard[globalCategories[categorieIndex].second] ?: listOf(), this)
     }
 
@@ -170,6 +232,18 @@ class Leaderboard : Fragment() {
         val buttonChangeL = view.findViewById<ImageView>(R.id.fleche_gauche)
         val buttonChangeR = view.findViewById<ImageView>(R.id.fleche_droite)
         textCategorie = view.findViewById(R.id.text_middle_categorie)
+
+
+        avatarFirstPlace = view.findViewById(R.id.avatarFirst)
+        avatarSecondPlace = view.findViewById(R.id.avatarSecond)
+        avatarThirdPlace = view.findViewById(R.id.avatarThird)
+        pseudoFirstPlace = view.findViewById(R.id.pseudoFirst)
+        pseudoSecondPlace = view.findViewById(R.id.pseudoSecond)
+        pseudoThirdPlace = view.findViewById(R.id.pseudoThird)
+        coinAmountFirstPlace = view.findViewById(R.id.coin_amount_first)
+        coinAmountSecondPlace = view.findViewById(R.id.coin_amount_second)
+        coinAmountThirdPlace = view.findViewById(R.id.coin_amount_third)
+
 
         lifecycleScope.launch {
             getLeaderboard()

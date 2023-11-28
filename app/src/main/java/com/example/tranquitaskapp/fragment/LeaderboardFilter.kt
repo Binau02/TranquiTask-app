@@ -63,7 +63,7 @@ class LeaderboardFilter : Fragment() {
         val view = inflater.inflate(R.layout.fragment_leaderboard_filter, container, false)
 
         val buttonBack = view.findViewById<ImageView>(R.id.back_arrow)
-        val buttonSave = view.findViewById<Button>(R.id.btn_saveFilterLeaderboard)
+        val buttonSave = view.findViewById<ImageView>(R.id.btn_saveFilterLeaderboard)
         filterLeaderboardFriends = view.findViewById(R.id.filter_leaderboardfriends)
         filterLeaderboardPeriods = view.findViewById(R.id.filter_leaderboardperiode)
         filterPeriodListView = view.findViewById(R.id.filterperiod)
