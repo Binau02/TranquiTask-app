@@ -30,7 +30,7 @@
     <string name="ForgotPassword">Forgot password ?</string>
     <string name="signin">Sign In</string>
     <string name="ConfirmPassword">Confirm Password</string>
-    <string name="NewAccount">Already an account ?</string>
+    <string name="NewAccount">Don t have an account ? </string>
     <string name="login">Login</string>
     <string name="Task_name">Task Name</string>
     <string name="Task_Category">Category</string>
