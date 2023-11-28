@@ -131,17 +131,12 @@ class AddTask : Fragment() {
             val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hour)
                 cal.set(Calendar.MINUTE, minute)
-                tvSelectedTime.text = SimpleDateFormat("HH:mm").format(cal.time)
-
-                val selectedTime = SimpleDateFormat(
-                    "HH:mm",
-                    Locale.getDefault()
-                ).parse(tvSelectedTime.text.toString())
-                val timestampInMillis =
-                    selectedTime?.time ?: 0 // Utilisation de 0 si la conversion échoue
 
                 // Convertir le timestamp en minutes
-                timestampInSeconds = (timestampInMillis / 60000).toInt()
+                val timestampInMinutes = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
+
+                tvSelectedTime.text = SimpleDateFormat("HH:mm").format(cal.time)
+                timestampInSeconds = timestampInMinutes
             }
 
             // Créer le TimePickerDialog en mode "spinner"
