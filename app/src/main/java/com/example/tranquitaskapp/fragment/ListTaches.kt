@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,15 +34,29 @@ import com.example.tranquitaskapp.data.Task
  * Use the [ListTaches.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ListTaches : Fragment(), TaskButtonClickListener {
+class ListTaches : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
     private lateinit var rv : RecyclerView
 
 
-    override fun onStartButtonClick(position: Int) {
+    private fun onStartButtonClick(position: Int) {
         val fragment = StartTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+    }
+
+    private fun onEditImageClick(position: Int) {
+        Log.d("POSITION",position.toString())
+        Log.d("POSITION", ListTask.list.toString())
+        val fragment = ModifyTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+    }
+
+    private fun onDeleteImageClick(){
+        val fragment = ListTaches()
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
@@ -128,11 +143,7 @@ class ListTaches : Fragment(), TaskButtonClickListener {
             }
         }
 
-        rv.adapter = ListeTachesRowAdapter(listeTacheModel, this) {
-            val fragment = ListTaches()
-            val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frameLayout, fragment)?.commit()
-        }
+        rv.adapter = ListeTachesRowAdapter(listeTacheModel, this::onStartButtonClick, this::onEditImageClick, this::onDeleteImageClick)
     }
 
     override fun onCreateView(
@@ -167,6 +178,7 @@ class ListTaches : Fragment(), TaskButtonClickListener {
         rv.layoutManager = LinearLayoutManager(requireContext())
 
         setTasks()
+        Log.d("Liste", ListTask.list.count().toString())
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 

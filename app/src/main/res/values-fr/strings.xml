@@ -55,6 +55,8 @@
     <string name="enter_email_friend">Entrez l\'adresse email de votre ami.</string>
     <string name="add_friend">Ajouter un ami</string>
     <string name="friend_not_exist">Cet email est inconnu</string>
+    <string name="already_friend">Vous ne pouvez pas ajouter un ami que vous avez déjà.</string>
+    <string name="already_asked">Vous ne pouvez pas ajouter un ami qui vous a déjà demandé.</string>
     <string name="buy">Acheter</string>
     <string name="add">Ajouter</string>
     <string name="break_str">Pause</string>

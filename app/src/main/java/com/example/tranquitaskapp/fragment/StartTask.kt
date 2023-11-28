@@ -199,9 +199,11 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     }
 
     private fun updateTimer() {
-        val minutes = (timeLeftMillis / 1000) / 60
-        val seconds = (timeLeftMillis / 1000) % 60
-        val timeFormatted = String.format("%02d:%02d", minutes, seconds)
+        val hours = ((timeLeftMillis / 1000) / 3600).toInt()
+        val minutes = (((timeLeftMillis / 1000) % 3600) / 60).toInt()
+        val seconds = ((timeLeftMillis / 1000) % 60).toInt()
+
+        val timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds)
         textViewTimer.text = timeFormatted
 
         // buttonStart.text = if (timerRunning) "Pause" else "Start"
