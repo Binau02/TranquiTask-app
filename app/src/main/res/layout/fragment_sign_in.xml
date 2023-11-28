@@ -29,7 +29,7 @@
                 android:fontFamily="@font/pacifico"
                 android:text="Tranqui'Task"
                 android:textColor="@color/white"
-                android:textSize="55dp"
+                android:textSize="50dp"
                 android:textStyle="bold" />
 
             <View
