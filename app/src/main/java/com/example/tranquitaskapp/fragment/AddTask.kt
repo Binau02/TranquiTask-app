@@ -31,6 +31,7 @@ import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.TimeZone
 
 
 class AddTask : Fragment() {
@@ -125,17 +126,17 @@ class AddTask : Fragment() {
             showDatePicker()
         }
         imgTimeView.setOnClickListener {
-            val cal = Calendar.getInstance()
+            val cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             cal.set(Calendar.HOUR_OF_DAY, 0)
             cal.set(Calendar.MINUTE, 0)
             val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hour)
                 cal.set(Calendar.MINUTE, minute)
-                tvSelectedTime.text = SimpleDateFormat("HH:mm").format(cal.time)
+                tvSelectedTime.text = SimpleDateFormat("HH:mm",Locale.FRENCH).format(cal.time)
 
                 val selectedTime = SimpleDateFormat(
                     "HH:mm",
-                    Locale.getDefault()
+                    Locale.FRENCH
                 ).parse(tvSelectedTime.text.toString())
                 val timestampInMillis =
                     selectedTime?.time ?: 0 // Utilisation de 0 si la conversion échoue
@@ -205,7 +206,7 @@ class AddTask : Fragment() {
             requireContext(), { _, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                 calendar.set(year, monthOfYear, dayOfMonth)  // Mettez à jour l'instance de Calendar ici
                 formattedDate = Timestamp(calendar.time)
-                val dateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
+                val dateFormat = SimpleDateFormat("dd/MM", Locale.FRENCH)
                 tvDate.text = dateFormat.format(calendar.time)
             },
             calendar.get(Calendar.YEAR),
