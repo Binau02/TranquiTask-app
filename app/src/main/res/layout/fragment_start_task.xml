@@ -83,4 +83,16 @@
         app:layout_constraintTop_toBottomOf="@+id/countdown"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <TextView
+        android:id="@+id/tw_screenBlock"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/warning_screen_block"
+        android:textColor="@color/my_primary"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/reg_logo"
+        app:layout_constraintStart_toStartOf="@+id/reg_logo"
+        app:layout_constraintTop_toBottomOf="@+id/reg_logo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
