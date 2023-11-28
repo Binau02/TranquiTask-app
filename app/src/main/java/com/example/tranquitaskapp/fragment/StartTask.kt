@@ -31,6 +31,8 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     private lateinit var buttonStart: Button
     private lateinit var buttonPause: Button
     private lateinit var buttonValider: Button
+    private lateinit var buttonBack: Button
+    private lateinit var buttonSaveQuit: Button
     private lateinit var countdownTimer: CountDownTimer
     private val db = MyFirebase.getFirestoreInstance()
     private val initialMillis: Long = (task.duree * 60000).toLong() // 30 secondes
@@ -56,6 +58,11 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     private fun onClickBack(){
         replaceFragment(ListTaches())
     }
+    private fun onCLickSaveQuit(){
+        // sauvegarder la progression de la tâche et retour page principale
+        Toast.makeText(this.context, "sauvegarde pas encore", Toast.LENGTH_SHORT).show()
+        replaceFragment(Home())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,9 +74,12 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         buttonValider = view.findViewById(R.id.button_valider)
         buttonPause = view.findViewById(R.id.button_pause)
         textViewTimer = view.findViewById(R.id.countdown)
-        val buttonBack = view.findViewById<Button>(R.id.back2)
+        buttonBack = view.findViewById(R.id.back2)
+        buttonSaveQuit = view.findViewById(R.id.button_save_quit)
+
         buttonValider.visibility = View.INVISIBLE
         buttonPause.visibility = View.INVISIBLE
+        buttonSaveQuit.visibility = View.INVISIBLE
 
         // Initialisation du BroadcastReceiver
         screenStateReceiver = ScreenStateReceiver(this)
@@ -81,10 +91,12 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
             buttonValider.visibility = View.VISIBLE
             buttonPause.visibility = View.VISIBLE
             buttonBack.visibility = View.INVISIBLE
+            buttonSaveQuit.visibility = View.INVISIBLE
         }
         buttonPause.setOnClickListener {
             pauseTimer()
             buttonStart.visibility = View.VISIBLE
+            buttonSaveQuit.visibility = View.VISIBLE
             buttonValider.visibility = View.INVISIBLE
             buttonPause.visibility = View.INVISIBLE
         }
@@ -94,6 +106,9 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         }
         buttonBack.setOnClickListener {
             onClickBack()
+        }
+        buttonSaveQuit.setOnClickListener {
+            onCLickSaveQuit()
         }
 
         updateTimer()

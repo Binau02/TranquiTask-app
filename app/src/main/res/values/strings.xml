@@ -30,7 +30,7 @@
     <string name="ForgotPassword">Forgot password ?</string>
     <string name="signin">Sign In</string>
     <string name="ConfirmPassword">Confirm Password</string>
-    <string name="NewAccount">Already an account ?</string>
+    <string name="NewAccount">Don t have an account ? </string>
     <string name="login">Login</string>
     <string name="Task_name">Task Name</string>
     <string name="Task_Category">Category</string>
@@ -55,6 +55,8 @@
     <string name="enter_email_friend">Enter the email address of your friend.</string>
     <string name="add_friend">Add a friend</string>
     <string name="friend_not_exist">This email is unknown</string>
+    <string name="already_friend">You can\'t add a friend that you already have.</string>
+    <string name="already_asked">You can\'t add a friend who already asked you.</string>
     <string name="buy">Buy</string>
     <string name="add">Add</string>
     <string name="break_str">Break</string>
@@ -62,4 +64,6 @@
     <string name="modify_task">Modify your task</string>
     <string name="modify_profile_pop_up">Are you sure you want to modify your profile?</string>
     <string name="delete_task_pop_up">Are you sure you want to delete this task?</string>
+    <string name="save_and_quit">Save and quit</string>
+
 </resources>

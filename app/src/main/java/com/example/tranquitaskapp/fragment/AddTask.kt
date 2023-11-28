@@ -201,12 +201,10 @@ class AddTask : Fragment() {
     }
 
     private fun showDatePicker() {
-
         val datePickerDialog = DatePickerDialog(
             requireContext(), { _, year: Int, monthOfYear: Int, dayOfMonth: Int ->
-                val selectedDate = Calendar.getInstance()
-                selectedDate.set(year, monthOfYear, dayOfMonth)
-                formattedDate = Timestamp(selectedDate.time)
+                calendar.set(year, monthOfYear, dayOfMonth)  // Mettez à jour l'instance de Calendar ici
+                formattedDate = Timestamp(calendar.time)
                 val dateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
                 tvDate.text = dateFormat.format(calendar.time)
             },
@@ -215,7 +213,6 @@ class AddTask : Fragment() {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
         datePickerDialog.show()
-
     }
 
     private fun getCategories(spinnerCategory: Spinner) {
