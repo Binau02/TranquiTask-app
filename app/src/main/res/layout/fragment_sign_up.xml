@@ -23,30 +23,36 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="20dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    >
+                    android:gravity="center_horizontal">
+
                     <ImageView
+                        android:id="@+id/btnCancel"
                         android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"/>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/close"
+                        android:layout_gravity="top"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_weight="3"
                         android:fontFamily="@font/pacifico"
+                        android:gravity="center_horizontal"
                         android:text="Tranqui'Task"
                         android:textColor="@color/white"
-                        android:textSize="55dp"
-                        android:textStyle="bold"
-                        android:gravity="center_horizontal"
-                        android:layout_weight="3"/>
+                        android:textSize="50dp"
+                        android:textStyle="bold" />
+
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
 
@@ -78,26 +84,22 @@
             android:layout_weight="1">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_centerInParent="true"
                 android:layout_alignParentTop="true">
 
-
-
-
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="0dp"
                     android:padding="10dp"
                     android:id="@+id/card_view"
                     android:background="@color/my_primary_light">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
@@ -133,7 +135,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/username"
-                            android:inputType="text|textNoSuggestions"/>
+                            android:inputType="text"/>
                         <View
                             android:layout_width="wrap_content"
                             android:layout_height="15dp"/>
@@ -154,13 +156,13 @@
                             android:drawableEnd="@drawable/password_icon"
                             android:hint="@string/ConfirmPassword"
                             android:inputType="textPassword"/>
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="10dp"/>
+
                         <LinearLayout
                             android:id="@+id/linearLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="match_parent"
+                            android:gravity="bottom"
+                            android:paddingBottom="15dp">
                             <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -210,39 +212,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1" />
                         </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <RelativeLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-                            </RelativeLayout>
-                            <RelativeLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="3">
 
-                                <RelativeLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:padding="6dp">
-
-                                    <TextView
-                                        android:id="@+id/btnCancel"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Retour"/>
-                                </RelativeLayout>
-
-                            </RelativeLayout>
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_weight="1" />
-                        </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

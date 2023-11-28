@@ -185,40 +185,40 @@
                     android:visibility="gone"/>
 
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center|bottom"
-                    android:paddingBottom="15dp"
-                    >
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="200dp"
-                        android:layout_height="60dp"
-                        app:cardCornerRadius="30dp"
-                        android:background="@color/my_primary"
-                        android:elevation="15dp">
-                        <ImageView
-                            android:id="@+id/btn_saveFilterLeaderboard"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/rounded_button"
-                            android:elevation="15dp"/>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:elevation="15dp"
-                            android:gravity="center"
-                            android:text="@string/Save"
-                            android:textSize="24dp"
-                            android:textColor="@color/my_secondary_light"
-                            android:textStyle="bold" />
-                    </androidx.cardview.widget.CardView>
-                </RelativeLayout>
             </LinearLayout>
 
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|bottom"
+                android:paddingBottom="15dp"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="200dp"
+                    android:layout_height="60dp"
+                    app:cardCornerRadius="30dp"
+                    android:background="@color/my_primary"
+                    android:elevation="15dp">
+                    <ImageView
+                        android:id="@+id/btn_saveFilterLeaderboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/rounded_button"
+                        android:elevation="15dp"/>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="15dp"
+                        android:gravity="center"
+                        android:text="@string/Save"
+                        android:textSize="24dp"
+                        android:textColor="@color/my_secondary_light"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

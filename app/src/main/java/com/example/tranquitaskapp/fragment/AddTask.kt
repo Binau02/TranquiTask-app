@@ -91,7 +91,10 @@ class AddTask : Fragment() {
                     priorite = priority,
                     ref = it
                 ))
-                val fragment = Home()
+
+                Toast.makeText(this.context, "Tâche ajoutée", Toast.LENGTH_SHORT).show()
+
+                val fragment = AddTask()
                 val transaction = fragmentManager?.beginTransaction()
                 transaction?.replace(R.id.frameLayout, fragment)?.commit()
             }
