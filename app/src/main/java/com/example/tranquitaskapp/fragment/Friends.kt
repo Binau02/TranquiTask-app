@@ -133,7 +133,7 @@ class Friends : Fragment() {
         val name = friendDoc?.getString("username")
         val pp = friendDoc?.getString("profile_picture")
         if (name != null && pp != null){
-            globalFriends.add(FriendsModel(name, pp))
+            globalFriends.add(FriendsModel(name, pp, friendDoc.reference))
         }
     }
 
@@ -201,21 +201,11 @@ class Friends : Fragment() {
     }
     private fun onClickAddFriend(){
 //        Toast.makeText(this.context, "Le bouton Ajouter un ami a été cliqué !", Toast.LENGTH_SHORT).show()
-        val fragment = AddFriend()
+        val fragment = AddFriend(globalFriends, globalDemandes)
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
-    /*
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
-     */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -254,26 +244,4 @@ class Friends : Fragment() {
         return view
         // Inflate the layout for this fragment
     }
-    /*
-        companion object {
-            /**
-             * Use this factory method to create a new instance of
-             * this fragment using the provided parameters.
-             *
-             * @param param1 Parameter 1.
-             * @param param2 Parameter 2.
-             * @return A new instance of fragment Friends.
-             */
-            // TODO: Rename and change types and number of parameters
-            @JvmStatic
-            fun newInstance(param1: String, param2: String) =
-                Friends().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
-        }
-
-     */
 }
