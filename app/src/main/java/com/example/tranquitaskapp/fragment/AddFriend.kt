@@ -12,11 +12,12 @@ import com.example.tranquitaskapp.firebase.MyFirebase
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import com.example.tranquitaskapp.data.FriendsModel
 import com.example.tranquitaskapp.data.User
 import com.google.firebase.firestore.FieldValue
 
 
-class AddFriend : Fragment() {
+class AddFriend(val friends : MutableList<FriendsModel>, val demandes : MutableList<FriendsModel>) : Fragment() {
     private val db = MyFirebase.getFirestoreInstance()
 
     private fun addFriend(view : View) {
@@ -26,9 +27,19 @@ class AddFriend : Fragment() {
             if (documents.documents.isNotEmpty()) {
                 val friend = documents.documents[0].reference
 
-                val test = friend.update("demandes", FieldValue.arrayUnion(User.ref))
-                .addOnFailureListener { e ->
-                    Log.w("Firestore", "Error adding item to the array", e)
+                Log.d("TEST", "$friends")
+                if (friends.find { it.ref == friend } == null) {
+                    if (demandes.find { it.ref == friend } == null) {
+                        val fragment = ProfileAddFriend(friend)
+                        val transaction = fragmentManager?.beginTransaction()
+                        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+                    }
+                    else {
+                        Toast.makeText(this.context, getString(R.string.already_asked), Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else {
+                    Toast.makeText(this.context, getString(R.string.already_friend), Toast.LENGTH_SHORT).show()
                 }
             }
             else {
