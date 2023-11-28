@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.firebase.MyFirebase
-import com.example.tranquitaskapp.interfaces.TaskButtonClickListener
 import com.example.tranquitaskapp.ui.CustomPopup
 
 class ListeTachesRowAdapter(
     val data: List<TacheModel>,
-    private val buttonClickListener: TaskButtonClickListener,
+    private val onStartButtonClick: (position: Int) -> Unit,
+    private val taskEditCallBack: (position: Int)-> Unit,
     private val taskDeleteCallback: () -> Unit // Ajout de l'interface de rappel
 ) :
     RecyclerView.Adapter<ListeTachesRowAdapter.MyViewHolder>() {
@@ -35,6 +35,7 @@ class ListeTachesRowAdapter(
         val taskCategory: TextView = row.findViewById(R.id.task_category)
         val imageDevelop: ImageView = row.findViewById(R.id.image_develop)
         val buttonStart: Button = row.findViewById(R.id.buttonStart)
+        val modify: ImageView = row.findViewById(R.id.edit)
         val delete: ImageView = row.findViewById(R.id.delete)
     }
 
@@ -51,7 +52,7 @@ class ListeTachesRowAdapter(
     // TODO : android studio annonce une erreur ici, mais ça marche ¯\_(ツ)_/¯
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.buttonStart.setOnClickListener {
-            buttonClickListener.onStartButtonClick(position)
+            onStartButtonClick(position)
         }
         holder.imageDevelop.setOnClickListener {
             if (data[position].isDetail) {
@@ -66,6 +67,9 @@ class ListeTachesRowAdapter(
         holder.pseudoView.text = data[position].name
         holder.imageView.setImageResource(data[position].logoResId)
         holder.progressBar.progress = data[position].progress
+        holder.modify.setOnClickListener{
+            taskEditCallBack(position)
+        }
         holder.delete.setOnClickListener {
             CustomPopup.showPopup(
                 context = holder.row.context,
