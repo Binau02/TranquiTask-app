@@ -20,7 +20,7 @@ import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
-import com.google.firebase.firestore.FieldValue
+import com.example.tranquitaskapp.ui.CustomPopup
 
 class ModifyProfile : Fragment() {
 
@@ -69,7 +69,7 @@ class ModifyProfile : Fragment() {
             }
 
         val userRef = db.collection("user").document(User.id)
-        userRef.update("username", FieldValue.arrayUnion(newUsername))
+        userRef.update("username", newUsername)
             .addOnSuccessListener {
                 // La mise à jour a réussi
                 Log.d("Update", "ID de la tâche ajouté au tableau tasks de l'utilisateur")
@@ -122,7 +122,18 @@ class ModifyProfile : Fragment() {
         }
         buttonSave.setOnClickListener {
             if(password.text.toString()==passwordConfirm.text.toString()){
-                onClickSave(username.text.toString(),email.text.toString(),password.text.toString())
+                this.context?.let {
+                    CustomPopup.showPopup(
+                        context = it,
+                        getString(R.string.modify_profile_pop_up),
+                        object :
+                            CustomPopup.PopupClickListener {
+                            override fun onPopupButtonClick() {
+                                onClickSave(username.text.toString(),email.text.toString(),password.text.toString())
+                            }
+                        }
+                    )
+                }
             }else{
                 Toast.makeText(this.context, "Les mots de passes ne sont pas identiques", Toast.LENGTH_SHORT).show()
             }

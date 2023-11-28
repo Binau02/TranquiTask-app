@@ -59,6 +59,7 @@
     <string name="add">Ajouter</string>
     <string name="break_str">Pause</string>
     <string name="start">Démarrer</string>
-
-
+    <string name="modify_task">Modifier votre tâche</string>
+    <string name="modify_profile_pop_up">Êtes-vous sur de vouloir modifier votre profil?</string>
+    <string name="delete_task_pop_up">Êtes-vous sur de supprimer cette tâche ?</string>
 </resources>

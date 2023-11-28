@@ -69,7 +69,7 @@ class ListeTachesRowAdapter(
         holder.delete.setOnClickListener {
             CustomPopup.showPopup(
                 context = holder.row.context,
-                "Etes-vous sur de supprimer cette tâche ?",
+                holder.row.context.getString(R.string.delete_task_pop_up),
                 object :
                     CustomPopup.PopupClickListener {
                     override fun onPopupButtonClick() {
