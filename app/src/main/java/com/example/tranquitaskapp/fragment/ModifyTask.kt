@@ -3,12 +3,10 @@ package com.example.tranquitaskapp.fragment
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Spinner
@@ -25,10 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import com.example.tranquitaskapp.data.Priorities
-import com.example.tranquitaskapp.data.User
-import com.example.tranquitaskapp.firebase.MyFirebase
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
 import java.util.Calendar
 
 
@@ -48,7 +43,6 @@ class ModifyTask(private val task: Task) : Fragment() {
     private val calendar = Calendar.getInstance()
     private var formattedDate: Timestamp? = null
     private var timestampInSeconds: Int = 0
-    private val db = MyFirebase.getFirestoreInstance()
 
 
     override fun onCreateView(
@@ -76,7 +70,9 @@ class ModifyTask(private val task: Task) : Fragment() {
             taskCategory.setSelection(positionCategory)
         }
         taskDeadline.text = timestampToString(task.deadline)
+        formattedDate = task.deadline
         taskDuration.text = minuteToString(task.duree)
+        timestampInSeconds = task.duree
         taskDivisible.isChecked = task.divisible
         taskConcentration.isChecked = task.concentration
         val positionPriority = Priorities.dictionary.entries.indexOfFirst { it.key == task.priorite }
@@ -98,7 +94,7 @@ class ModifyTask(private val task: Task) : Fragment() {
                 // Convertir le timestamp en minutes
                 val timestampInMinutes = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
 
-                taskDuration.text = SimpleDateFormat("HH:mm").format(cal.time)
+                taskDuration.text = SimpleDateFormat("HH:mm",Locale.ROOT).format(cal.time)
                 timestampInSeconds = timestampInMinutes
             }
 
@@ -117,13 +113,10 @@ class ModifyTask(private val task: Task) : Fragment() {
         }
 
         saveBtn.setOnClickListener {
-            val checkBoxConcentration = view.findViewById<CheckBox>(R.id.checkBoxConcentration)
-            val isConcentrationChecked = checkBoxConcentration.isChecked
+            val isConcentrationChecked = taskConcentration.isChecked
 
-            val checkBoxDivisible = view.findViewById<CheckBox>(R.id.checkBoxDivisible)
-            val isDivisibleChecked = checkBoxDivisible.isChecked
+            val isDivisibleChecked = taskDivisible.isChecked
 
-            val nameTask = view.findViewById<TextView>(R.id.editNameTask)
             val categorie =
                 listCategory[taskCategory.selectedItem]
             val priority =
@@ -132,10 +125,10 @@ class ModifyTask(private val task: Task) : Fragment() {
             val icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_warning)
 
 
-            if (nameTask.text.isNullOrBlank() || formattedDate == null || timestampInSeconds == 0) {
+            if (taskName.text.isNullOrBlank()) {
                 // Afficher une erreur ou une notification indiquant que tous les champs doivent être remplis
-                if (nameTask.text.isEmpty()) {
-                    nameTask.setError("Please Enter a name", icon)
+                if (taskName.text.isEmpty()) {
+                    taskName.setError("Please Enter a name", icon)
                 }
 
 
@@ -146,7 +139,7 @@ class ModifyTask(private val task: Task) : Fragment() {
                     saveModifTask(
                         categorie,
                         priority,
-                        nameTask.text.toString(),
+                        taskName.text.toString(),
                         formattedDate!!,
                         isDivisibleChecked,
                         isConcentrationChecked,

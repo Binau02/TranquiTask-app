@@ -1,10 +1,11 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,17 +24,12 @@ import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.adapter.ListeTachesRowAdapter
 import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
-import com.example.tranquitaskapp.interfaces.TaskButtonClickListener
 import java.text.SimpleDateFormat
 import java.util.Locale
 import com.example.tranquitaskapp.data.Task
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ListTaches.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ListTaches : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
@@ -48,15 +44,7 @@ class ListTaches : Fragment() {
     }
 
     private fun onEditImageClick(position: Int) {
-        Log.d("POSITION",position.toString())
-        Log.d("POSITION", ListTask.list.toString())
         val fragment = ModifyTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
-        val transaction = fragmentManager?.beginTransaction()
-        transaction?.replace(R.id.frameLayout, fragment)?.commit()
-    }
-
-    private fun onDeleteImageClick(){
-        val fragment = ListTaches()
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
@@ -124,11 +112,9 @@ class ListTaches : Fragment() {
         for (task in tasks) {
             val taskCategory = CategoryDictionary.dictionary[task.categorie]
             val imageId = resources?.getIdentifier(taskCategory?.icon ?: "", "drawable", packageName)
-
             if (taskCategory != null && imageId != null && task.deadline != null) {
-                listeTacheModel.add(
                     TacheModel(
-                        "",
+                        task.ref.id,
                         task.name,
                         imageId,
                         task.done,
@@ -137,13 +123,13 @@ class ListTaches : Fragment() {
                         SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                             .format(task.deadline!!.toDate()),
                         Priorities.dictionary[task.priorite] ?: "",
-                        taskCategory.name
+                        taskCategory.name,
+                        task.ref
                     )
-                )
             }
         }
 
-        rv.adapter = ListeTachesRowAdapter(listeTacheModel, this::onStartButtonClick, this::onEditImageClick, this::onDeleteImageClick)
+        rv.adapter = ListeTachesRowAdapter(listeTacheModel, this::onStartButtonClick, this::onEditImageClick)
     }
 
     override fun onCreateView(
@@ -178,7 +164,6 @@ class ListTaches : Fragment() {
         rv.layoutManager = LinearLayoutManager(requireContext())
 
         setTasks()
-        Log.d("Liste", ListTask.list.count().toString())
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 
