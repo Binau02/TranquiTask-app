@@ -52,35 +52,6 @@ class SignIn : Fragment() {
         sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
 
-    // unused, TODO : @Hugo check si tu veux garder des trucs, et tu peux delete
-    fun getUsersInformations(email: String) {
-        db.collection("user").whereEqualTo("email", email)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents != null) {
-                    val username = documents.documents[0].getString("username")
-
-                    val coins = documents.documents[0].getLong("coins")
-                    val profilePicture = documents.documents[0].getString("profile_picture")
-                    if (username != null && coins != null && profilePicture != null) {
-                        User.username = username
-                        User.mail = email
-                        User.coins = coins
-                        User.profile_picture = profilePicture
-                        User.id = documents.documents[0].id
-                    }
-                    val fragment = Home()
-                    val transaction = fragmentManager?.beginTransaction()
-                    transaction?.replace(R.id.frameLayout, fragment)?.commit()
-                }
-
-            }
-            .addOnFailureListener { exception ->
-                // Gérer les erreurs éventuelles
-                Log.e("ERROR", "Erreur lors de la récupération du user : $exception")
-            }
-    }
-
     private suspend fun getInformations(email : String) {
         val packageName = this.context?.packageName
 

@@ -6,14 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.adapter.ShopAdapter
 import com.example.tranquitaskapp.data.ItemModel
 import com.example.tranquitaskapp.data.User
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -24,6 +30,7 @@ private enum class State {
 }
 
 class Shop : Fragment() {
+    private lateinit var view: View
     private val globalItems = hashMapOf<String, MutableList<ItemModel>>()
     private lateinit var rv: RecyclerView
     private var state : State = State.LOADING
@@ -33,7 +40,15 @@ class Shop : Fragment() {
         "arbre" to State.ARBRE,
         "ciel" to State.CIEL
     )
+    private val stateToName = mapOf(
+        State.SOL to "sol",
+        State.MAISON to "maison",
+        State.ARBRE to "arbre",
+        State.CIEL to "ciel"
+    )
     private val buttons = hashMapOf<String, RelativeLayout>()
+    private var selected: ItemModel? = null
+    private var selectedFrame: RelativeLayout? = null
 
     private suspend fun getItems() {
         val storage = FirebaseStorage.getInstance()
@@ -53,7 +68,9 @@ class Shop : Fragment() {
 
             try {
                 val result = folderRef.listAll().await()
+                    var i = 0
                     for (item in result.items) {
+                        i++
                         var isBought = false
                         for (bought in User.bought[category]!!) {
                             if (item.name.replace(category, "").replace(".png", "") == bought) {
@@ -64,7 +81,8 @@ class Shop : Fragment() {
                         globalItems[category]?.add(
                             ItemModel(
                                 image = url.toString(),
-                                bought = isBought
+                                bought = isBought,
+                                index = i.toString()
                             )
                         )
                     }
@@ -91,15 +109,53 @@ class Shop : Fragment() {
         setItems(name)
     }
 
-    private fun select(position: Int) {
+    fun select(item: ItemModel, frame: RelativeLayout) {
+        val image = view.findViewById<ImageView>(R.id.demo_image)
+        val buyButton = view.findViewById<Button>(R.id.buy)
 
+        selectedFrame?.setBackgroundResource(R.drawable.empty)
+
+        if (item == selected || item.bought) {
+            selected = null
+            selectedFrame = null
+            image.setImageResource(R.drawable.empty)
+            buyButton.isEnabled = false
+        }
+        else {
+            selected = item
+            selectedFrame = frame
+            frame.setBackgroundResource(R.drawable.rounded_rectangle)
+            Glide.with(this)
+                .load(item.image)
+                .into(image)
+            buyButton.isEnabled = true
+        }
+    }
+
+    private fun buy() {
+        if (selected == null) return
+
+        if (User.coins < 500) {
+            Toast.makeText(this.context, getString(R.string.not_enough_gold), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        User.ref?.update(stateToName[state] + "_bought", FieldValue.arrayUnion(selected!!.index))
+        User.bought[stateToName[state]]?.add(selected!!.index)
+        User.ref?.update(mapOf("coins" to (User.coins - 500)))
+        User.coins -= 500
+        val mainActivity = MainActivity()
+        mainActivity.refreshCoins()
+        globalItems[stateToName[state]]?.get(selected!!.index.toInt() - 1)?.bought = true
+        setItems(stateToName[state] ?: "sol")
+        select(selected!!, selectedFrame!!)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_shop, container, false)
+    ): View {
+        view = inflater.inflate(R.layout.fragment_shop, container, false)
 
         rv = view.findViewById(R.id.rv_items)
         rv.layoutManager = GridLayoutManager(requireContext(), 4)
@@ -127,6 +183,10 @@ class Shop : Fragment() {
             onClickCategory("ciel", it)
         }
         buttons["ciel"] = cielButton
+
+        view.findViewById<Button>(R.id.buy).setOnClickListener{
+            buy()
+        }
 
         lifecycleScope.launch {
             getItems()

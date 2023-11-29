@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp.fragment
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.MainActivityVariables
 import com.example.tranquitaskapp.databinding.ActivityMainBinding
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -50,11 +52,17 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener {
     override fun setBottomBarVisibility(fragment: Fragment) {
         val bottomBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView) // Assurez-vous d'avoir l'ID correct
         val header = findViewById<LinearLayout>(R.id.linearLayout) // Assurez-vous d'avoir l'ID correct
-        val coinHeader = findViewById<TextView>(R.id.tvcoin)
 
         val isAuthFragment = fragment is SignUp || fragment is SignIn || fragment is ForgotPassword
         bottomBar.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
         header.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
+
+        MainActivityVariables.context = this
+        refreshCoins()
+    }
+
+    fun refreshCoins() {
+        val coinHeader = MainActivityVariables.context.findViewById<TextView>(R.id.tvcoin)
 
         coinHeader.text = User.coins.toString()
     }
