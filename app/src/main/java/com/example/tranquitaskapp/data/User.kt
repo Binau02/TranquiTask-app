@@ -9,4 +9,5 @@ object User {
     var profile_picture = ""
     var id = ""
     var ref : DocumentReference? = null
+    val bought = hashMapOf<String, MutableList<String>>()
 }

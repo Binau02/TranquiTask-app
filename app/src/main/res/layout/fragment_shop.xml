@@ -59,6 +59,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/sol"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -69,6 +70,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/maison"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -79,6 +81,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/arbre"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -89,6 +92,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/ciel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -127,7 +131,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/buy" />
+            android:text="@string/buy"
+            android:enabled="false"/>
 
     </LinearLayout>
 
