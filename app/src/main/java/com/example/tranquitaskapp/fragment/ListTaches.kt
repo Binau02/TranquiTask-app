@@ -29,22 +29,23 @@ import java.util.Locale
 import com.example.tranquitaskapp.data.Task
 
 
-
 class ListTaches : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
-    private lateinit var rv : RecyclerView
+    private lateinit var rv: RecyclerView
 
 
     private fun onStartButtonClick(position: Int) {
-        val fragment = StartTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
+        val fragment =
+            StartTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
     private fun onEditImageClick(position: Int) {
-        val fragment = ModifyTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
+        val fragment =
+            ModifyTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
@@ -58,21 +59,22 @@ class ListTaches : Fragment() {
     }
 
 
-    private fun onClickFiltre(){
+    private fun onClickFiltre() {
         Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()
         val fragment = ListTaskFilter()
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
-    private fun onClickBack(){
+
+    private fun onClickBack() {
         val fragment = Home()
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
 
-    private fun setTasks(search : String = "") {
-        var tasks : List<Task>
+    private fun setTasks(search: String = "") {
+        var tasks: List<Task>
 
         val home = Home()
 
@@ -81,9 +83,11 @@ class ListTaches : Fragment() {
             Period.DAY -> {
                 ListTask.list.filter { task -> home.isToday(task.deadline) }
             }
+
             Period.WEEK -> {
                 ListTask.list.filter { task -> home.isOnWeek(task.deadline) }
             }
+
             else -> {
                 ListTask.list
             }
@@ -111,25 +115,32 @@ class ListTaches : Fragment() {
 
         for (task in tasks) {
             val taskCategory = CategoryDictionary.dictionary[task.categorie]
-            val imageId = resources?.getIdentifier(taskCategory?.icon ?: "", "drawable", packageName)
+            val imageId =
+                resources?.getIdentifier(taskCategory?.icon ?: "", "drawable", packageName)
             if (taskCategory != null && imageId != null && task.deadline != null) {
-                    TacheModel(
-                        task.ref.id,
-                        task.name,
-                        imageId,
-                        task.done,
-                        false,
-                        task.duree,
-                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                            .format(task.deadline!!.toDate()),
-                        Priorities.dictionary[task.priorite] ?: "",
-                        taskCategory.name,
-                        task.ref
-                    )
+                TacheModel(
+                    task.ref.id,
+                    task.name,
+                    imageId,
+                    task.done,
+                    false,
+                    task.duree,
+                    SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        .format(task.deadline!!.toDate()),
+                    Priorities.dictionary[task.priorite] ?: "",
+                    taskCategory.name,
+                    task.ref
+                )
+                    .let {
+                        listeTacheModel.add(
+                            it
+                        )
+                    }
             }
         }
 
-        rv.adapter = ListeTachesRowAdapter(listeTacheModel, this::onStartButtonClick, this::onEditImageClick)
+        rv.adapter =
+            ListeTachesRowAdapter(listeTacheModel, this::onStartButtonClick, this::onEditImageClick)
     }
 
     override fun onCreateView(
@@ -149,9 +160,20 @@ class ListTaches : Fragment() {
             onClickBack()
         }
         searchBar.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
 
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                charSequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
                 setTasks(charSequence.toString())
             }
 

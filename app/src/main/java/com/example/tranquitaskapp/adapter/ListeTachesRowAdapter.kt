@@ -88,8 +88,8 @@ class ListeTachesRowAdapter(
                                     userDocReference.update("taches",FieldValue.arrayRemove(data[position].ref))
                                         .addOnSuccessListener {
                                             ListTask.list.removeIf { it.ref == data[position].ref }
-                                            notifyItemRemoved(position)
                                         }
+                                    notifyItemRemoved(position)
                                 }
                         }
                     }
