@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/my_primary">
 
+    <RelativeLayout
+        android:id="@+id/coloredlayout"
+        android:layout_width="match_parent"
+        android:layout_height="230dp" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/coloredlayout"
+        android:background="@color/white" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
@@ -12,230 +22,273 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="@color/my_primary_light"
         app:cardCornerRadius="20dp"
         app:cardElevation="25dp">
 
-        <LinearLayout
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:layout_margin="10dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/modify_task"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-medium"/>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
-
-            <EditText
-                android:id="@+id/editNameTask"
-                android:layout_width="match_parent"
-                android:hint="@string/newtask"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray"/>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
-
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/Task_Category"
-                    android:layout_gravity="center"
-                    android:alpha="0.7"
-                    android:textStyle="bold"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:textSize="20dp"/>
-
-                <Spinner
-                    android:id="@+id/spinnerCategory"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="@string/modify_task"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp" />
+
+                <EditText
+                    android:id="@+id/editNameTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/newtask"
+                    android:textColor="@color/gray" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:alpha="0.7"
+                        android:gravity="start"
+                        android:text="@string/Task_Category"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:alpha="0.7"
+                        android:gravity="start"
+                        android:text="@string/task_deadline"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvSelectedDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:gravity="center"
+                        android:text="@string/selectDate"
+                        android:textColor="#919191" />
+
+                    <ImageView
+                        android:id="@+id/ImgCalendarView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="0"
+
+                        app:srcCompat="@drawable/calendar" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:alpha="0.7"
+                        android:gravity="start"
+                        android:text="@string/task_duration"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvSelectedTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:gravity="center"
+                        android:text="@string/selectDuration"
+                        android:textColor="#919191" />
+
+                    <ImageView
+                        android:id="@+id/imgTimeView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="0"
+                        app:srcCompat="@drawable/time" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:alpha="0.7"
+                        android:gravity="start|center"
+                        android:text="@string/task_divisible"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/checkBoxDivisible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:alpha="0.7"
+                        android:gravity="start|center"
+                        android:text="@string/task_concentraton"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/checkBoxConcentration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:alpha="0.7"
+                        android:gravity="start"
+                        android:text="@string/task_priority"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPriority"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp" />
             </LinearLayout>
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
+        </ScrollView>
 
-            <LinearLayout
+
+        <RelativeLayout
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:paddingBottom="20dp">
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/task_deadline"
-                    android:layout_gravity="center"
-                    android:alpha="0.7"
-                    android:textStyle="bold"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:textSize="20dp"/>
-
-                <TextView
-                    android:id="@+id/tvSelectedDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:clickable="false"
-                    android:text="@string/selectDate"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textColor="#919191" />
+                android:layout_height="match_parent"
+                app:cardCornerRadius="30dp">
 
                 <ImageView
-                    android:id="@+id/ImgCalendarView"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btnSave"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0"
-                    android:layout_gravity="end"
-
-                    app:srcCompat="@drawable/calendar" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    android:elevation="15dp"
+                    android:src="@drawable/rounded_button" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/task_duration"
-                    android:layout_gravity="center"
-                    android:alpha="0.7"
-                    android:textStyle="bold"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:textSize="20dp"/>
 
-                <TextView
-                    android:id="@+id/tvSelectedTime"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:clickable="false"
-                    android:text="@string/selectDuration"
-                    android:layout_weight="1"
+                    android:elevation="15dp"
                     android:gravity="center"
-                    android:textColor="#919191" />
+                    android:text="@string/Save"
+                    android:textColor="@color/my_secondary_light"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:id="@+id/imgTimeView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:layout_weight="0"
-                    app:srcCompat="@drawable/time" />
-            </LinearLayout>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="15dp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/task_divisible"
-                    android:layout_gravity="center"
-                    android:alpha="0.7"
-                    android:textStyle="bold"
-                    android:layout_weight="2"
-                    android:gravity="start|center"
-                    android:textSize="20dp"/>
-
-                <CheckBox
-                    android:id="@+id/checkBoxDivisible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/task_concentraton"
-                    android:layout_gravity="center"
-                    android:alpha="0.7"
-                    android:textStyle="bold"
-                    android:layout_weight="2"
-                    android:gravity="start|center"
-                    android:textSize="20dp"/>
-
-                <CheckBox
-                    android:id="@+id/checkBoxConcentration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/task_priority"
-                    android:layout_gravity="center"
-                    android:alpha="0.7"
-                    android:textStyle="bold"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:textSize="20dp"/>
-
-                <Spinner
-                    android:id="@+id/spinnerPriority"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    />
-            </LinearLayout>
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="@string/Save"/>
-
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </androidx.cardview.widget.CardView>

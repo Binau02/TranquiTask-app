@@ -1,7 +1,5 @@
 package com.example.tranquitaskapp.adapter
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +10,20 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.data.TacheModel
+import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.ui.CustomPopup
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ListeTachesRowAdapter(
     val data: List<TacheModel>,
     private val onStartButtonClick: (position: Int) -> Unit,
-    private val taskEditCallBack: (position: Int)-> Unit,
-    private val taskDeleteCallback: () -> Unit // Ajout de l'interface de rappel
+    private val taskEditCallBack: (position: Int) -> Unit,
+    private val db: FirebaseFirestore = MyFirebase.getFirestoreInstance()
+
 ) :
     RecyclerView.Adapter<ListeTachesRowAdapter.MyViewHolder>() {
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
@@ -67,31 +70,28 @@ class ListeTachesRowAdapter(
         holder.pseudoView.text = data[position].name
         holder.imageView.setImageResource(data[position].logoResId)
         holder.progressBar.progress = data[position].progress
-        holder.modify.setOnClickListener{
+        holder.modify.setOnClickListener {
             taskEditCallBack(position)
         }
         holder.delete.setOnClickListener {
             CustomPopup.showPopup(
                 context = holder.row.context,
                 holder.row.context.getString(R.string.delete_task_pop_up),
-                object :
-                    CustomPopup.PopupClickListener {
+                object : CustomPopup.PopupClickListener {
                     override fun onPopupButtonClick() {
                         val collection = MyFirebase.getFirestoreInstance().collection("tache")
-                        collection.document(data[position].id)
-                            .delete()
-                            .addOnSuccessListener {
-                                // AjouterSuppression liste de tache utilisateur en local et en ligne
-                                taskDeleteCallback()
-                                // Informer l'adaptateur du changement\
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w(
-                                    TAG,
-                                    "Error deleting document",
-                                    e
-                                )
-                            }
+                        User.ref?.id?.let { userId ->
+                            val userDocReference = db.collection("user").document(userId)
+                            val taskReference = collection.document(data[position].id)
+                            taskReference.delete()
+                                .addOnSuccessListener {
+                                    userDocReference.update("taches",FieldValue.arrayRemove(data[position].ref))
+                                        .addOnSuccessListener {
+                                            ListTask.list.removeIf { it.ref == data[position].ref }
+                                        }
+                                    notifyItemRemoved(position)
+                                }
+                        }
                     }
                 }
             )
