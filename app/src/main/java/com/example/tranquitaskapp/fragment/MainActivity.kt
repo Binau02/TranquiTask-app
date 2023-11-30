@@ -54,8 +54,9 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener {
         val header = findViewById<LinearLayout>(R.id.linearLayout) // Assurez-vous d'avoir l'ID correct
 
         val isAuthFragment = fragment is SignUp || fragment is SignIn || fragment is ForgotPassword
+        val isFragment = fragment is Leaderboard || fragment is LeaderboardFilter || fragment is AddTask || fragment is SignUp || fragment is SignIn || fragment is ForgotPassword
         bottomBar.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
-        header.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
+        header.visibility = if (isFragment) View.GONE else View.VISIBLE
 
         MainActivityVariables.context = this
         refreshCoins()

@@ -147,12 +147,15 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="10dp"/>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv"
                         android:layout_width="370dp"
-                        android:layout_height="320dp"
-                        android:layout_gravity="center"
-                        android:paddingTop="30dp">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center"
+                        android:paddingTop="85dp"
+                        android:paddingHorizontal="15dp">
+
                     </androidx.recyclerview.widget.RecyclerView>
                 </androidx.cardview.widget.CardView>
 
