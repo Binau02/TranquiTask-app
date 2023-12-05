@@ -170,9 +170,6 @@ class SignIn : Fragment() {
             Priorities.dictionary[value] = getString(id)
             Priorities.reversedDictionary[getString(id)] = value
         }
-        Log.d("CONNEXION","Je suis passe ici")
-        Log.d("CONNEXION","${Priorities.dictionary}")
-        Log.d("CONNEXION","${Priorities.reversedDictionary}")
 
         val fragment = Home()
         val transaction = fragmentManager?.beginTransaction()

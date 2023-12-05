@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ListeTachesRowAdapter(
-    val data: List<TacheModel>,
+    val data: MutableList<TacheModel>,
     private val onStartButtonClick: (position: Int) -> Unit,
     private val taskEditCallBack: (position: Int) -> Unit,
     private val db: FirebaseFirestore = MyFirebase.getFirestoreInstance()
@@ -88,6 +88,8 @@ class ListeTachesRowAdapter(
                                     userDocReference.update("taches",FieldValue.arrayRemove(data[position].ref))
                                         .addOnSuccessListener {
                                             ListTask.list.removeIf { it.ref == data[position].ref }
+                                            data.removeAt(position)
+                                            notifyDataSetChanged()
                                         }
                                     notifyItemRemoved(position)
                                 }
