@@ -18,9 +18,10 @@ import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebaseAuth
+import com.example.tranquitaskapp.interfaces.MainActivityListener
 import com.google.firebase.FirebaseApp
 
-class MainActivity : AppCompatActivity(), BottomBarVisibilityListener {
+class MainActivity : AppCompatActivity(), BottomBarVisibilityListener, MainActivityListener {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener {
         refreshCoins()
     }
 
-    fun refreshCoins() {
+    override fun refreshCoins() {
         val coinHeader = MainActivityVariables.context.findViewById<TextView>(R.id.tvcoin)
 
         coinHeader.text = User.coins.toString()

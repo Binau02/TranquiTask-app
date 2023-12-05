@@ -20,6 +20,7 @@ import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
+import com.example.tranquitaskapp.interfaces.MainActivityListener
 import com.google.firebase.Timestamp
 
 class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.ScreenStateListener {
@@ -41,11 +42,16 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
     private var isStopOnce = false
     private var isSreenOFF_once = false
+    private var mainActivityListener: MainActivityListener? = null
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BottomBarVisibilityListener) {
             bottomBarListener = context
+        }
+        if (context is MainActivityListener) {
+            mainActivityListener = context
         }
         bottomBarListener?.setBottomBarVisibility(this)
     }
@@ -134,8 +140,20 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
             "date" to Timestamp.now(),
             "user" to userReference,
         )
+        val updateUser = hashMapOf(
+            "coins" to User.coins + task.duree
+        )
         transactionCollection.add(transactionData)
             .addOnSuccessListener {
+            }
+            .addOnFailureListener { e ->
+                Log.e("ERROR", "Error adding in transactionCollection : $e")
+            }
+
+        userReference.update(updateUser as Map<String, Any>)
+            .addOnSuccessListener {
+                User.coins += task.duree
+                mainActivityListener?.refreshCoins()
             }
             .addOnFailureListener { e ->
                 Log.e("ERROR", "Error adding in transactionCollection : $e")
