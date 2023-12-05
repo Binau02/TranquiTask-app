@@ -12,5 +12,6 @@ data class TacheModel(
     val deadline: String,
     val priority: String,
     val category: String,
-    val ref: DocumentReference
+    val ref: DocumentReference,
+    val done: Int
 )

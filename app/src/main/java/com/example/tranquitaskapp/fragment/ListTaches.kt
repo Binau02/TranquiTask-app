@@ -129,7 +129,8 @@ class ListTaches : Fragment() {
                         .format(task.deadline!!.toDate()),
                     Priorities.dictionary[task.priorite] ?: "",
                     taskCategory.name,
-                    task.ref
+                    task.ref,
+                    task.done
                 )
                     .let {
                         listeTacheModel.add(
