@@ -10,9 +10,16 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.data.CategoryModel
+import com.example.tranquitaskapp.data.ListTaskFilter
+import com.example.tranquitaskapp.data.Period
 
-class CategoryRowAdapter(val data: List<CategoryModel>) :
+class CategoryRowAdapter(
+    val data: List<CategoryModel>,
+    private val onCategoryClick: () -> Unit,
+    private val isDay: Boolean
+) :
     RecyclerView.Adapter<CategoryRowAdapter.MyViewHolder>() {
     class MyViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         val imageView = row.findViewById<ImageView>(R.id.logoCategory)
@@ -40,6 +47,13 @@ class CategoryRowAdapter(val data: List<CategoryModel>) :
         holder.imageView.setColorFilter(Color.BLACK)
         holder.progressBar.progress = data[position].progress
         holder.row.setOnClickListener{
+            ListTaskFilter.category = CategoryDictionary.nameToDocumentReference[holder.nameView.text]
+            if(isDay){
+                ListTaskFilter.period = Period.DAY
+            }else{
+                ListTaskFilter.period = Period.WEEK
+            }
+            onCategoryClick()
             Log.d("TEST","Appuie sur la categorie "+holder.nameView.text)
         }
     }

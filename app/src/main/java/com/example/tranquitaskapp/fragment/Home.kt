@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -135,8 +134,15 @@ class Home : Fragment() {
 
             progressBar.setPercentageExternal(100F)
         }
-        rv.adapter = CategoryRowAdapter(listCategoryModel)
+        rv.adapter = CategoryRowAdapter(listCategoryModel, ::onClickCategory,day)
     }
+
+    private fun onClickCategory(){
+        val fragment = ListTaches() // Remplacez par le fragment que vous souhaitez afficher
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+    }
+
 
     fun isToday(date : com.google.firebase.Timestamp?) : Boolean {
         if (date == null) {

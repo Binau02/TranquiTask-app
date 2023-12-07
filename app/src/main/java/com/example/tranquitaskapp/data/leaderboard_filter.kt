@@ -7,3 +7,9 @@ object LeaderboardFilter {
     var category: DocumentReference? = null
     var priority: Int = -1
 }
+
+fun resetLeaderboardFilter(){
+    LeaderboardFilter.period = Period.ALL
+    LeaderboardFilter.category = null
+    LeaderboardFilter.priority = -1
+}
