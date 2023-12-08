@@ -15,18 +15,7 @@ import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Profile.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Profile : Fragment() {
-    /*
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-     */
-
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
     override fun onAttach(context: Context) {
@@ -46,7 +35,10 @@ class Profile : Fragment() {
         replaceFragment(ModifyProfile())
     }
     private fun onClickScenery(){
-        Toast.makeText(this.context, "Le bouton Modifier Décor a été cliqué !", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this.context, "Le bouton Modifier Décor a été cliqué !", Toast.LENGTH_SHORT).show()
+        val fragment = EditDecor()
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
     private fun onClickShop(){
 //        Toast.makeText(this.context, "Le bouton Boutique a été cliqué !", Toast.LENGTH_SHORT).show()
@@ -85,31 +77,21 @@ class Profile : Fragment() {
                 .into(profilePicture)
         }
 
-        return view
-        // Inflate the layout for this fragment
-    }
+        val categories = mapOf<String, ImageView>(
+            "sol" to view.findViewById(R.id.sol),
+            "maison" to view.findViewById(R.id.maison),
+            "arbre" to view.findViewById(R.id.arbre),
+            "ciel" to view.findViewById(R.id.ciel)
+        )
 
-
-/*
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Profile.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Profile().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        for ((category, image) in categories) {
+            if (User.decor[category] != "") {
+                Glide.with(this)
+                    .load(User.decor[category])
+                    .into(image)
             }
-    }
+        }
 
- */
+        return view
+    }
 }

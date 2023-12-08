@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.R
@@ -21,6 +20,7 @@ import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.interfaces.MainActivityListener
+import com.example.tranquitaskapp.ui.CustomPopup
 import com.google.firebase.Timestamp
 
 class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.ScreenStateListener {
@@ -36,7 +36,9 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     private lateinit var buttonSaveQuit: Button
     private lateinit var countdownTimer: CountDownTimer
     private val db = MyFirebase.getFirestoreInstance()
-    private val initialMillis: Long = (task.duree * 60000).toLong() // 30 secondes
+    val part1 = (task.duree.toLong() * 60000)
+    val part2 = (100 - task.done) / 100.0
+    private val initialMillis: Long = (part1 * part2).toLong()// 30 secondes
     private var timeLeftMillis: Long = initialMillis
     private var timerRunning = false
 
@@ -62,11 +64,36 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     }
 
     private fun onClickBack(){
-        replaceFragment(ListTaches())
+        this.context?.let {
+            CustomPopup.showPopup(
+                context = it,
+                getString(R.string.quit_task),
+                object :
+                    CustomPopup.PopupClickListener {
+                    override fun onPopupButtonClick() {
+                        replaceFragment(ListTaches())
+                    }
+                }
+            )
+        }
     }
     private fun onCLickSaveQuit(){
         // sauvegarder la progression de la tâche et retour page principale
         Toast.makeText(this.context, "sauvegarde pas encore", Toast.LENGTH_SHORT).show()
+        val pourcentage: Double = 100.0 - (timeLeftMillis/initialMillis.toFloat())*100
+        Log.d("POURCENTAGE","${pourcentage}")
+        val taskRef = task.ref
+        task.done = pourcentage.toInt()
+        taskRef.update("done", pourcentage.toInt())
+            .addOnSuccessListener {
+                // La mise à jour a réussi
+                Log.d("Update", "La tache a ete modifiée")
+                replaceFragment(Home())
+            }
+            .addOnFailureListener { e ->
+                // Gérer les erreurs lors de la mise à jour
+                Log.e("Update", "La tache n'a pas été modifiée : $e")
+            }
         replaceFragment(Home())
     }
 
@@ -74,6 +101,14 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        Log.d("POURCENTAGE","${timeLeftMillis}")
+        Log.d("POURCENTAGE","${initialMillis}")
+        Log.d("POURCENTAGE","${task.duree}")
+        Log.d("POURCENTAGE","${task.done}")
+        Log.d("POURCENTAGE","part 1 : ${part1}")
+        Log.d("POURCENTAGE","part 1 : ${part2}")
+
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_start_task, container, false)
         buttonStart = view.findViewById(R.id.button_start)
@@ -96,13 +131,16 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
             buttonStart.visibility = View.INVISIBLE
             buttonValider.visibility = View.VISIBLE
             buttonPause.visibility = View.VISIBLE
-            buttonBack.visibility = View.INVISIBLE
             buttonSaveQuit.visibility = View.INVISIBLE
         }
         buttonPause.setOnClickListener {
             pauseTimer()
             buttonStart.visibility = View.VISIBLE
-            buttonSaveQuit.visibility = View.VISIBLE
+            if(task.divisible){
+                buttonSaveQuit.visibility = View.VISIBLE
+            }else{
+                buttonSaveQuit.visibility = View.INVISIBLE
+            }
             buttonValider.visibility = View.INVISIBLE
             buttonPause.visibility = View.INVISIBLE
         }
@@ -135,13 +173,13 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         val userReference = db.collection("user").document(User.id)
 
         val transactionData = hashMapOf(
-            "amount" to task.duree,
+            "amount" to task.duree - timeLeftMillis/60000,
             "categorie" to task.categorie,
             "date" to Timestamp.now(),
             "user" to userReference,
         )
         val updateUser = hashMapOf(
-            "coins" to User.coins + task.duree
+            "coins" to User.coins + (task.duree - timeLeftMillis/60000)
         )
         transactionCollection.add(transactionData)
             .addOnSuccessListener {
@@ -152,7 +190,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
         userReference.update(updateUser as Map<String, Any>)
             .addOnSuccessListener {
-                User.coins += task.duree
+                User.coins += (task.duree - timeLeftMillis/60000)
                 mainActivityListener?.refreshCoins()
             }
             .addOnFailureListener { e ->
@@ -162,11 +200,12 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
     private fun onClickValidate(){
         val taskRef = task.ref
+        task.done = 100
         taskRef.update("done", 100)
             .addOnSuccessListener {
                 // La mise à jour a réussi
                 Log.d("Update", "La tache a ete modifiée")
-                Toast.makeText(this.context, "Vous avez gagné ${task.duree} coins", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Vous avez gagné ${task.duree - timeLeftMillis/60000} coins", Toast.LENGTH_SHORT).show()
                 addCoinToUser()
                 val fragment = Home()
                 val transaction = fragmentManager?.beginTransaction()

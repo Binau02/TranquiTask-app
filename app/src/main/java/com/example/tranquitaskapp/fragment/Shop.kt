@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp.fragment
 
+import State
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,11 +23,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.text.FieldPosition
-
-private enum class State {
-    LOADING, SOL, MAISON, ARBRE, CIEL
-}
 
 class Shop : Fragment() {
     private lateinit var view: View

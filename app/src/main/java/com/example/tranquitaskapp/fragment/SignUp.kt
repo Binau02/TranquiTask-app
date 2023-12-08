@@ -72,8 +72,15 @@ class SignUp : Fragment() {
             "email" to email,
             "demandes" to emptyList<String>(), // Champ avec une liste vide
             "username" to username,
+            "taches" to emptyList<String>(),
             "sol" to "",
-            "taches" to emptyList<String>()
+            "maison" to "",
+            "arbre" to "",
+            "ciel" to "",
+            "sol_bought" to emptyList<String>(),
+            "maison_bought" to emptyList<String>(),
+            "arbre_bought" to emptyList<String>(),
+            "ciel_bought" to emptyList<String>()
         )
         usersCollection.add(userData)
             .addOnSuccessListener {

@@ -62,8 +62,13 @@
     <string name="break_str">Pause</string>
     <string name="start">Démarrer</string>
     <string name="modify_task">Modifier votre tâche</string>
-    <string name="modify_profile_pop_up">Êtes-vous sur de vouloir modifier votre profil?</string>
-    <string name="delete_task_pop_up">Êtes-vous sur de supprimer cette tâche ?</string>
+    <string name="modify_profile_pop_up">Êtes-vous sur(e) de vouloir modifier votre profil?</string>
+    <string name="delete_task_pop_up">Êtes-vous sur(e) de supprimer cette tâche ?</string>
     <string name="save_and_quit">Sauvegarder et quitter</string>
+    <string name="warning_screen_block">ATTENTION : Cette tâche demande de la concentration. Si vous quittez cette page, vous perdrez toute progression.</string>
     <string name="not_enough_gold">Vous n\'avez pas assez d\'or pour acheter cet item..\.</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="concentration">Concentration</string>
+    <string name="quit_task">Êtes-vous sûr(e) de vouloir quitter la tâche ? Vous ne recevrez pas de pièces, et votre progression sera perdue.</string>
 </resources>

@@ -128,6 +128,8 @@ class SignIn : Fragment() {
                 for (bought in boughts) {
                     User.bought[category]?.add(bought)
                 }
+
+                User.decor[category] = user.getString(category) ?: ""
             }
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding user: $e")

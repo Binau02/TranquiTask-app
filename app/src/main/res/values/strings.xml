@@ -65,7 +65,10 @@
     <string name="modify_profile_pop_up">Are you sure you want to modify your profile?</string>
     <string name="delete_task_pop_up">Are you sure you want to delete this task?</string>
     <string name="save_and_quit">Save and quit</string>
+    <string name="warning_screen_block">WARNING: This task requires concentration. If you leave this page, you will lose all progress.</string>
     <string name="not_enough_gold">You don\'t have enough gold to buy this item..\.</string>
-
-
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="concentration">Concentration</string>
+    <string name="quit_task">Are you sure you want to quit the task? You will not receive coins, and your progress will be lost.</string>
 </resources>

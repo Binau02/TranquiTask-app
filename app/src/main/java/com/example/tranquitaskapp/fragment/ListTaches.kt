@@ -130,7 +130,9 @@ class ListTaches : Fragment() {
                     Priorities.dictionary[task.priorite] ?: "",
                     taskCategory.name,
                     task.ref,
-                    task.done
+                    task.done,
+                    task.concentration,
+                    task.divisible
                 )
                     .let {
                         listeTacheModel.add(
