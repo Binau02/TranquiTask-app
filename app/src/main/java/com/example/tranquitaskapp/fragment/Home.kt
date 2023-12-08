@@ -196,11 +196,8 @@ class Home : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         rv = view.findViewById(R.id.rv)
         progressBar = view.findViewById(R.id.progressBar)
-        val tvToday = view.findViewById<TextView>(R.id.tvToday)
-        val tvWeek = view.findViewById<TextView>(R.id.tvWeek)
-
-        val buttonToday = view.findViewById<RelativeLayout>(R.id.todayButton)
-        val buttonWeek = view.findViewById<RelativeLayout>(R.id.weekButton)
+        val buttonToday = view.findViewById<TextView>(R.id.tvToday)
+        val buttonWeek = view.findViewById<TextView>(R.id.tvWeek)
         val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.fab2)
 
@@ -223,8 +220,8 @@ class Home : Fragment() {
                 currentState = ButtonState.TODAY
                 buttonToday.setBackgroundColor(colorPrimary)
                 buttonWeek.setBackgroundColor(colorDark)
-                tvToday.setTextColor(colorDark)
-                tvWeek.setTextColor(colorPrimary)
+                buttonToday.setTextColor(colorDark)
+                buttonWeek.setTextColor(colorPrimary)
                 // Appel de la fonction associée au clic sur "Today"
                 onClickToday()
             }
@@ -235,8 +232,8 @@ class Home : Fragment() {
                 currentState = ButtonState.WEEK
                 buttonWeek.setBackgroundColor(colorPrimary)
                 buttonToday.setBackgroundColor(colorDark)
-                tvWeek.setTextColor(colorDark)
-                tvToday.setTextColor(colorPrimary)
+                buttonWeek.setTextColor(colorDark)
+                buttonToday.setTextColor(colorPrimary)
                 // Appel de la fonction associée au clic sur "Week"
                 onClickWeek()
             }

@@ -11,8 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,13 +54,14 @@ class Friends : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
-    private lateinit var badge : TextView
 
     private var friendsSelected : Boolean = true
     private val globalDemandes : MutableList<FriendsModel> = mutableListOf()
     private lateinit var user : DocumentSnapshot
     private lateinit var demandes : MutableList<DocumentReference>
 
+    private var colorPrimary: Int = 0
+    private var colorDark: Int = 0
     private suspend fun getFriends() {
         // récupérer les amis
         try {
@@ -128,7 +132,6 @@ class Friends : Fragment() {
         if (!friendsSelected) {
             setDemandes()
         }
-        badge.text = globalDemandes.size.toString()
     }
 
     private fun addFriend(friendDoc : DocumentSnapshot?) {
@@ -141,17 +144,10 @@ class Friends : Fragment() {
 
     private fun setFriends() {
         rv.adapter = FriendsRowAdapter(globalFriends, this)
-        if (globalDemandes.isNotEmpty()) {
-            badge.visibility = View.VISIBLE
-        }
-        else {
-            badge.visibility = View.INVISIBLE
-        }
     }
 
     private fun setDemandes() {
         rv.adapter = FriendsRowAdapter(globalDemandes, this, false)
-        badge.visibility = View.INVISIBLE
     }
 
     fun acceptNewFriend(position: Int) {
@@ -174,13 +170,14 @@ class Friends : Fragment() {
             Log.d("ERROR", "Error updating demandes of user : $e")
         }
         globalDemandes.removeAt(position)
-        badge.text = globalDemandes.size.toString()
         setDemandes()
     }
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        colorPrimary = ContextCompat.getColor(requireContext(), R.color.my_primary_light)
+        colorDark = ContextCompat.getColor(requireContext(), R.color.my_dark)
         if (context is BottomBarVisibilityListener) {
             bottomBarListener = context
         }
@@ -219,15 +216,22 @@ class Friends : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friends, container, false)
         rv = view.findViewById(R.id.rv_friend)
-        badge = view.findViewById(R.id.notificationBadge)
-        val buttonFriends = view.findViewById<Button>(R.id.friendButton)
-        val buttonNewFriend = view.findViewById<Button>(R.id.newFriendButton)
+        val buttonFriends = view.findViewById<TextView>(R.id.tvFriends)
+        val buttonNewFriend = view.findViewById<TextView>(R.id.tvNewFriends)
         val addFriends = view.findViewById<ImageView>(R.id.add_friend)
 
         buttonFriends.setOnClickListener {
+            buttonFriends.setTextColor(colorDark)
+            buttonFriends.setBackgroundColor(colorPrimary)
+            buttonNewFriend.setTextColor(colorPrimary)
+            buttonNewFriend.setBackgroundColor(colorDark)
             onClickFriends()
         }
         buttonNewFriend.setOnClickListener {
+            buttonFriends.setTextColor(colorPrimary)
+            buttonFriends.setBackgroundColor(colorDark)
+            buttonNewFriend.setTextColor(colorDark)
+            buttonNewFriend.setBackgroundColor(colorPrimary)
             onClickNewFriend()
         }
         addFriends.setOnClickListener {

@@ -99,66 +99,58 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:cardCornerRadius="30dp">
-
+                    app:cardCornerRadius="30dp"
+                    app:cardBackgroundColor="@color/my_primary_light">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal"
-                        android:background="@color/my_primary_light">
-
-                        <RelativeLayout
-                            android:id="@+id/todayButton"
+                        android:orientation="vertical">
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="80dp"
-                            android:layout_weight="2"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal"
                             android:background="@color/my_primary_light">
+
                             <TextView
                                 android:id="@+id/tvToday"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
                                 android:text="@string/today"
+                                android:gravity="center"
+                                android:textColor="@color/my_dark"
                                 android:textSize="20dp"
-                                android:textStyle="bold"
-                                android:textColor="@color/my_dark"/>
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:id="@+id/weekButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_weight="2"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center"
-                            android:background="@color/my_dark">
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:id="@+id/tvWeek"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
                                 android:text="@string/this_week"
-                                android:textStyle="bold"
+                                android:gravity="center"
                                 android:textSize="20dp"
-                                android:textColor="@color/my_primary_light"/>
+                                android:background="@color/my_dark"
+                                android:textColor="@color/my_primary_light"
+                                android:textStyle="bold"/>
 
-                        </RelativeLayout>
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"/>
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top|center"
+                            android:paddingHorizontal="15dp">
+
+                        </androidx.recyclerview.widget.RecyclerView>
                     </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"/>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv"
-                        android:layout_width="370dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top|center"
-                        android:paddingTop="85dp"
-                        android:paddingHorizontal="15dp">
 
-                    </androidx.recyclerview.widget.RecyclerView>
                 </androidx.cardview.widget.CardView>
 
 
