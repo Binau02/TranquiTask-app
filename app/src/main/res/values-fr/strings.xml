@@ -66,4 +66,5 @@
     <string name="delete_task_pop_up">Êtes-vous sur de supprimer cette tâche ?</string>
     <string name="save_and_quit">Sauvegarder et quitter</string>
     <string name="warning_screen_block">ATTENTION : Cette tâche demande de la concentration. Si vous quittez cette page, vous perdrez toute progression.</string>
+    <string name="not_enough_gold">Vous n\'avez pas assez d\'or pour acheter cet item..\.</string>
 </resources>

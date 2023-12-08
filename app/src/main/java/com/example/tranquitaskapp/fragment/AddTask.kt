@@ -31,7 +31,6 @@ import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import java.util.TimeZone
 
 
 class AddTask : Fragment() {
@@ -126,23 +125,18 @@ class AddTask : Fragment() {
             showDatePicker()
         }
         imgTimeView.setOnClickListener {
-            val cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            val cal = Calendar.getInstance()
             cal.set(Calendar.HOUR_OF_DAY, 0)
             cal.set(Calendar.MINUTE, 0)
             val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hour)
                 cal.set(Calendar.MINUTE, minute)
-                tvSelectedTime.text = SimpleDateFormat("HH:mm",Locale.FRENCH).format(cal.time)
-
-                val selectedTime = SimpleDateFormat(
-                    "HH:mm",
-                    Locale.FRENCH
-                ).parse(tvSelectedTime.text.toString())
-                val timestampInMillis =
-                    selectedTime?.time ?: 0 // Utilisation de 0 si la conversion échoue
 
                 // Convertir le timestamp en minutes
-                timestampInSeconds = (timestampInMillis / 60000).toInt()
+                val timestampInMinutes = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
+
+                tvSelectedTime.text = SimpleDateFormat("HH:mm").format(cal.time)
+                timestampInSeconds = timestampInMinutes
             }
 
             // Créer le TimePickerDialog en mode "spinner"
@@ -206,7 +200,7 @@ class AddTask : Fragment() {
             requireContext(), { _, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                 calendar.set(year, monthOfYear, dayOfMonth)  // Mettez à jour l'instance de Calendar ici
                 formattedDate = Timestamp(calendar.time)
-                val dateFormat = SimpleDateFormat("dd/MM", Locale.FRENCH)
+                val dateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
                 tvDate.text = dateFormat.format(calendar.time)
             },
             calendar.get(Calendar.YEAR),

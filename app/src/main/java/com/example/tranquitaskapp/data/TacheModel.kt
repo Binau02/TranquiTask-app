@@ -1,5 +1,7 @@
 package com.example.tranquitaskapp.data
 
+import com.google.firebase.firestore.DocumentReference
+
 data class TacheModel(
     val id:String,
     val name: String,
@@ -9,5 +11,7 @@ data class TacheModel(
     val duration: Int,
     val deadline: String,
     val priority: String,
-    val category: String
+    val category: String,
+    val ref: DocumentReference,
+    val done: Int
 )

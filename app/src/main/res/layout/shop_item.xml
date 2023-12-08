@@ -43,7 +43,7 @@
                 android:background="@drawable/coin_amount"
                 android:paddingStart="10dp"
                 android:paddingEnd="15dp"
-                android:text="947"
+                android:text="500"
                 android:textSize="15sp" />
 
             <ImageView

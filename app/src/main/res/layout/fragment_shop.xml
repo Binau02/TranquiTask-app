@@ -22,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/demo_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/empty"
@@ -59,6 +60,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/sol"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -69,6 +71,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/maison"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -79,6 +82,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/arbre"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -89,6 +93,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/ciel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -123,11 +128,12 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/save"
+            android:id="@+id/buy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/buy" />
+            android:text="@string/buy"
+            android:enabled="false"/>
 
     </LinearLayout>
 

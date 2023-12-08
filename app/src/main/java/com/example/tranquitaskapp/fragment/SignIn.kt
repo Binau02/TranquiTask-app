@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
@@ -53,35 +52,6 @@ class SignIn : Fragment() {
         sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
 
-    // unused, TODO : @Hugo check si tu veux garder des trucs, et tu peux delete
-    fun getUsersInformations(email: String) {
-        db.collection("user").whereEqualTo("email", email)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents != null) {
-                    val username = documents.documents[0].getString("username")
-
-                    val coins = documents.documents[0].getLong("coins")
-                    val profilePicture = documents.documents[0].getString("profile_picture")
-                    if (username != null && coins != null && profilePicture != null) {
-                        User.username = username
-                        User.mail = email
-                        User.coins = coins
-                        User.profile_picture = profilePicture
-                        User.id = documents.documents[0].id
-                    }
-                    val fragment = Home()
-                    val transaction = fragmentManager?.beginTransaction()
-                    transaction?.replace(R.id.frameLayout, fragment)?.commit()
-                }
-
-            }
-            .addOnFailureListener { exception ->
-                // Gérer les erreurs éventuelles
-                Log.e("ERROR", "Erreur lors de la récupération du user : $exception")
-            }
-    }
-
     private suspend fun getInformations(email : String) {
         val packageName = this.context?.packageName
 
@@ -91,14 +61,12 @@ class SignIn : Fragment() {
                 Tasks.await(db.collection("user").whereEqualTo("email", email).get())
             }
             val user = userDocs.documents[0]
-            Log.d("TEST","Boup1 " + user.data?.get("username").toString())
             User.username = user.getString("username") ?: ""
             User.mail = email
             User.coins = user.getLong("coins") ?: 0
             User.profile_picture = user.getString("profile_picture") ?: ""
             User.id = user.id
             User.ref = user.reference
-            Log.d("TEST","Boup " + user.getString("username").toString())
 
             val tasks = user.get("taches") as List<DocumentReference>
             // récupérer chaque tâche de l'utilisateur
@@ -145,9 +113,27 @@ class SignIn : Fragment() {
                     Log.e("ERROR", "Error getting task document: $e")
                 }
             }
+
+            val categories = listOf(
+                "sol",
+                "maison",
+                "arbre",
+                "ciel"
+            )
+
+            for (category in categories) {
+                User.bought[category] = mutableListOf()
+
+                val boughts = user.get(category + "_bought") as List<String>
+                for (bought in boughts) {
+                    User.bought[category]?.add(bought)
+                }
+            }
         } catch (e: Exception) {
             Log.e("ERROR", "Error finding user: $e")
         }
+
+
 
         try {
             val categoryDocs = withContext(Dispatchers.IO) {
