@@ -67,4 +67,7 @@
     <string name="save_and_quit">Sauvegarder et quitter</string>
     <string name="warning_screen_block">ATTENTION : Cette tâche demande de la concentration. Si vous quittez cette page, vous perdrez toute progression.</string>
     <string name="not_enough_gold">Vous n\'avez pas assez d\'or pour acheter cet item..\.</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="concentration">Concentration</string>
 </resources>

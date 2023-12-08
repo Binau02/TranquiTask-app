@@ -67,6 +67,8 @@
     <string name="save_and_quit">Save and quit</string>
     <string name="warning_screen_block">WARNING: This task requires concentration. If you leave this page, you will lose all progress.</string>
     <string name="not_enough_gold">You don\'t have enough gold to buy this item..\.</string>
-
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="concentration">Concentration</string>
 
 </resources>
