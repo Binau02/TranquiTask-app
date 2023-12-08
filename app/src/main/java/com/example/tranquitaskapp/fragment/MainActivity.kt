@@ -3,6 +3,8 @@ package com.example.tranquitaskapp.fragment
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -91,6 +93,9 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener, MainActiv
 
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
+        val slideUp = Slide(Gravity.END)
+        slideUp.duration = 150 // Durée de l'animation en millisecondes
+        fragment.enterTransition = slideUp
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout,fragment)
         fragmentTransaction.commit()

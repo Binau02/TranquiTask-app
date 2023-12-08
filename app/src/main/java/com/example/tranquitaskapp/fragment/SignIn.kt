@@ -3,7 +3,9 @@ package com.example.tranquitaskapp.fragment
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.transition.Slide
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -174,6 +176,9 @@ class SignIn : Fragment() {
         }
 
         val fragment = Home()
+        val slideUp = Slide(Gravity.END)
+        slideUp.duration = 300 // Durée de l'animation en millisecondes
+        fragment.enterTransition = slideUp
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
@@ -268,12 +273,18 @@ class SignIn : Fragment() {
 
         textSignUp.setOnClickListener {
             val fragment = SignUp()
+            val slideUp = Slide(Gravity.START)
+            slideUp.duration = 300 // Durée de l'animation en millisecondes
+            fragment.enterTransition = slideUp
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
 
         forgotPassword.setOnClickListener {
             val fragment = ForgotPassword()
+            val slideUp = Slide(Gravity.BOTTOM)
+            slideUp.duration = 300 // Durée de l'animation en millisecondes
+            fragment.enterTransition = slideUp
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }

@@ -1,7 +1,9 @@
 package com.example.tranquitaskapp.fragment
 
 import android.os.Bundle
+import android.transition.Slide
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +51,9 @@ class ListTaskFilter : Fragment() {
         val periodGroup = view.findViewById<RadioGroup>(R.id.period_group)
         buttonback.setOnClickListener {
             val fragment = ListTaches()
+            val slideUp = Slide(Gravity.BOTTOM)
+            slideUp.duration = 150 // Durée de l'animation en millisecondes
+            fragment.enterTransition = slideUp
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }

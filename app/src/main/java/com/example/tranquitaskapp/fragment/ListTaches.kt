@@ -6,6 +6,8 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.transition.Slide
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -63,12 +65,18 @@ class ListTaches : Fragment() {
     private fun onClickFiltre() {
         Toast.makeText(this.context, "Le bouton Filtre a été cliqué !", Toast.LENGTH_SHORT).show()
         val fragment = ListTaskFilter()
+        val slideUp = Slide(Gravity.TOP)
+        slideUp.duration = 150 // Durée de l'animation en millisecondes
+        fragment.enterTransition = slideUp
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
     private fun onClickBack() {
         val fragment = Home()
+        val slideUp = Slide(Gravity.TOP)
+        slideUp.duration = 150 // Durée de l'animation en millisecondes
+        fragment.enterTransition = slideUp
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }

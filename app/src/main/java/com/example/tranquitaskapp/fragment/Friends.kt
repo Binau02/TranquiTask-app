@@ -2,7 +2,9 @@ package com.example.tranquitaskapp.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.transition.Slide
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -202,6 +204,9 @@ class Friends : Fragment() {
     private fun onClickAddFriend(){
 //        Toast.makeText(this.context, "Le bouton Ajouter un ami a été cliqué !", Toast.LENGTH_SHORT).show()
         val fragment = AddFriend(globalFriends, globalDemandes)
+        val slideUp = Slide(Gravity.TOP)
+        slideUp.duration = 150 // Durée de l'animation en millisecondes
+        fragment.enterTransition = slideUp
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }

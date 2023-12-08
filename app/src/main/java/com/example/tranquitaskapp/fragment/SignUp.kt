@@ -3,7 +3,9 @@ package com.example.tranquitaskapp.fragment
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.transition.Slide
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -157,6 +159,9 @@ class SignUp : Fragment() {
 
         buttonCancel.setOnClickListener{
             val fragment = SignIn()
+            val slideUp = Slide(Gravity.END)
+            slideUp.duration = 300 // Durée de l'animation en millisecondes
+            fragment.enterTransition = slideUp
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }

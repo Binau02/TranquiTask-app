@@ -3,7 +3,9 @@ package com.example.tranquitaskapp.fragment
 import android.content.Context
 import android.media.Image
 import android.os.Bundle
+import android.transition.Slide
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -85,6 +87,9 @@ class Leaderboard : Fragment() {
 
     private fun onClickFiltre(){
         val fragment = LeaderboardFilter()
+        val slideUp = Slide(Gravity.TOP)
+        slideUp.duration = 150 // Durée de l'animation en millisecondes
+        fragment.enterTransition = slideUp
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
