@@ -156,26 +156,20 @@ class AddTask : Fragment() {
         saveBtn.setOnClickListener {
             val checkBoxConcentration = view.findViewById<CheckBox>(R.id.checkBoxConcentration)
             val isConcentrationChecked = checkBoxConcentration.isChecked
-
             val checkBoxDivisible = view.findViewById<CheckBox>(R.id.checkBoxDivisible)
             val isDivisibleChecked = checkBoxDivisible.isChecked
-
             val nameTask = view.findViewById<TextView>(R.id.editNameTask)
             val categorie =
                 listCategory[spinnerCategory.selectedItem]
             val priority =
                 listPriority[spinnerPriority.selectedItem]
-
             val icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_warning)
-
 
             if (nameTask.text.isNullOrBlank() || formattedDate == null || timestampInSeconds == 0) {
                 // Afficher une erreur ou une notification indiquant que tous les champs doivent être remplis
                 if (nameTask.text.isEmpty()) {
                     nameTask.setError("Please Enter a name", icon)
                 }
-
-
                 Toast.makeText(context, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT)
                     .show()
             } else {
@@ -189,6 +183,7 @@ class AddTask : Fragment() {
                         isConcentrationChecked,
                         timestampInSeconds
                     )
+                    Toast.makeText(context, "Tâche bien ajouté à la liste !", Toast.LENGTH_SHORT).show()
                 }
             }
         }

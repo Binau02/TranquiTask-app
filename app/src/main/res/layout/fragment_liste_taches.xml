@@ -2,72 +2,106 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_task"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <LinearLayout
-        android:id="@+id/search_bar_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/back"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+       >
+        <LinearLayout
+            android:id="@+id/search_bar_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="←"
-            android:textColor="#000000"
-            android:textSize="30sp" />
-
-        <RelativeLayout
-            android:id="@+id/rl_research"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="2"
-            android:background="@drawable/rounded_gray_background"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingTop="15dp"
+            android:gravity="end"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/logo_loupe"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/search" />
+                android:id="@+id/back"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/back_arrow" />
 
-            <EditText
-                android:id="@+id/search_bar"
+
+            <RelativeLayout
+                android:id="@+id/rl_research"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="5"
+                android:background="@drawable/rounded_category_logo"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <ImageView
+                    android:id="@+id/logo_loupe"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/search" />
+
+                <EditText
+                    android:id="@+id/search_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/logo_loupe"
+                    android:hint="research" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/filtre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:layout_weight="1"
+                android:src="@drawable/filter"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/logo_loupe"
-                android:hint="research" />
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:paddingBottom="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="25dp"
+                app:cardBackgroundColor="@color/my_primary_light">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_liste_tache"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
+
+                    android:layout_gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.487"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/search_bar_container">
+                </androidx.recyclerview.widget.RecyclerView>
+            </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/filtre"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="filtre"
-            android:textColor="#000000" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_liste_tache"
-        android:layout_width="370dp"
-        android:layout_height="560dp"
-        android:layout_gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_bar_container">
-    </androidx.recyclerview.widget.RecyclerView>
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

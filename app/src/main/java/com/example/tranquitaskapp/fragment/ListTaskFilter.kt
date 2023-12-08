@@ -38,11 +38,71 @@ class ListTaskFilter : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_list_task_filter, container, false)
         val buttonback = view.findViewById<ImageView>(R.id.btn_back)
+
+        val buttonPriority = view.findViewById<ImageView>(R.id.button_priority)
+        val priorityGroup = view.findViewById<RadioGroup>(R.id.priority_group)
+
+        val buttonCategory = view.findViewById<ImageView>(R.id.button_category)
+        val categoryGroup = view.findViewById<RadioGroup>(R.id.category_group)
+
+        val buttonPeriod = view.findViewById<ImageView>(R.id.button_period)
+        val periodGroup = view.findViewById<RadioGroup>(R.id.period_group)
         buttonback.setOnClickListener {
             val fragment = ListTaches()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
+        buttonCategory.setOnClickListener {
+            // Inverser la visibilité du RadioGroup
+            periodGroup.visibility = View.GONE
+            buttonPeriod.setImageResource(R.drawable.arrow_down)
+            priorityGroup.visibility = View.GONE
+            buttonPriority.setImageResource(R.drawable.arrow_down)
+            categoryGroup.visibility = if (categoryGroup.visibility == View.VISIBLE) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+
+            // Changer la flèche en fonction de la visibilité
+            val arrowResource =
+                if (categoryGroup.visibility == View.VISIBLE) R.drawable.arrow_up else R.drawable.arrow_down
+            buttonCategory.setImageResource(arrowResource)
+        }
+        buttonPeriod.setOnClickListener {
+            // Inverser la visibilité du RadioGroup
+            categoryGroup.visibility = View.GONE
+            buttonCategory.setImageResource(R.drawable.arrow_down)
+            priorityGroup.visibility = View.GONE
+            buttonPriority.setImageResource(R.drawable.arrow_down)
+            periodGroup.visibility = if (periodGroup.visibility == View.VISIBLE) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+
+            // Changer la flèche en fonction de la visibilité
+            val arrowResource =
+                if (periodGroup.visibility == View.VISIBLE) R.drawable.arrow_up else R.drawable.arrow_down
+            buttonPeriod.setImageResource(arrowResource)
+        }
+        buttonPriority.setOnClickListener {
+            categoryGroup.visibility = View.GONE
+            buttonCategory.setImageResource(R.drawable.arrow_down)
+            periodGroup.visibility = View.GONE
+            buttonPeriod.setImageResource(R.drawable.arrow_down)
+            priorityGroup.visibility = if (priorityGroup.visibility == View.VISIBLE) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+
+            // Changer la flèche en fonction de la visibilité
+            val arrowResource =
+                if (priorityGroup.visibility == View.VISIBLE) R.drawable.arrow_up else R.drawable.arrow_down
+            buttonPriority.setImageResource(arrowResource)
+        }
+
         setRadioButtons(view)
 
         return view

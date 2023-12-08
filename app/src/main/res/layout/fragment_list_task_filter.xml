@@ -1,189 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ListTaskFilter">
+    tools:context=".fragment.LeaderboardFilter"
+    android:background="@color/my_primary"
+    android:padding="15dp">
 
-    <LinearLayout
-        android:id="@+id/title_bar"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/btn_back"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:src="@drawable/back_arrow" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="3"
-            android:text="@string/task_filter"
-            android:textAlignment="center"
-            android:textSize="30sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <!-- Layout for the categories -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/title_bar"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginTop="10dp">
-
-        <!-- Layout for one category -->
+        android:layout_height="match_parent"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="15dp"
+        app:cardBackgroundColor="@color/my_secondary_light">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/period_name"
+                android:id="@+id/title_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_width="30dp"
+                    android:id="@+id/btn_back"
+                    android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/arrow_down" />
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/back_arrow" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/period"
-                    android:textSize="20sp" />
+                    android:layout_gravity="center"
+                    android:layout_weight="3"
+                    android:text="@string/task_filter"
+                    android:textAlignment="center"
+                    android:textSize="30sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
             </LinearLayout>
 
-            <View
-                android:id="@+id/period_bar"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/period_name"/>
 
-            <RadioGroup
-                android:id="@+id/period_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/period_bar">
-
-            </RadioGroup>
-        </LinearLayout>
-
-        <!-- Layout for one category -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
-
+            <!-- Layout for the categories -->
             <LinearLayout
-                android:id="@+id/category_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/arrow_down" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/category"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/category_bar"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/category_name"/>
-
-            <RadioGroup
-                android:id="@+id/category_group"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/title_bar"
                 android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view">
+                android:padding="10dp"
+                android:layout_marginTop="10dp">
 
-            </RadioGroup>
+                <!-- Layout for one category -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/period_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/button_period"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/arrow_down" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:text="@string/period"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/period_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/black"
+                        app:layout_constraintTop_toBottomOf="@+id/period_name"/>
+
+                    <RadioGroup
+                        android:id="@+id/period_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/period_bar">
+
+                    </RadioGroup>
+                </LinearLayout>
+
+                <!-- Layout for one category -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/category_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/button_category"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/arrow_down" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:text="@string/category"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/category_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/black"
+                        app:layout_constraintTop_toBottomOf="@+id/category_name"/>
+
+                    <RadioGroup
+                        android:id="@+id/category_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view">
+
+                    </RadioGroup>
+                </LinearLayout>
+
+                <!-- Layout for one category -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/priority_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/button_priority"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/arrow_down" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:text="@string/task_priority"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/priority_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/black"
+                        app:layout_constraintTop_toBottomOf="@+id/category_name"/>
+
+                    <RadioGroup
+                        android:id="@+id/priority_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/view">
+
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Layout for one category -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+    </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:id="@+id/priority_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+</RelativeLayout>
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/arrow_down" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="@string/task_priority"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/priority_bar"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/category_name"/>
-
-            <RadioGroup
-                android:id="@+id/priority_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view">
-
-            </RadioGroup>
-        </LinearLayout>
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>

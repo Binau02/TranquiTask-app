@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -152,8 +153,8 @@ class ListTaches : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_liste_taches, container, false)
         rv = view.findViewById(R.id.rv_liste_tache)
-        val buttonFiltre = view.findViewById<Button>(R.id.filtre)
-        val buttonBack = view.findViewById<Button>(R.id.back)
+        val buttonFiltre = view.findViewById<ImageView>(R.id.filtre)
+        val buttonBack = view.findViewById<ImageView>(R.id.back)
         val searchBar = view.findViewById<EditText>(R.id.search_bar)
 
         buttonFiltre.setOnClickListener {
