@@ -17,6 +17,7 @@ import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.ui.CustomPopup
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.example.tranquitaskapp.data.MainActivityVariables.context
 
 class ListeTachesRowAdapter(
     val data: MutableList<TacheModel>,
@@ -36,6 +37,7 @@ class ListeTachesRowAdapter(
         val taskDeadline: TextView = row.findViewById(R.id.task_deadline)
         val taskPriority: TextView = row.findViewById(R.id.task_priority)
         val taskCategory: TextView = row.findViewById(R.id.task_category)
+        val taskConcentration: TextView = row.findViewById(R.id.task_concentration)
         val imageDevelop: ImageView = row.findViewById(R.id.image_develop)
         val buttonStart: Button = row.findViewById(R.id.buttonStart)
         val modify: ImageView = row.findViewById(R.id.edit)
@@ -113,6 +115,12 @@ class ListeTachesRowAdapter(
         holder.taskDeadline.text = data[position].deadline
         holder.taskPriority.text = data[position].priority
         holder.taskCategory.text = data[position].category
+        if (data[position].concentration) {
+            holder.taskConcentration.text = context.getString(R.string.yes)
+        }
+        else{
+            holder.taskConcentration.text = context.getString(R.string.no)
+        }
     }
 
     override fun getItemCount(): Int = data.size
