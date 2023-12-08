@@ -10,4 +10,10 @@ object User {
     var id = ""
     var ref : DocumentReference? = null
     val bought = hashMapOf<String, MutableList<String>>()
+    val decor = hashMapOf<String, String>(
+        "sol" to "",
+        "maison" to "",
+        "arbre" to "",
+        "ciel" to ""
+    )
 }
