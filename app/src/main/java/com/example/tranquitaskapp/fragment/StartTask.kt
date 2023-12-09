@@ -310,7 +310,6 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         timerRunning = false
         updateTimer()
         Log.d("StartTask", "Button clicked")
-        showNotification(requireContext())
     }
 
     private fun cancelTimer() {
