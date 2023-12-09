@@ -1,6 +1,8 @@
 package com.example.tranquitaskapp.fragment
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.transition.Slide
 import android.util.Log
@@ -24,10 +26,13 @@ import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.FriendsRowAdapter
 import com.example.tranquitaskapp.data.FriendsModel
+import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
+import com.example.tranquitaskapp.ui.CustomPopup
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -53,6 +58,7 @@ class Friends : Fragment() {
     private val globalFriends = mutableListOf<FriendsModel>()
 
     private lateinit var badge : TextView
+    private lateinit var supprimer : ImageView
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
@@ -170,7 +176,21 @@ class Friends : Fragment() {
         badge.text = globalDemandes.size.toString()
         deleteDemande(position)
     }
+    fun removeFriend(position: Int) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirmation")
+        builder.setMessage("Voulez-vous vraiment supprimer cet ami ?")
 
+        builder.setPositiveButton("Oui") { dialogInterface: DialogInterface, i: Int ->
+            Log.d("Friends", "Ami supprimé à la position")
+        }
+        builder.setNegativeButton("Annuler") { dialogInterface: DialogInterface, i: Int ->
+            Log.d("Friends", "Suppression annulée")
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
     fun denyNewFriend(position: Int) {
         deleteDemande(position)
     }
@@ -228,6 +248,7 @@ class Friends : Fragment() {
         val view = inflater.inflate(R.layout.fragment_friends, container, false)
         rv = view.findViewById(R.id.rv_friend)
         badge = view.findViewById(R.id.notificationBadge)
+
         val buttonFriends = view.findViewById<TextView>(R.id.tvFriends)
         val buttonNewFriend = view.findViewById<TextView>(R.id.tvNewFriends)
         val addFriends = view.findViewById<ImageView>(R.id.add_friend)

@@ -42,7 +42,14 @@
             android:background="@drawable/done_icon"
             android:layout_toStartOf="@+id/no"
             android:visibility="gone"/>
-
+        <Button
+            android:id="@+id/supprimer"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/delete"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:visibility="gone"/>
         <Button
             android:id="@+id/no"
             android:layout_width="60dp"
