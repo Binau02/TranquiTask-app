@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="RoundedSeekBarTask" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressDrawable">@drawable/progress_drawable_task</item>
+        <item name="android:thumb">@drawable/thumb_icon_task</item>
+    </style>
+    <style name="RoundedSeekBarStart" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressDrawable">@drawable/progress_drawable_start</item>
+        <item name="android:thumb">@drawable/thumb_icon_start</item>
+    </style>
+</resources>
