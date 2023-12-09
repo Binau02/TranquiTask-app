@@ -57,10 +57,11 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardviewFriends"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
@@ -93,17 +94,23 @@
                             android:textSize="20dp"
                             android:textStyle="bold"/>
 
-                        <TextView
-                            android:id="@+id/tvNewFriends"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="2"
-                            android:text="@string/friend_requests"
-                            android:gravity="center"
-                            android:textSize="20dp"
-                            android:background="@color/my_dark"
-                            android:textColor="@color/my_primary_light"
-                            android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tvNewFriends"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="@string/friend_requests"
+                                android:gravity="center"
+                                android:textSize="20dp"
+                                android:layout_weight="2"
+                                android:background="@color/my_dark"
+                                android:textColor="@color/my_primary_light"
+                                android:textStyle="bold"/>
+
+
+
+
+
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -122,7 +129,25 @@
 
 
             </androidx.cardview.widget.CardView>
-        </RelativeLayout>
+
+            <TextView
+                android:id="@+id/notificationBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_notification"
+                android:gravity="center"
+                android:minWidth="24dp"
+                android:minHeight="24dp"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="@android:color/white"
+                android:translationX="5dp"
+                android:translationY="-5dp"
+                android:translationZ="50dp"
+                app:layout_constraintEnd_toEndOf="@+id/cardviewFriends"
+                app:layout_constraintTop_toTopOf="@+id/cardviewFriends"
+                android:visibility="invisible"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

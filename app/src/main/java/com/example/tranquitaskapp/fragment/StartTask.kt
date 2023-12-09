@@ -6,12 +6,16 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.R
@@ -30,9 +34,6 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
     private lateinit var textViewTimer: TextView
-    private lateinit var buttonStart: Button
-    private lateinit var buttonPause: Button
-    private lateinit var buttonValider: Button
     private lateinit var buttonBack: Button
     private lateinit var buttonSaveQuit: Button
     private lateinit var countdownTimer: CountDownTimer
@@ -110,51 +111,127 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
         Log.d("POURCENTAGE","part 1 : ${part1}")
         Log.d("POURCENTAGE","part 1 : ${part2}")
 
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_start_task, container, false)
-        buttonStart = view.findViewById(R.id.button_start)
-        buttonValider = view.findViewById(R.id.button_valider)
-        buttonPause = view.findViewById(R.id.button_pause)
+        val view = inflater.inflate(R.layout.test, container, false)
+        val buttonBack = view.findViewById<ImageView>(R.id.back2)
+        val buttonSaveQuit = view.findViewById<Button>(R.id.button_save_quit)
         textViewTimer = view.findViewById(R.id.countdown)
-        buttonBack = view.findViewById(R.id.back2)
-        buttonSaveQuit = view.findViewById(R.id.button_save_quit)
 
-        buttonValider.visibility = View.INVISIBLE
-        buttonPause.visibility = View.INVISIBLE
-        buttonSaveQuit.visibility = View.INVISIBLE
-
-        // Initialisation du BroadcastReceiver
+        val seekBar = view.findViewById<SeekBar>(R.id.slider)
+        val seekBarTask = view.findViewById<SeekBar>(R.id.slidertask)
+        val tvBreak = view.findViewById<TextView>(R.id.tvBreak)
+        val tvStart = view.findViewById<TextView>(R.id.tvStart)
+        val tvValidate = view.findViewById<TextView>(R.id.tvValidate)
         screenStateReceiver = ScreenStateReceiver(this)
 
-        // Bouton
-        buttonStart.setOnClickListener {
-            startTimer()
-            buttonStart.visibility = View.INVISIBLE
-            buttonValider.visibility = View.VISIBLE
-            buttonPause.visibility = View.VISIBLE
-            buttonSaveQuit.visibility = View.INVISIBLE
-        }
-        buttonPause.setOnClickListener {
-            pauseTimer()
-            buttonStart.visibility = View.VISIBLE
-            if(task.isDivisible){
-                buttonSaveQuit.visibility = View.VISIBLE
-            }else{
-                buttonSaveQuit.visibility = View.INVISIBLE
+
+        // Initialisez la visibilité des SeekBars
+        seekBar.visibility = View.VISIBLE
+        tvStart.visibility = View.VISIBLE
+        tvBreak.visibility = View.GONE
+        tvValidate.visibility = View.GONE
+        seekBarTask.visibility = View.GONE
+
+        seekBar.progress = 5
+        seekBarTask.progress = 50
+
+        // Ajoutez une variable pour suivre le dernier temps que l'utilisateur a touché le slider
+        var lastTouchTime: Long = 5
+
+        val handler = Handler()
+
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                // Actions à effectuer lorsque la progression change
             }
-            buttonValider.visibility = View.INVISIBLE
-            buttonPause.visibility = View.INVISIBLE
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                // Actions à effectuer lorsque l'utilisateur commence à glisser
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                seekBar?.let {
+                    if (it.progress == it.max) {
+                        startTimer()
+                        seekBar.visibility = View.GONE
+                        tvStart.visibility = View.GONE
+                        tvBreak.visibility = View.VISIBLE
+                        tvValidate.visibility = View.VISIBLE
+                        seekBarTask.visibility = View.VISIBLE
+                        seekBarTask.progress = 50
+                    }
+                }}
+        })
+
+        seekBarTask.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBarTask: SeekBar?, progress: Int, fromUser: Boolean) {
+                // Actions à effectuer lorsque la progression change
+            }
+
+            override fun onStartTrackingTouch(seekBarTask: SeekBar?) {
+                // Actions à effectuer lorsque l'utilisateur commence à glisser
+            }
+
+            override fun onStopTrackingTouch(seekBarTask: SeekBar?) {
+
+                seekBarTask?.let {
+                    if (it.progress == it.max) {
+                        timerRunning = false
+                        onClickValidate()
+                    } else if (it.progress == it.min) {
+                        pauseTimer()
+                        if(task.isDivisible){
+                            buttonSaveQuit.visibility = View.VISIBLE
+                        }else{
+                            buttonSaveQuit.visibility = View.INVISIBLE
+                        }
+                        seekBar.visibility = View.VISIBLE
+                        tvStart.visibility = View.VISIBLE
+                        tvBreak.visibility = View.GONE
+                        tvValidate.visibility = View.GONE
+                        seekBarTask.visibility = View.GONE
+                        seekBar.progress = 0
+                    } else if (it.progress != it.min) {
+                        seekBarTask.progress = 50
+                    }
+
+                }}
+        })
+        seekBar.setOnClickListener {
+            seekBar.progress = 5
         }
-        buttonValider.setOnClickListener {
-            timerRunning = false
-            onClickValidate()
-        }
+
         buttonBack.setOnClickListener {
             onClickBack()
         }
         buttonSaveQuit.setOnClickListener {
             onCLickSaveQuit()
         }
+        seekBar.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                lastTouchTime = System.currentTimeMillis()
+            }
+            false
+        }
+        seekBar.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                // L'utilisateur a touché le slider, enregistrez le temps actuel
+                lastTouchTime = System.currentTimeMillis()
+            }
+            false
+        }
+        val checkInterval = 100L
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                val currentTime = System.currentTimeMillis()
+                val elapsedTime = currentTime - lastTouchTime
+
+                if (elapsedTime > checkInterval && seekBar.progress != seekBar.max) {
+                    seekBar.progress = 5
+                }
+
+                handler.postDelayed(this, checkInterval)
+            }
+        }, checkInterval)
 
         updateTimer()
 
@@ -249,10 +326,6 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
         timerRunning = false
         timeLeftMillis = initialMillis
 
-        buttonStart.visibility = View.VISIBLE
-        buttonValider.visibility = View.INVISIBLE
-        buttonPause.visibility = View.INVISIBLE
-
         updateTimer()
     }
 
@@ -294,7 +367,6 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
         // Désenregistrement du BroadcastReceiver
         activity?.unregisterReceiver(screenStateReceiver)
     }
-
 
     // Méthodes de l'interface ScreenStateListener
     override fun onScreenOff() {

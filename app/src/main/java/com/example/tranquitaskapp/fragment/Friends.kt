@@ -52,6 +52,8 @@ class Friends : Fragment() {
 
     private val globalFriends = mutableListOf<FriendsModel>()
 
+    private lateinit var badge : TextView
+
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
 
@@ -132,6 +134,7 @@ class Friends : Fragment() {
         if (!friendsSelected) {
             setDemandes()
         }
+        badge.text = globalDemandes.size.toString()
     }
 
     private fun addFriend(friendDoc : DocumentSnapshot?) {
@@ -144,10 +147,17 @@ class Friends : Fragment() {
 
     private fun setFriends() {
         rv.adapter = FriendsRowAdapter(globalFriends, this)
+        if (globalDemandes.isNotEmpty()) {
+            badge.visibility = View.VISIBLE
+        }
+        else {
+            badge.visibility = View.INVISIBLE
+        }
     }
 
     private fun setDemandes() {
         rv.adapter = FriendsRowAdapter(globalDemandes, this, false)
+        badge.visibility = View.INVISIBLE
     }
 
     fun acceptNewFriend(position: Int) {
@@ -157,6 +167,7 @@ class Friends : Fragment() {
         )
         db.collection("ami").add(newFriend)
         globalFriends.add(globalDemandes[position])
+        badge.text = globalDemandes.size.toString()
         deleteDemande(position)
     }
 
@@ -216,6 +227,7 @@ class Friends : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_friends, container, false)
         rv = view.findViewById(R.id.rv_friend)
+        badge = view.findViewById(R.id.notificationBadge)
         val buttonFriends = view.findViewById<TextView>(R.id.tvFriends)
         val buttonNewFriend = view.findViewById<TextView>(R.id.tvNewFriends)
         val addFriends = view.findViewById<ImageView>(R.id.add_friend)
