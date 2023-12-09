@@ -1,9 +1,14 @@
 package com.example.tranquitaskapp.fragment
 
 import ScreenStateReceiver
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -14,6 +19,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.data.User
@@ -45,6 +54,8 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     private var isStopOnce = false
     private var isSreenOFF_once = false
     private var mainActivityListener: MainActivityListener? = null
+
+    private val CHANNEL_ID = "myChannel01"
 
 
     override fun onAttach(context: Context) {
@@ -102,6 +113,8 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         savedInstanceState: Bundle?
     ): View? {
 
+        Log.d("StartTask", "onViewCreated")
+
         Log.d("POURCENTAGE","${timeLeftMillis}")
         Log.d("POURCENTAGE","${initialMillis}")
         Log.d("POURCENTAGE","${task.duree}")
@@ -157,6 +170,11 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
         updateTimer()
 
+
+        // Notification
+        createNotificationChannel()
+
+
         // Enregistrement du BroadcastReceiver
         val filter = IntentFilter().apply {
             addAction(Intent.ACTION_SCREEN_OFF)
@@ -165,6 +183,56 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         activity?.registerReceiver(screenStateReceiver, filter)
 
         return view
+    }
+
+
+    private fun createNotificationChannel() {
+        Log.d("StartTask", "createNotificationChannel")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "MyChannel"
+            val descriptionText = "My Notification Channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+
+            // Enregistrer le canal avec le gestionnaire de notification
+            val notificationManager =
+                requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun showNotification(context: Context) {
+        Log.d("StartTask", "showNotification")
+
+        // Construire la notification
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.sport_icon)
+            .setContentTitle("Notification Title")
+            .setContentText("This is the content of the notification.")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        // Afficher la notification
+        with(NotificationManagerCompat.from(context)) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                Log.d("StartTask", "error with permission notification")
+                return
+            }
+            notify(1, builder.build())
+        }
     }
 
 
@@ -229,7 +297,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
                 timerRunning = false
                 updateTimer()
                 textViewTimer.text = getString(R.string.end)
-                // onClickValidate()
+                showNotification(requireContext())
             }
         }.start()
 
@@ -241,6 +309,8 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         countdownTimer.cancel()
         timerRunning = false
         updateTimer()
+        Log.d("StartTask", "Button clicked")
+        showNotification(requireContext())
     }
 
     private fun cancelTimer() {
@@ -267,7 +337,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     }
 
 
-
+    // Manage of screen block
     override fun onResume() {
         super.onResume()
         if (isStopOnce and timerRunning and !isSreenOFF_once){
