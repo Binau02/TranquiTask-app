@@ -209,9 +209,9 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
         // Construire la notification
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.sport_icon)
-            .setContentTitle("Notification Title")
-            .setContentText("This is the content of the notification.")
+            .setSmallIcon(R.drawable.logo)
+            .setContentTitle("Fin du minuteur")
+            .setContentText("Ta tâche est terminée ! Viens récupérer tes coins !")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         // Afficher la notification
@@ -337,7 +337,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     }
 
 
-    // Manage of screen block
+    // Gérer le blockage d'écran
     override fun onResume() {
         super.onResume()
         if (isStopOnce and timerRunning and !isSreenOFF_once){
