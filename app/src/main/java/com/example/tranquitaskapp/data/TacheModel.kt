@@ -13,7 +13,7 @@ data class TacheModel(
     val priority: String,
     val category: String,
     val ref: DocumentReference,
-    val done: Int,
+    var done: Int,
     val concentration: Boolean,
     val isDivisible: Boolean
 )

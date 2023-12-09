@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
@@ -23,7 +24,7 @@ import com.example.tranquitaskapp.interfaces.MainActivityListener
 import com.example.tranquitaskapp.ui.CustomPopup
 import com.google.firebase.Timestamp
 
-class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.ScreenStateListener {
+class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.ScreenStateListener {
 
     private lateinit var screenStateReceiver: ScreenStateReceiver
 
@@ -36,7 +37,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
     private lateinit var buttonSaveQuit: Button
     private lateinit var countdownTimer: CountDownTimer
     private val db = MyFirebase.getFirestoreInstance()
-    val part1 = (task.duree.toLong() * 60000)
+    val part1 = (task.duration.toLong() * 60000)
     val part2 = (100 - task.done) / 100.0
     private val initialMillis: Long = (part1 * part2).toLong()// 30 secondes
     private var timeLeftMillis: Long = initialMillis
@@ -104,7 +105,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
         Log.d("POURCENTAGE","${timeLeftMillis}")
         Log.d("POURCENTAGE","${initialMillis}")
-        Log.d("POURCENTAGE","${task.duree}")
+        Log.d("POURCENTAGE","${task.duration}")
         Log.d("POURCENTAGE","${task.done}")
         Log.d("POURCENTAGE","part 1 : ${part1}")
         Log.d("POURCENTAGE","part 1 : ${part2}")
@@ -136,7 +137,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         buttonPause.setOnClickListener {
             pauseTimer()
             buttonStart.visibility = View.VISIBLE
-            if(task.divisible){
+            if(task.isDivisible){
                 buttonSaveQuit.visibility = View.VISIBLE
             }else{
                 buttonSaveQuit.visibility = View.INVISIBLE
@@ -173,13 +174,13 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
         val userReference = db.collection("user").document(User.id)
 
         val transactionData = hashMapOf(
-            "amount" to task.duree - timeLeftMillis/60000,
-            "categorie" to task.categorie,
+            "amount" to task.duration - timeLeftMillis/60000,
+            "categorie" to task.category,
             "date" to Timestamp.now(),
             "user" to userReference,
         )
         val updateUser = hashMapOf(
-            "coins" to User.coins + (task.duree - timeLeftMillis/60000)
+            "coins" to User.coins + (task.duration - timeLeftMillis/60000)
         )
         transactionCollection.add(transactionData)
             .addOnSuccessListener {
@@ -190,7 +191,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
 
         userReference.update(updateUser as Map<String, Any>)
             .addOnSuccessListener {
-                User.coins += (task.duree - timeLeftMillis/60000)
+                User.coins += (task.duration - timeLeftMillis/60000)
                 mainActivityListener?.refreshCoins()
             }
             .addOnFailureListener { e ->
@@ -205,7 +206,7 @@ class StartTask(private val task: Task) : Fragment(), ScreenStateReceiver.Screen
             .addOnSuccessListener {
                 // La mise à jour a réussi
                 Log.d("Update", "La tache a ete modifiée")
-                Toast.makeText(this.context, "Vous avez gagné ${task.duree - timeLeftMillis/60000} coins", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Vous avez gagné ${task.duration - timeLeftMillis/60000} coins", Toast.LENGTH_SHORT).show()
                 addCoinToUser()
                 val fragment = Home()
                 val transaction = fragmentManager?.beginTransaction()

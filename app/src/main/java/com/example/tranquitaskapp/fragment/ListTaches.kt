@@ -38,10 +38,12 @@ class ListTaches : Fragment() {
 
     private lateinit var rv: RecyclerView
 
+    private lateinit var listeTacheModel : MutableList<TacheModel>
+
 
     private fun onStartButtonClick(position: Int) {
         val fragment =
-            StartTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
+            StartTask(listeTacheModel[position]) // Remplacez par le fragment que vous souhaitez afficher
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
@@ -117,7 +119,7 @@ class ListTaches : Fragment() {
             tasks = tasks.filter { task -> task.name.contains(search) }
         }
 
-        val listeTacheModel = mutableListOf<TacheModel>()
+        listeTacheModel = mutableListOf<TacheModel>()
 
         val resources = context?.resources
         val packageName = context?.packageName
