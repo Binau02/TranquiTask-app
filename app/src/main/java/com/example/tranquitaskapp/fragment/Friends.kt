@@ -57,16 +57,16 @@ class Friends : Fragment() {
 
     private val globalFriends = mutableListOf<FriendsModel>()
 
-    private lateinit var badge : TextView
-    private lateinit var supprimer : ImageView
+    private lateinit var badge: TextView
+    private lateinit var supprimer: ImageView
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
 
-    private var friendsSelected : Boolean = true
-    private val globalDemandes : MutableList<FriendsModel> = mutableListOf()
-    private lateinit var user : DocumentSnapshot
-    private lateinit var demandes : MutableList<DocumentReference>
+    private var friendsSelected: Boolean = true
+    private val globalDemandes: MutableList<FriendsModel> = mutableListOf()
+    private lateinit var user: DocumentSnapshot
+    private lateinit var demandes: MutableList<DocumentReference>
 
     private var colorPrimary: Int = 0
     private var colorDark: Int = 0
@@ -79,8 +79,8 @@ class Friends : Fragment() {
             for (friend in friends) {
                 val ami1 = friend.getDocumentReference("ami1")
                 val ami2 = friend.getDocumentReference("ami2")
-                var ami1Doc : DocumentSnapshot? = null
-                var ami2Doc : DocumentSnapshot? = null
+                var ami1Doc: DocumentSnapshot? = null
+                var ami2Doc: DocumentSnapshot? = null
                 try {
                     if (ami1 != null) {
                         ami1Doc = withContext(Dispatchers.IO) {
@@ -130,7 +130,7 @@ class Friends : Fragment() {
                             ref = demandeDoc
                         )
                     )
-                } catch (e : Exception) {
+                } catch (e: Exception) {
                     Log.e("ERROR", "Error finding demande : $e")
                 }
             }
@@ -143,10 +143,10 @@ class Friends : Fragment() {
         badge.text = globalDemandes.size.toString()
     }
 
-    private fun addFriend(friendDoc : DocumentSnapshot?) {
+    private fun addFriend(friendDoc: DocumentSnapshot?) {
         val name = friendDoc?.getString("username")
         val pp = friendDoc?.getString("profile_picture")
-        if (name != null && pp != null){
+        if (name != null && pp != null) {
             globalFriends.add(FriendsModel(name, pp, friendDoc.reference))
         }
     }
@@ -155,8 +155,7 @@ class Friends : Fragment() {
         rv.adapter = FriendsRowAdapter(globalFriends, this)
         if (globalDemandes.isNotEmpty()) {
             badge.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             badge.visibility = View.INVISIBLE
         }
     }
@@ -176,28 +175,60 @@ class Friends : Fragment() {
         badge.text = globalDemandes.size.toString()
         deleteDemande(position)
     }
+
     fun removeFriend(position: Int) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirmation")
-        builder.setMessage("Voulez-vous vraiment supprimer cet ami ?")
+        this.context?.let {
+            CustomPopup.showPopup(
+                context = it,
+                "Voulez-vous vraiment supprimer cet ami ?",
+                object : CustomPopup.PopupClickListener {
+                    override fun onPopupButtonClick() {
+                        val friendRef = globalFriends[position].ref
+                        val userRef = User.ref
+                        val amiCollection = db.collection("ami")
+                        amiCollection
+                            .whereEqualTo("ami1", friendRef)
+                            .whereEqualTo("ami2", userRef)
+                            .get()
+                            .addOnSuccessListener { querySnapshot ->
+                                for (document in querySnapshot.documents) {
+                                    // Supprimer chaque document trouvé
+                                    amiCollection.document(document.id).delete()
+                                        .addOnSuccessListener {
+                                            Log.d("Friends", "Ami supprimé à la position")
+                                        }
+                                }
+                            }
 
-        builder.setPositiveButton("Oui") { dialogInterface: DialogInterface, i: Int ->
-            Log.d("Friends", "Ami supprimé à la position")
+                        amiCollection
+                            .whereEqualTo("ami2", friendRef)
+                            .whereEqualTo("ami1", userRef)
+                            .get()
+                            .addOnSuccessListener { querySnapshot ->
+                                for (document in querySnapshot.documents) {
+                                    // Supprimer chaque document trouvé
+                                    amiCollection.document(document.id).delete()
+                                        .addOnSuccessListener {
+                                            Log.d("Friends", "Ami supprimé à la position")
+                                            globalFriends.removeIf {
+                                                it.ref == friendRef
+                                            }
+                                            rv.adapter?.notifyDataSetChanged()
+                                        }
+                                }
+                            }
+                    }
+                })
         }
-        builder.setNegativeButton("Annuler") { dialogInterface: DialogInterface, i: Int ->
-            Log.d("Friends", "Suppression annulée")
-        }
-
-        val alertDialog = builder.create()
-        alertDialog.show()
     }
+
     fun denyNewFriend(position: Int) {
         deleteDemande(position)
     }
 
     private fun deleteDemande(position: Int) {
         demandes.remove(globalDemandes[position].ref)
-        user.reference.update("demandes", demandes).addOnFailureListener {e ->
+        user.reference.update("demandes", demandes).addOnFailureListener { e ->
             Log.d("ERROR", "Error updating demandes of user : $e")
         }
         globalDemandes.removeAt(position)
@@ -215,22 +246,24 @@ class Friends : Fragment() {
         bottomBarListener?.setBottomBarVisibility(this)
     }
 
-    private fun onClickFriends(){
-//        Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()
+    private fun onClickFriends() {
+        //        Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()
         if (!friendsSelected) {
             friendsSelected = true
             setFriends()
         }
     }
-    private fun onClickNewFriend(){
-//        Toast.makeText(this.context, "Le bouton Demandes d'ami a été cliqué !", Toast.LENGTH_SHORT).show()
+
+    private fun onClickNewFriend() {
+        //        Toast.makeText(this.context, "Le bouton Demandes d'ami a été cliqué !", Toast.LENGTH_SHORT).show()
         if (friendsSelected) {
             friendsSelected = false
             setDemandes()
         }
     }
-    private fun onClickAddFriend(){
-//        Toast.makeText(this.context, "Le bouton Ajouter un ami a été cliqué !", Toast.LENGTH_SHORT).show()
+
+    private fun onClickAddFriend() {
+        //        Toast.makeText(this.context, "Le bouton Ajouter un ami a été cliqué !", Toast.LENGTH_SHORT).show()
         val fragment = AddFriend(globalFriends, globalDemandes)
         val slideUp = Slide(Gravity.TOP)
         slideUp.duration = 150 // Durée de l'animation en millisecondes
@@ -279,7 +312,7 @@ class Friends : Fragment() {
         }
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-//        rv.adapter = FriendsRowAdapter(listFriendsModel) // Initialisez avec une liste vide ou vos données
+        //        rv.adapter = FriendsRowAdapter(listFriendsModel) // Initialisez avec une liste vide ou vos données
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 
