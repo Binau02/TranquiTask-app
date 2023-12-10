@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import com.example.tranquitaskapp.data.Priorities
+import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.firestore.DocumentReference
 import java.util.Calendar
 

@@ -3,96 +3,151 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_starttask">
 
-    <Button
-        android:id="@+id/back2"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="←"
-        android:textColor="#000000"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/reg_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tranqui\nTask"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="48sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/countdown" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/back2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/back_arrow"
+                android:layout_weight="5"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/pacifico"
+            android:text="Tranqui'Task"
+            android:textColor="@color/white"
+            android:textSize="50dp"/>
 
-    <TextView
-        android:id="@+id/countdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@id/reg_logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/button_start" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="90dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/warning"/>
 
-    <Button
-        android:id="@+id/button_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/break_str"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_start"
-        app:layout_constraintTop_toBottomOf="@+id/countdown"
-        app:layout_constraintBottom_toBottomOf="parent" />
+            <TextView
+                android:id="@+id/tw_screenBlock"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/warning_screen_block"
+                android:textColor="@color/red"
+                android:gravity="center"
+                android:textAlignment="center"
+                />
 
-    <Button
-        android:id="@+id/button_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start"
-        app:layout_constraintStart_toEndOf="@+id/button_pause"
-        app:layout_constraintEnd_toStartOf="@+id/button_valider"
-        app:layout_constraintTop_toBottomOf="@+id/countdown"
-        app:layout_constraintBottom_toBottomOf="parent" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="190dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <TextView
+                android:id="@+id/countdown"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:textSize="30sp"
+                android:gravity="center"/>
+        </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp">
 
-    <Button
-        android:id="@+id/button_save_quit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save_and_quit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button_start"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="@+id/button_start"
-        app:layout_constraintTop_toBottomOf="@+id/countdown"
-        app:layout_constraintVertical_bias="0.796" />
+                <SeekBar
+                    android:id="@+id/slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/RoundedSeekBarStart"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:id="@+id/tvStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="démarrer tache"
+                    android:layout_weight="4"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    />
+                <TextView
+                    android:id="@+id/tvBreak"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pause"
+                    android:gravity="center"
+                    android:layout_weight="4"
+                    android:layout_gravity="center"
+                    />
+                <SeekBar
+                    android:id="@+id/slidertask"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/RoundedSeekBarTask"
+                    android:layout_weight="1"
+                    android:visibility="visible"
+                    />
+                <TextView
+                    android:id="@+id/tvValidate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Valider"
+                    android:gravity="center"
+                    android:layout_weight="4"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/button_valider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/validate"
-        app:layout_constraintStart_toEndOf="@+id/button_start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countdown"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
-    <TextView
-        android:id="@+id/tw_screenBlock"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/warning_screen_block"
-        android:textColor="@color/my_primary"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/reg_logo"
-        app:layout_constraintStart_toStartOf="@+id/reg_logo"
-        app:layout_constraintTop_toBottomOf="@+id/reg_logo" />
+
+        <Button
+            android:id="@+id/button_save_quit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save_and_quit"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

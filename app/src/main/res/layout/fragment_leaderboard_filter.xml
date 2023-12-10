@@ -13,7 +13,7 @@
             android:layout_height="match_parent"
             app:cardCornerRadius="30dp"
             app:cardElevation="15dp"
-            app:cardBackgroundColor="@color/my_secondary_light">
+            app:cardBackgroundColor="?attr/colorSecondary">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -37,6 +37,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/leaderboard"
                         android:textSize="20dp"
+                        android:textColor="?attr/colorPrimaryDark"
                         android:layout_weight="5"
                         android:gravity="center"
                         android:textStyle="bold"/>
@@ -84,6 +85,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/period"
                                 android:layout_centerVertical="true"
+                                android:textColor="?attr/colorPrimaryDark"
                                 android:textSize="18dp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
@@ -113,6 +115,7 @@
                     android:id="@+id/filterperiod"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="?attr/colorPrimaryDark"
                     android:visibility="gone"/>
 
                 <View
@@ -153,6 +156,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/friends"
                                 android:layout_centerVertical="true"
+                                android:textColor="?attr/colorPrimaryDark"
                                 android:textSize="18dp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
@@ -182,6 +186,7 @@
                     android:id="@+id/filterfriends"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="?attr/colorPrimaryDark"
                     android:visibility="gone"/>
 
 

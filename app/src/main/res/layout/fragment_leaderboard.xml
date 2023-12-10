@@ -78,7 +78,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="10"
-                                app:cardBackgroundColor="@color/my_primary_light"
+                                app:cardBackgroundColor="?attr/colorPrimary"
                                 app:cardCornerRadius="10dp">
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="Catégorie"
                                         android:textSize="20dp"
-                                        android:textColor="@color/my_dark"
+                                        android:textColor="?attr/colorPrimaryDark"
                                         android:gravity="center"
                                         android:textStyle="bold"
                                         android:layout_weight="1"/>
@@ -139,7 +139,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="90dp"
-                                android:background="@color/my_secondary_light"
+                                android:background="?attr/colorSecondary"
                                 android:orientation="vertical">
 
                                 <View
@@ -150,6 +150,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Pseudo"
+                                    android:textColor="?attr/colorPrimaryDark"
                                     android:gravity="center"
                                     android:textSize="16dp"/>
 
@@ -229,7 +230,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="40dp"
-                                android:background="@color/my_primary_light"
+                                android:background="?attr/colorPrimary"
                                 android:orientation="vertical">
 
                                 <View
@@ -240,6 +241,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Pseudo"
+                                    android:textColor="?attr/colorPrimaryDark"
                                     android:gravity="center"
                                     android:textSize="16dp"/>
                                 <RelativeLayout
@@ -315,7 +317,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="65dp"
-                                android:background="@color/my_secondary_light"
+                                android:background="?attr/colorSecondary"
                                 android:orientation="vertical">
 
                                 <View
@@ -326,6 +328,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Pseudo"
+                                    android:textColor="?attr/colorPrimaryDark"
                                     android:gravity="center"
                                     android:textSize="16dp"/>
                                 <RelativeLayout
@@ -414,7 +417,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:cardCornerRadius="30dp"
-                    app:cardBackgroundColor="@color/my_primary_light">
+                    app:cardBackgroundColor="?attr/colorPrimary">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_leaderboard"

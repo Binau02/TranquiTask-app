@@ -18,8 +18,9 @@ class FriendsRowAdapter(val data: List<FriendsModel>, val fragment : Friends, va
     class MyViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         val imageView: ImageView = row.findViewById(R.id.avatar)
         val pseudoView: TextView = row.findViewById(R.id.pseudo_row)
-        val button1: TextView = row.findViewById(R.id.yes)
-        val button2: TextView = row.findViewById(R.id.no)
+        val button1: ImageView = row.findViewById(R.id.yes)
+        val button2: ImageView = row.findViewById(R.id.no)
+        val button3: ImageView = row.findViewById(R.id.supprimer)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -48,6 +49,10 @@ class FriendsRowAdapter(val data: List<FriendsModel>, val fragment : Friends, va
             holder.button2.visibility = View.VISIBLE
             holder.button1.setOnClickListener{fragment.acceptNewFriend(position)}
             holder.button2.setOnClickListener{fragment.denyNewFriend(position)}
+        } else {
+            // C'est déjà un ami, afficher le bouton "Supprimer"
+            holder.button3.visibility = View.VISIBLE
+            holder.button3.setOnClickListener { fragment.removeFriend(position) }
         }
     }
 

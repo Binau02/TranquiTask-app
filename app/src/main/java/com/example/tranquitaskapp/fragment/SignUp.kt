@@ -44,10 +44,6 @@ class SignUp : Fragment() {
         super.onAttach(context)
         icon = AppCompatResources.getDrawable(requireContext(), R.drawable.or)
 
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
     }
 
     private fun onClickSignIn(email: String, password: String, username: String) {
@@ -165,7 +161,11 @@ class SignUp : Fragment() {
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
-
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
         // Inflate the layout for this fragment
         return view
     }

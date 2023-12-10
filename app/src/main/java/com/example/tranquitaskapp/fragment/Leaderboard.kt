@@ -78,10 +78,7 @@ class Leaderboard : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
+
     }
 
 
@@ -254,6 +251,11 @@ class Leaderboard : Fragment() {
         coinAmountSecondPlace = view.findViewById(R.id.coin_amount_second)
         coinAmountThirdPlace = view.findViewById(R.id.coin_amount_third)
 
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
 
         lifecycleScope.launch {
             getLeaderboard()

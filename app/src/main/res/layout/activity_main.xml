@@ -97,7 +97,7 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/my_secondary_light"
+        android:background="?attr/colorSecondary"
         app:itemActiveIndicatorStyle="@style/Theme.TranquiTaskApp"
         app:itemIconTint="@color/bottom_navigation_text_color"
         app:itemTextColor="@color/bottom_navigation_text_color"

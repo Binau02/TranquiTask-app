@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.Toast
 import com.example.tranquitaskapp.data.FriendsModel
 import com.example.tranquitaskapp.data.User
+import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.firestore.FieldValue
 
 

@@ -20,10 +20,7 @@ class Profile : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
+
     }
 
     private fun replaceFragment(fragment: Fragment){
@@ -91,7 +88,11 @@ class Profile : Fragment() {
                     .into(image)
             }
         }
-
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
         return view
     }
 }

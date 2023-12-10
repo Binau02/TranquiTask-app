@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.transition.Slide
@@ -50,14 +51,29 @@ class Home : Fragment() {
     private var colorPrimary: Int = 0
     private var colorDark: Int = 0
 
+    @SuppressLint("ResourceType")
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        colorPrimary = ContextCompat.getColor(requireContext(), R.color.my_primary_light)
-        colorDark = ContextCompat.getColor(requireContext(), R.color.my_dark)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
+
+        val typedArray = requireContext().theme.obtainStyledAttributes(
+            intArrayOf(android.R.attr.colorPrimary)
+        )
+
+        try {
+            colorPrimary = typedArray.getColor(0, 0)
+        } finally {
+            typedArray.recycle()
         }
-        bottomBarListener?.setBottomBarVisibility(this)
+        val typedArrayDark = requireContext().theme.obtainStyledAttributes(
+            intArrayOf(android.R.attr.colorPrimaryDark)
+        )
+
+        try {
+            colorDark = typedArrayDark.getColor(0, 0)
+        } finally {
+            typedArrayDark.recycle()
+        }
+
     }
 
     private fun onClickToday() {
@@ -201,6 +217,11 @@ class Home : Fragment() {
         val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.fab2)
 
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
 
         setTasks()
 

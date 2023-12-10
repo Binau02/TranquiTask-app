@@ -33,10 +33,7 @@ class ForgotPassword : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
+
     }
 
 
@@ -51,6 +48,11 @@ class ForgotPassword : Fragment() {
         buttonSend = view.findViewById(R.id.buttonSend)
         buttonBack = view.findViewById(R.id.buttonBack)
 
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
         buttonSend.setOnClickListener{
             auth.sendPasswordResetEmail(email.text.toString())
                 .addOnCompleteListener { task ->

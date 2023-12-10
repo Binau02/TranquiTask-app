@@ -56,10 +56,11 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener, MainActiv
     }
 
     override fun setBottomBarVisibility(fragment: Fragment) {
-        val bottomBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView) // Assurez-vous d'avoir l'ID correct
-        val header = findViewById<LinearLayout>(R.id.linearLayout) // Assurez-vous d'avoir l'ID correct
+        val bottomBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        val header = findViewById<LinearLayout>(R.id.linearLayout)
 
         val isAuthFragment = fragment is SignUp || fragment is SignIn || fragment is ForgotPassword || fragment is StartTask
+
         bottomBar.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
         header.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
 

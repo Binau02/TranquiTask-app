@@ -38,10 +38,12 @@ class ListTaches : Fragment() {
 
     private lateinit var rv: RecyclerView
 
+    private lateinit var listeTacheModel : MutableList<TacheModel>
+
 
     private fun onStartButtonClick(position: Int) {
         val fragment =
-            StartTask(ListTask.list[position]) // Remplacez par le fragment que vous souhaitez afficher
+            StartTask(listeTacheModel[position]) // Remplacez par le fragment que vous souhaitez afficher
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
@@ -55,10 +57,7 @@ class ListTaches : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
+
     }
 
 
@@ -117,7 +116,7 @@ class ListTaches : Fragment() {
             tasks = tasks.filter { task -> task.name.contains(search) }
         }
 
-        val listeTacheModel = mutableListOf<TacheModel>()
+        listeTacheModel = mutableListOf<TacheModel>()
 
         val resources = context?.resources
         val packageName = context?.packageName
@@ -200,6 +199,11 @@ class ListTaches : Fragment() {
         setTasks()
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
 
         return view
         // Inflate the layout for this fragment

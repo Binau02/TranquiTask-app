@@ -44,13 +44,11 @@ class SignIn : Fragment() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
+    private var signInButtonPressed: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
+
         sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
 
@@ -203,6 +201,8 @@ class SignIn : Fragment() {
         var isCheckBoxChecked = sharedPreferences.getBoolean("checkBoxState", false)
         checkBoxStillConnected.isChecked = isCheckBoxChecked
 
+
+
         if (storedEmail != null && storedPassword != null) {
             // Remplir automatiquement les champs
             logUsername.setText(storedEmail)
@@ -288,6 +288,12 @@ class SignIn : Fragment() {
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.frameLayout, fragment)?.commit()
         }
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
+
         return view
     }
 
@@ -305,4 +311,5 @@ class SignIn : Fragment() {
         editor.remove("password")
         editor.apply()
     }
+
 }
