@@ -105,7 +105,7 @@
                                 android:textColorHint="@color/my_dark"
                                 android:textColor="@color/my_dark"
                                 android:inputType="textPassword"
-                                android:drawableEnd="@drawable/password_icon"/>
+                                />
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
