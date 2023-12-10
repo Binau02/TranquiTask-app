@@ -92,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:paddingHorizontal="20dp">
+                android:paddingHorizontal="10dp">
 
                 <SeekBar
                     android:id="@+id/slider"
@@ -117,6 +117,7 @@
                     android:layout_height="wrap_content"
                     android:text="Pause"
                     android:gravity="center"
+                    android:textColor="@color/my_dark"
                     android:layout_weight="4"
                     android:layout_gravity="center"
                     />
@@ -133,6 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Valider"
+                    android:textColor="@color/my_dark"
                     android:gravity="center"
                     android:layout_weight="4"
                     android:layout_gravity="center_vertical|center_horizontal"
@@ -147,6 +149,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save_and_quit"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorPrimaryDark"
             android:layout_gravity="center"/>
     </LinearLayout>
 
