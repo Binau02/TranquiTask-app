@@ -238,8 +238,24 @@ class Friends : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        colorPrimary = ContextCompat.getColor(requireContext(), R.color.my_primary_light)
-        colorDark = ContextCompat.getColor(requireContext(), R.color.my_dark)
+        val typedArray = requireContext().theme.obtainStyledAttributes(
+            intArrayOf(android.R.attr.colorPrimary)
+        )
+
+        try {
+            colorPrimary = typedArray.getColor(0, 0)
+        } finally {
+            typedArray.recycle()
+        }
+        val typedArrayDark = requireContext().theme.obtainStyledAttributes(
+            intArrayOf(android.R.attr.colorPrimaryDark)
+        )
+
+        try {
+            colorDark = typedArrayDark.getColor(0, 0)
+        } finally {
+            typedArrayDark.recycle()
+        }
         if (context is BottomBarVisibilityListener) {
             bottomBarListener = context
         }

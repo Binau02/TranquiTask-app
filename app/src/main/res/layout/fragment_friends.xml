@@ -40,7 +40,7 @@
                     android:text="@string/friends"
                     android:textSize="24dp"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorPrimary"
                     android:textStyle="bold"/>
 
 
@@ -72,7 +72,7 @@
                 android:paddingBottom="20dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="25dp"
-                app:cardBackgroundColor="@color/my_primary_light">
+                app:cardBackgroundColor="?attr/colorPrimary">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                             android:layout_weight="2"
                             android:text="@string/friends"
                             android:gravity="center"
-                            android:textColor="@color/my_dark"
+                            android:textColor="?attr/colorPrimaryDark"
                             android:textSize="20dp"
                             android:textStyle="bold"/>
 
@@ -103,8 +103,8 @@
                                 android:gravity="center"
                                 android:textSize="20dp"
                                 android:layout_weight="2"
-                                android:background="@color/my_dark"
-                                android:textColor="@color/my_primary_light"
+                                android:background="?attr/colorPrimaryDark"
+                                android:textColor="?attr/colorPrimary"
                                 android:textStyle="bold"/>
 
 

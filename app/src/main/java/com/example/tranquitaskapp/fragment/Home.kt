@@ -1,5 +1,6 @@
 package com.example.tranquitaskapp.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.transition.Slide
@@ -50,10 +51,27 @@ class Home : Fragment() {
     private var colorPrimary: Int = 0
     private var colorDark: Int = 0
 
+    @SuppressLint("ResourceType")
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        colorPrimary = ContextCompat.getColor(requireContext(), R.color.my_primary_light)
-        colorDark = ContextCompat.getColor(requireContext(), R.color.my_dark)
+        val typedArray = requireContext().theme.obtainStyledAttributes(
+            intArrayOf(android.R.attr.colorPrimary)
+        )
+
+        try {
+            colorPrimary = typedArray.getColor(0, 0)
+        } finally {
+            typedArray.recycle()
+        }
+        val typedArrayDark = requireContext().theme.obtainStyledAttributes(
+            intArrayOf(android.R.attr.colorPrimaryDark)
+        )
+
+        try {
+            colorDark = typedArrayDark.getColor(0, 0)
+        } finally {
+            typedArrayDark.recycle()
+        }
         if (context is BottomBarVisibilityListener) {
             bottomBarListener = context
         }

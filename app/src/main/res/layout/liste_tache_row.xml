@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:textColor="?attr/colorPrimaryDark"
                 android:text="Nom de l'élément" />
 
             <ImageView

@@ -28,7 +28,7 @@
         android:layout_marginBottom="10dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="25dp"
-        app:cardBackgroundColor="@color/my_primary_light">
+        app:cardBackgroundColor="?attr/colorPrimary">
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -277,7 +277,7 @@
                     android:gravity="center"
                     android:text="@string/Save"
                     android:textSize="24dp"
-                    android:textColor="@color/my_secondary_light"
+                    android:textColor="?attr/colorSecondary"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 

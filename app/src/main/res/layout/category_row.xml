@@ -51,6 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textColor="?attr/colorPrimaryDark"
                         android:textStyle="bold"/>
 
                     <RelativeLayout
@@ -77,7 +78,7 @@
                                 android:layout_height="wrap_content"
                                 android:max="100"
                                 android:progress="50"
-                                android:progressBackgroundTint="@color/my_primary_light"
+                                android:progressBackgroundTint="?attr/colorPrimary"
                                 android:progressTint="@color/my_primary" />
                         </FrameLayout>
                     </RelativeLayout>

@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/pacifico"
                 android:text="Tranqui'Task"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorSecondary"
                 android:textSize="50dp"
                 android:textStyle="bold" />
 
@@ -91,6 +91,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/username"
+                                android:textColor="@color/my_dark"
+                                android:textColorHint="@color/my_dark"
                                 android:inputType="textEmailAddress"/>
                             <View
                                 android:layout_width="wrap_content"
@@ -100,6 +102,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/password"
+                                android:textColorHint="@color/my_dark"
+                                android:textColor="@color/my_dark"
                                 android:inputType="textPassword"
                                 android:drawableEnd="@drawable/password_icon"/>
 
@@ -111,6 +115,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/RememberMe"
+                                    android:textColor="@color/my_dark"
                                     android:layout_centerVertical="true"
                                     android:layout_marginStart="15dp"
                                     android:alpha="0.7"/>
@@ -158,7 +163,7 @@
                                                 android:gravity="center"
                                                 android:text="@string/login"
                                                 android:textSize="24dp"
-                                                android:textColor="@color/my_secondary_light"
+                                                android:textColor="?attr/colorPrimary"
                                                 android:textStyle="bold" />
                                         </androidx.cardview.widget.CardView>
 
@@ -184,6 +189,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
+                                    android:textColor="@color/my_dark"
+
                                     android:text="@string/ForgotPassword"
                                     android:alpha="0.7"/>
                             </LinearLayout>
@@ -203,6 +210,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="or"
+                                    android:textColor="@color/my_dark"
+
                                     android:layout_weight="5"
                                     android:gravity="center"/>
                                 <View
@@ -222,6 +231,8 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:textColor="@color/my_dark"
+
                                     android:text="@string/NewAccount" />
                                 <TextView
                                     android:id="@+id/tvSignIn"

@@ -1,8 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.TranquiTaskApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Personnalisez vos couleurs ici pour le mode clair -->
+        <item name="colorPrimary">@color/my_primary_light</item>
+        <item name="colorSecondary">@color/my_secondary_light</item>
+        <item name="colorPrimaryDark">@color/my_dark</item>
     </style>
-
     <style name="roundedimageview" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">53dp</item>

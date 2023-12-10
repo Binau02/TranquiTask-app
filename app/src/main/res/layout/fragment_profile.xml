@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/profile_background"
@@ -61,6 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:backgroundTint="?attr/colorPrimaryDark"
+        android:textColor="?attr/colorPrimary"
         android:text="@string/modify_profile"
         app:layout_constraintEnd_toEndOf="@+id/tv_pseudo"
         app:layout_constraintStart_toStartOf="@+id/tv_pseudo"
@@ -71,6 +74,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
+        android:backgroundTint="?attr/colorPrimaryDark"
+        android:textColor="?attr/colorPrimary"
         android:text="@string/modify_scenery"
         app:layout_constraintEnd_toEndOf="@+id/button_modif"
         app:layout_constraintStart_toStartOf="@+id/button_modif"
@@ -97,6 +102,7 @@
         android:layout_marginTop="38dp"
         android:layout_marginEnd="62dp"
         android:text="@string/pseudo"
+        android:textColor="?attr/colorPrimaryDark"
         android:textSize="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -107,6 +113,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:text="@string/shop"
+        android:backgroundTint="?attr/colorPrimaryDark"
+        android:textColor="?attr/colorPrimary"
         app:layout_constraintEnd_toEndOf="@+id/button_scenery"
         app:layout_constraintStart_toStartOf="@+id/button_scenery"
         app:layout_constraintTop_toBottomOf="@+id/button_scenery" />

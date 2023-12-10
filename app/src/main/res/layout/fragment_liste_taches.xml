@@ -80,7 +80,7 @@
                 android:paddingBottom="20dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="25dp"
-                app:cardBackgroundColor="@color/my_primary_light">
+                app:cardBackgroundColor="?attr/colorPrimary">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_liste_tache"
                     android:layout_width="match_parent"

@@ -35,29 +35,33 @@
             android:text="Pseudo"
             android:textSize="20sp" />
 
-        <Button
+        <ImageView
             android:id="@+id/yes"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/done_icon"
             android:layout_toStartOf="@+id/no"
-            android:visibility="gone"/>
-        <Button
+            android:src="@drawable/done_icon"
+            android:visibility="gone"
+            />
+        <ImageView
             android:id="@+id/supprimer"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/delete"
+            android:layout_toStartOf="@+id/no"
+            android:src="@drawable/delete"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
             android:visibility="gone"/>
-        <Button
+
+        <ImageView
             android:id="@+id/no"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/delete"
+            android:src="@drawable/delete"
             android:layout_alignParentEnd="true"
-            android:visibility="gone"/>
+            android:visibility="gone"
 
+            />
     </RelativeLayout>
 
 

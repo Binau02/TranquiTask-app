@@ -100,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:cardCornerRadius="30dp"
-                    app:cardBackgroundColor="@color/my_primary_light">
+                    app:cardBackgroundColor="?attr/colorSecondary">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -110,7 +110,7 @@
                             android:layout_height="80dp"
                             android:gravity="center_horizontal"
                             android:orientation="horizontal"
-                            android:background="@color/my_primary_light">
+                            android:background="?attr/colorPrimary">
 
                             <TextView
                                 android:id="@+id/tvToday"
@@ -119,7 +119,7 @@
                                 android:layout_weight="2"
                                 android:text="@string/today"
                                 android:gravity="center"
-                                android:textColor="@color/my_dark"
+                                android:textColor="?attr/colorPrimaryDark"
                                 android:textSize="20dp"
                                 android:textStyle="bold"/>
 
@@ -131,8 +131,8 @@
                                 android:text="@string/this_week"
                                 android:gravity="center"
                                 android:textSize="20dp"
-                                android:background="@color/my_dark"
-                                android:textColor="@color/my_primary_light"
+                                android:background="?attr/colorPrimaryDark"
+                                android:textColor="?attr/colorPrimary"
                                 android:textStyle="bold"/>
 
                         </LinearLayout>
