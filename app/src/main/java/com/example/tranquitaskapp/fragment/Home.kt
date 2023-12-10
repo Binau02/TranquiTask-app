@@ -54,6 +54,7 @@ class Home : Fragment() {
     @SuppressLint("ResourceType")
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
         val typedArray = requireContext().theme.obtainStyledAttributes(
             intArrayOf(android.R.attr.colorPrimary)
         )
@@ -72,10 +73,7 @@ class Home : Fragment() {
         } finally {
             typedArrayDark.recycle()
         }
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
+
     }
 
     private fun onClickToday() {
@@ -219,6 +217,11 @@ class Home : Fragment() {
         val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.fab2)
 
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
 
         setTasks()
 

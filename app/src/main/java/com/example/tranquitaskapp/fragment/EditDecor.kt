@@ -20,6 +20,7 @@ import com.example.tranquitaskapp.adapter.EditDecorAdapter
 import com.example.tranquitaskapp.adapter.ShopAdapter
 import com.example.tranquitaskapp.data.ItemModel
 import com.example.tranquitaskapp.data.User
+import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch

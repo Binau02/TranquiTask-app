@@ -51,13 +51,11 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
+
         if (context is MainActivityListener) {
             mainActivityListener = context
         }
-        bottomBarListener?.setBottomBarVisibility(this)
+
     }
 
     private fun replaceFragment(fragment: Fragment){
@@ -241,7 +239,11 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
             addAction(Intent.ACTION_SCREEN_ON)
         }
         activity?.registerReceiver(screenStateReceiver, filter)
-
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
         return view
     }
 

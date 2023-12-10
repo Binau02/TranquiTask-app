@@ -57,10 +57,7 @@ class ListTaches : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
+
     }
 
 
@@ -202,6 +199,11 @@ class ListTaches : Fragment() {
         setTasks()
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
 
         return view
         // Inflate the layout for this fragment

@@ -256,10 +256,7 @@ class Friends : Fragment() {
         } finally {
             typedArrayDark.recycle()
         }
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
+
     }
 
     private fun onClickFriends() {
@@ -301,6 +298,12 @@ class Friends : Fragment() {
         val buttonFriends = view.findViewById<TextView>(R.id.tvFriends)
         val buttonNewFriend = view.findViewById<TextView>(R.id.tvNewFriends)
         val addFriends = view.findViewById<ImageView>(R.id.add_friend)
+
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
 
         buttonFriends.setOnClickListener {
             buttonFriends.setTextColor(colorDark)

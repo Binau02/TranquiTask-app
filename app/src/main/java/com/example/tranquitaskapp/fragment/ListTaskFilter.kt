@@ -18,6 +18,7 @@ import com.example.tranquitaskapp.data.Period
 import com.example.tranquitaskapp.data.PeriodDictionary
 import com.example.tranquitaskapp.data.Priorities
 import com.example.tranquitaskapp.data.ListTaskFilter
+import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 
 
 /**

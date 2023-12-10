@@ -34,10 +34,7 @@ class ModifyProfile : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BottomBarVisibilityListener) {
-            bottomBarListener = context
-        }
-        bottomBarListener?.setBottomBarVisibility(this)
+
         sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
 
@@ -142,7 +139,11 @@ class ModifyProfile : Fragment() {
             onClickCancel()
         }
 
-
+        val contextReference = context
+        if (contextReference is BottomBarVisibilityListener) {
+            bottomBarListener = contextReference
+        }
+        bottomBarListener?.setBottomBarVisibility(this)
         return view
     }
 
