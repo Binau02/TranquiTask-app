@@ -11,6 +11,11 @@
         <item name="cornerSize">53dp</item>
         <item name="color">@color/white</item>
     </style>
+    <style name="roundedimagehome" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">65dp</item>
+        <item name="color">@color/white</item>
+    </style>
 
 
 

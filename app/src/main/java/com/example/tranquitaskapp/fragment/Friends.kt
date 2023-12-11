@@ -70,6 +70,20 @@ class Friends : Fragment() {
 
     private var colorPrimary: Int = 0
     private var colorDark: Int = 0
+
+    private fun goToFriendsProfile(ref: DocumentReference){
+        replaceFragment(ProfileOther(ref))
+
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        val slideUp = Slide(Gravity.BOTTOM)
+        slideUp.duration = 150 // Durée de l'animation en millisecondes
+        fragment.enterTransition = slideUp
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+    }
+
     private suspend fun getFriends() {
         // récupérer les amis
         try {
@@ -152,7 +166,9 @@ class Friends : Fragment() {
     }
 
     private fun setFriends() {
-        rv.adapter = FriendsRowAdapter(globalFriends, this)
+        rv.adapter = FriendsRowAdapter(globalFriends, this){ friendDocumentReference ->
+            goToFriendsProfile(friendDocumentReference)
+        }
         if (globalDemandes.isNotEmpty()) {
             badge.visibility = View.VISIBLE
         } else {
@@ -161,7 +177,10 @@ class Friends : Fragment() {
     }
 
     private fun setDemandes() {
-        rv.adapter = FriendsRowAdapter(globalDemandes, this, false)
+        rv.adapter = FriendsRowAdapter(globalDemandes, this, false){ friendsReference ->
+            goToFriendsProfile(friendsReference)
+
+        }
         badge.visibility = View.INVISIBLE
     }
 

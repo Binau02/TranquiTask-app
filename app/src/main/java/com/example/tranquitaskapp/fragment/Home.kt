@@ -1,17 +1,25 @@
 package com.example.tranquitaskapp.fragment
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.transition.Slide
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +36,9 @@ import com.example.tranquitaskapp.ui.CircularProgressBar
 import java.util.Calendar
 import com.bumptech.glide.Glide
 import com.example.tranquitaskapp.data.User
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
 
 
 class Home : Fragment() {
@@ -37,8 +48,11 @@ class Home : Fragment() {
 
     private var bottomBarListener: BottomBarVisibilityListener? = null
 
-    private var day : Boolean = true
+    private var day: Boolean = true
 
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private lateinit var profilePhoto: ShapeableImageView
+    private lateinit var imagePhoto: ImageView
 
     var currentState: ButtonState = ButtonState.TODAY
 
@@ -46,6 +60,16 @@ class Home : Fragment() {
         TODAY, WEEK
     }
 
+    private val requestCameraPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // La permission a été accordée, vous pouvez maintenant lancer l'appareil photo.
+                launchCamera()
+            } else {
+                // La permission a été refusée.
+                // Vous pouvez afficher un message à l'utilisateur ou prendre d'autres mesures.
+            }
+        }
 
     // Définissez les couleurs
     private var colorPrimary: Int = 0
@@ -95,9 +119,9 @@ class Home : Fragment() {
     private fun setTasks(today: Boolean = true) {
         listCategoryModel.clear()
 
-        val categories : MutableList<Pair<DocumentReference?, MutableList<Int>>> = mutableListOf()
+        val categories: MutableList<Pair<DocumentReference?, MutableList<Int>>> = mutableListOf()
 
-        val tasks : List<Task> = if (today) {
+        val tasks: List<Task> = if (today) {
             ListTask.list.filter { task -> isToday(task.deadline) }
         } else {
             ListTask.list.filter { task -> isOnWeek(task.deadline) }
@@ -140,8 +164,7 @@ class Home : Fragment() {
                     )
                 }
             }
-        }
-        else {
+        } else {
             listCategoryModel.add(
                 CategoryModel(
                     getString(R.string.no_task),
@@ -152,17 +175,17 @@ class Home : Fragment() {
 
             progressBar.setPercentageExternal(100F)
         }
-        rv.adapter = CategoryRowAdapter(listCategoryModel, ::onClickCategory,day)
+        rv.adapter = CategoryRowAdapter(listCategoryModel, ::onClickCategory, day)
     }
 
-    private fun onClickCategory(){
+    private fun onClickCategory() {
         val fragment = ListTaches() // Remplacez par le fragment que vous souhaitez afficher
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
 
-    fun isToday(date : com.google.firebase.Timestamp?) : Boolean {
+    fun isToday(date: com.google.firebase.Timestamp?): Boolean {
         if (date == null) {
             return false
         }
@@ -183,7 +206,7 @@ class Home : Fragment() {
         return date.toDate() in currentDate.time..endOfDay.time
     }
 
-    fun isOnWeek(date : com.google.firebase.Timestamp?) : Boolean {
+    fun isOnWeek(date: com.google.firebase.Timestamp?): Boolean {
         if (date == null) return false
 
         val currentDate = Calendar.getInstance()
@@ -204,6 +227,98 @@ class Home : Fragment() {
         return date.toDate() in currentDate.time..endOfWeek.time
     }
 
+    private fun takePhoto() {
+        when {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // La permission est déjà accordée, vous pouvez lancer l'appareil photo.
+                launchCamera()
+            }
+
+            else -> {
+                // La permission n'est pas accordée, demandez-la à l'utilisateur.
+                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+        }
+        launchCamera()
+    }
+
+    private fun launchCamera() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            val imageUri: Uri? = if (data != null && data.data != null) {
+                data.data
+            } else {
+                // Si l'URI n'est pas disponible, utilisez l'URI de l'image précédemment défini
+                // Vous pouvez le récupérer à partir de l'intent original de l'appareil photo
+                // ou d'une autre manière en fonction de votre implémentation
+                // par exemple, imageUri = Uri.fromFile(photoFile)
+                null
+            }
+
+            val imageBitmap = data?.extras?.get("data") as Bitmap?
+
+            if (imageUri != null && imageBitmap != null) {
+
+
+                // Obtenez une référence au FirebaseStorage
+                val storage = Firebase.storage
+
+                // Créez une référence au dossier où vous souhaitez stocker l'image
+                val storageRef = storage.reference.child("profile_picture")
+
+                // Obtenez l'URI de votre nouvelle image (par exemple, depuis la galerie)
+
+                // Remplacez le nom de l'image existante que vous souhaitez écraser
+                val existingImageName = User.id+".jpg"
+
+                // Créez une référence à l'image existante dans le stockage Firebase
+                val existingImageRef = storageRef.child(existingImageName)
+
+                existingImageRef.metadata.addOnSuccessListener { metadata ->
+                    if (metadata != null && metadata.sizeBytes > 0) {
+                        // L'image existe, écrasez-la avec la nouvelle image
+                        existingImageRef.putFile(imageUri)
+                            .addOnSuccessListener { taskSnapshot ->
+                                // L'upload est réussi, vous pouvez obtenir l'URL de la nouvelle image
+                                existingImageRef.downloadUrl.addOnSuccessListener { uri ->
+                                    val newImageUrl = uri.toString()
+                                    // Faites quelque chose avec la nouvelle URL de l'image si nécessaire
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                // L'upload a échoué, gérer l'erreur
+                            }
+                    } else {
+                        // L'image n'existe pas, créez-la avec la nouvelle image
+                        storageRef.putFile(imageUri)
+                            .addOnSuccessListener { taskSnapshot ->
+                                // L'upload est réussi, vous pouvez obtenir l'URL de la nouvelle image
+                                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                                    val newImageUrl = uri.toString()
+                                    // Faites quelque chose avec la nouvelle URL de l'image si nécessaire
+                                }
+                            }
+                    }
+                }
+
+                // La photo a été capturée avec succès. Vous pouvez récupérer l'image ici.
+                // Faites quelque chose avec l'image capturée, par exemple, l'afficher dans votre ImageView.
+                profilePhoto.setImageBitmap(imageBitmap)
+            }
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -216,6 +331,8 @@ class Home : Fragment() {
         val buttonWeek = view.findViewById<TextView>(R.id.tvWeek)
         val searchBtn: com.google.android.material.floatingactionbutton.FloatingActionButton =
             view.findViewById(R.id.fab2)
+        imagePhoto = view.findViewById(R.id.cameraImage)
+        profilePhoto = view.findViewById(R.id.profileimage)
 
         val contextReference = context
         if (contextReference is BottomBarVisibilityListener) {
@@ -224,6 +341,14 @@ class Home : Fragment() {
         bottomBarListener?.setBottomBarVisibility(this)
 
         setTasks()
+
+        imagePhoto.setOnClickListener {
+            takePhoto()
+        }
+
+        profilePhoto.setOnClickListener {
+            takePhoto()
+        }
 
         searchBtn.setOnClickListener {
             val fragment = ListTaches()
@@ -261,12 +386,11 @@ class Home : Fragment() {
         }
         rv.layoutManager = LinearLayoutManager(requireContext())
 
-        val profilePicture = view.findViewById<ImageView>(R.id.profileimage)
 
         if (User.profile_picture != "") {
             Glide.with(this)
                 .load(User.profile_picture)
-                .into(profilePicture)
+                .into(profilePhoto)
         }
 
         return view

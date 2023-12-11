@@ -46,7 +46,18 @@
                             app:layout_constraintStart_toStartOf="@+id/circularProgressBar2"
                             app:layout_constraintTop_toTopOf="@+id/circularProgressBar2"
                             app:layout_constraintVertical_bias="0.51"
-                            app:shapeAppearanceOverlay="@style/roundedimageview" />
+                            app:shapeAppearanceOverlay="@style/roundedimagehome" />
+
+                        <ImageView
+                            android:id="@+id/cameraImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/profileimage"
+                            app:layout_constraintEnd_toEndOf="@+id/profileimage"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/photo_camera" />
 
                         <com.example.tranquitaskapp.ui.CircularProgressBar
                             android:id="@+id/circularProgressBar2"
