@@ -46,7 +46,7 @@ class ProfileOther (val ref : DocumentReference,val friends: Boolean): Fragment(
                 replaceFragment(Leaderboard())
             }
         }
-        userUsername = db.collection("user").document(ref).get()
+        //userUsername = db.collection("user").document(ref).get()
         return view
     }
 
