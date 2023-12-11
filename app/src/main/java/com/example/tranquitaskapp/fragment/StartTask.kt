@@ -28,6 +28,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.Category
+import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.data.User
@@ -318,11 +320,11 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
 
     private fun addCoinToUser(){
         val transactionCollection = db.collection("transaction")
-        val userReference = db.collection("user").document(User.id)
+        val userReference = User.ref
 
         val transactionData = hashMapOf(
             "amount" to task.duration - timeLeftMillis/60000,
-            "categorie" to task.category,
+            "categorie" to CategoryDictionary.nameToDocumentReference[task.category],
             "date" to Timestamp.now(),
             "user" to userReference,
         )
@@ -336,12 +338,12 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
                 Log.e("ERROR", "Error adding in transactionCollection : $e")
             }
 
-        userReference.update(updateUser as Map<String, Any>)
-            .addOnSuccessListener {
+        userReference?.update(updateUser as Map<String, Any>)
+            ?.addOnSuccessListener {
                 User.coins += (task.duration - timeLeftMillis/60000)
                 mainActivityListener?.refreshCoins()
             }
-            .addOnFailureListener { e ->
+            ?.addOnFailureListener { e ->
                 Log.e("ERROR", "Error adding in transactionCollection : $e")
             }
     }
