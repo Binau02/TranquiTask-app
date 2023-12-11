@@ -59,6 +59,8 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
     private var isSreenOFF_once = false
     private var mainActivityListener: MainActivityListener? = null
 
+    private var isConcentration = false
+
     private val CHANNEL_ID = "myChannel01"
 
 
@@ -124,16 +126,30 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
         Log.d("POURCENTAGE","part 1 : ${part1}")
         Log.d("POURCENTAGE","part 1 : ${part2}")
 
-        val view = inflater.inflate(R.layout.test, container, false)
+        val view = inflater.inflate(R.layout.fragment_start_task, container, false)
         val buttonBack = view.findViewById<ImageView>(R.id.back2)
         val buttonSaveQuit = view.findViewById<Button>(R.id.button_save_quit)
         textViewTimer = view.findViewById(R.id.countdown)
+
+        val tvScreenBlock = view.findViewById<TextView>(R.id.tw_screenBlock)
+        val attention = view.findViewById<ImageView>(R.id.attention)
+        if(task.concentration) {
+            tvScreenBlock.visibility = View.VISIBLE
+            attention.visibility = View.VISIBLE
+            isConcentration = true
+        }
+        else {
+            tvScreenBlock.visibility = View.INVISIBLE
+            attention.visibility = View.INVISIBLE
+            isConcentration = false
+        }
 
         val seekBar = view.findViewById<SeekBar>(R.id.slider)
         val seekBarTask = view.findViewById<SeekBar>(R.id.slidertask)
         val tvBreak = view.findViewById<TextView>(R.id.tvBreak)
         val tvStart = view.findViewById<TextView>(R.id.tvStart)
         val tvValidate = view.findViewById<TextView>(R.id.tvValidate)
+
         screenStateReceiver = ScreenStateReceiver(this)
 
 
@@ -417,7 +433,7 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
     // Gérer le blockage d'écran
     override fun onResume() {
         super.onResume()
-        if (isStopOnce and timerRunning and !isSreenOFF_once){
+        if (isStopOnce and timerRunning and !isSreenOFF_once and isConcentration){
             Toast.makeText(this.context, "Vous avez quitté l'application donc vous ne gagnez pas de coins", Toast.LENGTH_LONG).show()
             cancelTimer()
         }
@@ -428,7 +444,7 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
 
     override fun onStop() {
         super.onStop()
-        if (timerRunning) {
+        if (timerRunning and isConcentration) {
             isStopOnce = true
             Toast.makeText(this.context, "Vous avez quitté la page donc vous ne gagnez pas de coins", Toast.LENGTH_LONG)
                 .show()
