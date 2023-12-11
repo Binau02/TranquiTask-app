@@ -23,12 +23,13 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import com.example.tranquitaskapp.data.Priorities
+import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.firestore.DocumentReference
 import java.util.Calendar
 
 
-class ModifyTask(private val task: Task) : Fragment() {
+class ModifyTask(private val task: TacheModel) : Fragment() {
     private lateinit var taskName : TextView
     private lateinit var taskCategory : Spinner
     private lateinit var taskDeadline : TextView
@@ -66,17 +67,21 @@ class ModifyTask(private val task: Task) : Fragment() {
         getPriority(taskPriority)
 
         taskName.text = task.name
-        val positionCategory = CategoryDictionary.dictionary.entries.indexOfFirst { it.key == task.categorie }
+        val positionCategory = CategoryDictionary.nameToDocumentReference.entries.indexOfFirst { it.key == task.category }
         if (positionCategory != -1) {
             taskCategory.setSelection(positionCategory)
         }
-        taskDeadline.text = timestampToString(task.deadline)
-        formattedDate = task.deadline
-        taskDuration.text = minuteToString(task.duree)
-        timestampInSeconds = task.duree
-        taskDivisible.isChecked = task.divisible
+        taskDeadline.text = task.deadline
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val date: Date = dateFormat.parse(task.deadline) ?: Date()
+
+        val timestamp = Timestamp(date)
+        formattedDate = (timestamp)
+        taskDuration.text = minuteToString(task.duration)
+        timestampInSeconds = task.duration
+        taskDivisible.isChecked = task.isDivisible
         taskConcentration.isChecked = task.concentration
-        val positionPriority = Priorities.dictionary.entries.indexOfFirst { it.key == task.priorite }
+        val positionPriority = Priorities.reversedDictionary.entries.indexOfFirst { it.key == task.priority }
         if (positionPriority != -1) {
             taskPriority.setSelection(positionPriority)
         }
@@ -181,9 +186,9 @@ class ModifyTask(private val task: Task) : Fragment() {
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         // Récupération des ressources de chaînes et ajout à l'Adapter
-        for ((ref, category) in CategoryDictionary.dictionary) {
-            adapter?.add(category.name)
-            listCategory[category.name] = ref
+        for ((category, ref) in CategoryDictionary.nameToDocumentReference) {
+            adapter?.add(category)
+            listCategory[category] = ref
         }
 
         // Attribution de l'Adapter au Spinner
@@ -258,11 +263,6 @@ class ModifyTask(private val task: Task) : Fragment() {
 
 }
 
-private fun timestampToString(timestamp: Timestamp?): String {
-    val date = timestamp?.toDate()?:Date()
-    val format = SimpleDateFormat("dd/MM", Locale.FRENCH)
-    return format.format(date)
-}
 
 private fun minuteToString(time: Int): String{
     val hours = time / 60

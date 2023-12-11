@@ -36,7 +36,7 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:id="@+id/tvcoin"
+                android:id="@+id/tvcoin_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_centerInParent="true"
@@ -51,7 +51,7 @@
                 android:layout_height="20sp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="-10dp"
-                android:layout_toEndOf="@+id/tvcoin"
+                android:layout_toEndOf="@+id/tvcoin_profile"
                 android:src="@drawable/or" />
 
         </RelativeLayout>

@@ -21,7 +21,9 @@ import com.example.tranquitaskapp.data.Category
 import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.FriendsDictionary
 import com.example.tranquitaskapp.data.Period
+import com.example.tranquitaskapp.data.Friends
 import com.example.tranquitaskapp.data.PeriodDictionary
 import com.example.tranquitaskapp.data.Priorities
 import com.example.tranquitaskapp.data.Task
@@ -153,7 +155,7 @@ class SignIn : Fragment() {
                     CategoryDictionary.nameToDocumentReference[getString(resourceId)] = categoryDoc.reference
                 }
                 else {
-                    Log.e("ERROR", "Ctegory name not found")
+                    Log.e("ERROR", "Category name not found")
                 }
             }
         } catch (e: Exception) {
@@ -167,6 +169,12 @@ class SignIn : Fragment() {
         PeriodDictionary.stringToPeriod[getString(R.string.today)] = Period.DAY
         PeriodDictionary.stringToPeriod[getString(R.string.this_week)] = Period.WEEK
         PeriodDictionary.stringToPeriod[getString(R.string.any_time)] = Period.ALL
+
+        FriendsDictionary.friendsToString[Friends.GLOBAL] = getString(R.string.global)
+        FriendsDictionary.friendsToString[Friends.FRIENDS] = getString(R.string.friends)
+
+        FriendsDictionary.stringToFriends[getString(R.string.global)] = Friends.GLOBAL
+        FriendsDictionary.stringToFriends[getString(R.string.friends)] = Friends.FRIENDS
 
         for ((value, name) in Priorities.dictionary) {
             val id = resources.getIdentifier(name, "string", packageName)

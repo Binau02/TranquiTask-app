@@ -250,7 +250,7 @@ class AddTask : Fragment() {
     }
 
     private fun addTaskToUser(idTask: DocumentReference){
-        val userRef = db.collection("user").document(User.id)
+        val userRef = User.ref ?: db.collection("user").document(User.id)
         val taskRef = db.collection("tache").document(idTask.id)
 
         userRef.update("taches", FieldValue.arrayUnion(taskRef))

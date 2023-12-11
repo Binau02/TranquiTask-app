@@ -1,6 +1,5 @@
 package com.example.tranquitaskapp.fragment
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.Slide
@@ -72,7 +71,7 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener, MainActiv
     }
 
     override fun refreshCoins() {
-        val coinHeader = MainActivityVariables.context.findViewById<TextView>(R.id.tvcoin)
+        val coinHeader = MainActivityVariables.context.findViewById<TextView>(R.id.tvcoin_profile)
 
         coinHeader.text = User.coins.toString()
     }
