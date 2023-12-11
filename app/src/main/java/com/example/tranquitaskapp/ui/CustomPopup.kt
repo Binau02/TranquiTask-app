@@ -8,12 +8,20 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.tranquitaskapp.R
 
 class CustomPopup {
+    private var colorPrimary: Int = 0
+    private var colorDark: Int = 0
+
 
     companion object {
         fun showPopup(context: Context, message: String, listener: PopupClickListener) {
+
+            val colorPrimary = ContextCompat.getColor(context, R.color.my_primary_light)
+            val colorDark = ContextCompat.getColor(context, R.color.my_dark)
+
             // Créer une instance de LayoutInflater
             val inflater = LayoutInflater.from(context)
             val popupView = inflater.inflate(R.layout.pop_up, null)
@@ -30,6 +38,8 @@ class CustomPopup {
             textViewPopup.text = message
 
             val buttonClose = popupView.findViewById<Button>(R.id.buttonClose)
+            buttonClose.setBackgroundColor(colorPrimary)
+            buttonClose.setTextColor(colorDark)
             buttonClose.setOnClickListener {
                 // Fermer le popup
                 popupWindow.dismiss()
@@ -38,6 +48,8 @@ class CustomPopup {
             }
 
             val buttonValidate = popupView.findViewById<Button>(R.id.buttonValidate)
+            buttonValidate.setBackgroundColor(colorPrimary)
+            buttonValidate.setTextColor(colorDark)
             buttonValidate.setOnClickListener {
                 // Fermer le popup
                 // Appeler la méthode du listener lorsque le bouton "Valider" est cliqué

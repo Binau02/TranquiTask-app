@@ -82,7 +82,9 @@ class ModifyProfile : Fragment() {
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
     private fun onClickCancel(){
-        Toast.makeText(this.context, "Le bouton Annuler a été cliqué !", Toast.LENGTH_SHORT).show()
+        val fragment = Profile()
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
 
     override fun onCreateView(
@@ -92,7 +94,6 @@ class ModifyProfile : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_modify_profile, container, false)
 
-        val buttonBack = view.findViewById<Button>(R.id.back2)
         val buttonSave = view.findViewById<Button>(R.id.buttonSave)
         val buttonCancel = view.findViewById<Button>(R.id.buttonCancel)
         val pseudo = view.findViewById<TextView>(R.id.tv_pseudo)
@@ -114,9 +115,7 @@ class ModifyProfile : Fragment() {
                 .into(profilePicture)
         }
 
-        buttonBack.setOnClickListener {
-            onClickBack()
-        }
+
         buttonSave.setOnClickListener {
             if(password.text.toString()==passwordConfirm.text.toString()){
                 this.context?.let {
@@ -136,7 +135,19 @@ class ModifyProfile : Fragment() {
             }
         }
         buttonCancel.setOnClickListener {
-            onClickCancel()
+
+            this.context?.let {
+                CustomPopup.showPopup(
+                    context = it,
+                    getString(R.string.cancelmodif),
+                    object :
+                        CustomPopup.PopupClickListener {
+                        override fun onPopupButtonClick() {
+                            onClickCancel()
+                        }
+                    }
+                )
+            }
         }
 
         val contextReference = context
