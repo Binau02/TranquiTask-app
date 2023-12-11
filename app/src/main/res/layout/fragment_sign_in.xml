@@ -118,8 +118,12 @@
                                     android:textColor="@color/my_dark"
                                     android:layout_centerVertical="true"
                                     android:layout_marginStart="15dp"
-                                    android:alpha="0.7"/>
+                                    android:alpha="0.7"
+                                    style="@style/CheckBoxStyle"
+                                    android:paddingHorizontal="5dp"/>
                             </RelativeLayout>
+
+
                             <View
                                 android:layout_width="wrap_content"
                                 android:layout_height="10dp"/>

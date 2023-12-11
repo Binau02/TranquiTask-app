@@ -8,4 +8,27 @@
         <item name="android:progressDrawable">@drawable/progress_drawable_start</item>
         <item name="android:thumb">@drawable/thumb_icon_start</item>
     </style>
+    <style name="CheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <!-- Couleur de l'icône de la case à cocher -->
+        <item name="android:buttonTint">@color/my_dark</item>
+        <item name="android:buttonTintMode">add</item>
+
+    </style>
+    <style name="CheckBoxStyleLeaderboard" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <!-- Couleur de l'icône de la case à cocher -->
+        <item name="android:buttonTint">?attr/colorPrimaryDark</item>
+        <item name="android:buttonTintMode">add</item>
+
+    </style>
+    <style name="radioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <!-- Couleur de l'icône de la case à cocher -->
+        <item name="android:buttonTint">?attr/colorPrimaryDark</item>
+
+    </style>
+    <style name="StyleButton" parent="Widget.AppCompat.Button">
+        <!-- Couleur de l'icône de la case à cocher -->
+        <item name="backgroundTint">?attr/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+
+    </style>
 </resources>

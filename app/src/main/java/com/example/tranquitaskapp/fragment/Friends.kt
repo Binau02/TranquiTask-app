@@ -72,7 +72,7 @@ class Friends : Fragment() {
     private var colorDark: Int = 0
 
     private fun goToFriendsProfile(ref: DocumentReference){
-        replaceFragment(ProfileOther(ref))
+        replaceFragment(ProfileOther(ref,true))
 
     }
 

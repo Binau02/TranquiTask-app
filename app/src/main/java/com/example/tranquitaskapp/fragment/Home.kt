@@ -242,7 +242,6 @@ class Home : Fragment() {
                 requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
-        launchCamera()
     }
 
     private fun launchCamera() {

@@ -16,16 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profile_background_rect" />
 
-    <Button
-        android:id="@+id/back2"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="←"
-        android:textColor="#000000"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/profile_background"
-        app:layout_constraintTop_toTopOf="@+id/profile_background" />
+
 
     <TextView
         android:id="@+id/tv_pseudo"
@@ -137,6 +128,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:text="@string/Save"
+        style="@style/StyleButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_passwordconfirm" />
@@ -147,6 +139,7 @@
         android:layout_height="60dp"
         android:layout_marginEnd="40dp"
         android:text="@string/cancel"
+        style="@style/StyleButton"
         app:layout_constraintBottom_toBottomOf="@+id/buttonSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

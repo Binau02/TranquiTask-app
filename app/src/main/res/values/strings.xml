@@ -69,6 +69,7 @@
     <string name="not_enough_gold">You don\'t have enough gold to buy this item..\.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="cancelmodif">Are you sure you want to undo your changes?</string>
     <string name="concentration">Concentration</string>
     <string name="quit_task">Are you sure you want to quit the task? You will not receive coins, and your progress will be lost.</string>
 </resources>
