@@ -81,6 +81,18 @@ class Leaderboard : Fragment() {
 
     }
 
+    private fun goToFriendsProfile(ref: DocumentReference){
+        replaceFragment(ProfileOther(ref,false))
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        val slideUp = Slide(Gravity.BOTTOM)
+        slideUp.duration = 150 // Durée de l'animation en millisecondes
+        fragment.enterTransition = slideUp
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+    }
+
 
     private fun onClickFiltre(){
         val fragment = LeaderboardFilter()
@@ -225,7 +237,9 @@ class Leaderboard : Fragment() {
 
 
         }
-        rv.adapter = LeaderboardRowAdapter(leaderboard[globalCategories[categorieIndex].second] ?: listOf(), this)
+        rv.adapter = LeaderboardRowAdapter(leaderboard[globalCategories[categorieIndex].second] ?: listOf(), this){ userRef ->
+            goToFriendsProfile(userRef)
+        }
     }
 
     override fun onCreateView(
@@ -276,7 +290,7 @@ class Leaderboard : Fragment() {
 
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-//        rv.adapter = LeaderboardRowAdapter(listLeaderboardModel) // Initialisez avec une liste vide ou vos données
+//       rv.adapter = LeaderboardRowAdapter(listLeaderboardModel) // Initialisez avec une liste vide ou vos données
 
         //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 
