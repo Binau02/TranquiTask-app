@@ -38,6 +38,8 @@ class ListeTachesRowAdapter(
         val taskPriority: TextView = row.findViewById(R.id.task_priority)
         val taskCategory: TextView = row.findViewById(R.id.task_category)
         val taskConcentration: TextView = row.findViewById(R.id.task_concentration)
+        val taskDivisible: TextView = row.findViewById(R.id.task_divisible)
+
         val imageDevelop: ImageView = row.findViewById(R.id.image_develop)
         val buttonStart: Button = row.findViewById(R.id.buttonStart)
         val modify: ImageView = row.findViewById(R.id.edit)
@@ -120,6 +122,12 @@ class ListeTachesRowAdapter(
         }
         else{
             holder.taskConcentration.text = context.getString(R.string.no)
+        }
+        if (data[position].isDivisible) {
+            holder.taskDivisible.text = context.getString(R.string.yes)
+        }
+        else{
+            holder.taskDivisible.text = context.getString(R.string.no)
         }
     }
 
