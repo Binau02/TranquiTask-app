@@ -81,6 +81,17 @@ class Leaderboard : Fragment() {
 
     }
 
+    private fun goToFriendsProfile(ref: DocumentReference){
+        replaceFragment(ProfileOther(ref,false))
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        val slideUp = Slide(Gravity.BOTTOM)
+        slideUp.duration = 150 // Durée de l'animation en millisecondes
+        fragment.enterTransition = slideUp
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)?.commit()
+    }
 
     private fun onClickFiltre(){
         val fragment = LeaderboardFilter()
@@ -181,23 +192,23 @@ class Leaderboard : Fragment() {
 
         textCategorie.text = globalCategories[categorieIndex].first
 
-        if (leaderboardList.size >= 3) {
-            // Afficher les trois premiers dans le podium
+        if (leaderboardList.isNotEmpty()) {
             val firstPlace = leaderboardList[0]
-            val secondPlace = leaderboardList[1]
-            val thirdPlace = leaderboardList[2]
-
             if (firstPlace.avatar.isNotEmpty()) {
                 Glide.with(this)
                     .load(firstPlace.avatar)
                     .into(avatarFirstPlace)
             } else {
-                // Charger une image par défaut si l'avatar est vide
                 avatarFirstPlace.setImageResource(R.drawable.default_profil_picture)
             }
             if (firstPlace.pseudo.isNotEmpty()) {
                 pseudoFirstPlace.text = firstPlace.pseudo
             }
+            coinAmountFirstPlace.text = firstPlace.coin.toString()
+        }
+
+        if (leaderboardList.size >= 2) {
+            val secondPlace = leaderboardList[1]
             if (secondPlace.avatar.isNotEmpty()) {
                 Glide.with(this)
                     .load(secondPlace.avatar)
@@ -208,24 +219,27 @@ class Leaderboard : Fragment() {
             if (secondPlace.pseudo.isNotEmpty()) {
                 pseudoSecondPlace.text = secondPlace.pseudo
             }
+            coinAmountSecondPlace.text = secondPlace.coin.toString()
+        }
+
+        if (leaderboardList.size >= 3) {
+            val thirdPlace = leaderboardList[2]
             if (thirdPlace.avatar.isNotEmpty()) {
                 Glide.with(this)
                     .load(thirdPlace.avatar)
                     .into(avatarThirdPlace)
             } else {
-                // Charger une image par défaut si l'avatar est vide
                 avatarFirstPlace.setImageResource(R.drawable.default_profil_picture)
             }
             if (thirdPlace.pseudo.isNotEmpty()) {
                 pseudoThirdPlace.text = thirdPlace.pseudo
             }
-            coinAmountFirstPlace.text = firstPlace.coin.toString()
-            coinAmountSecondPlace.text = secondPlace.coin.toString()
             coinAmountThirdPlace.text = thirdPlace.coin.toString()
-
-
         }
-        rv.adapter = LeaderboardRowAdapter(leaderboard[globalCategories[categorieIndex].second] ?: listOf(), this)
+
+        rv.adapter = LeaderboardRowAdapter(leaderboard[globalCategories[categorieIndex].second] ?: listOf(), this){ userRef ->
+            goToFriendsProfile(userRef)
+        }
     }
 
     override fun onCreateView(
