@@ -16,6 +16,9 @@ import com.google.firebase.firestore.DocumentReference
 
 class ProfileOther (val ref : DocumentReference,val friends: Boolean): Fragment() {
     val db = MyFirebase.getFirestoreInstance()
+    private lateinit var userUsername : String
+    private lateinit var decor: HashMap<String, String>
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -43,6 +46,7 @@ class ProfileOther (val ref : DocumentReference,val friends: Boolean): Fragment(
                 replaceFragment(Leaderboard())
             }
         }
+        userUsername = db.collection("user").document(ref).get()
         return view
     }
 
