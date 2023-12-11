@@ -23,33 +23,25 @@ import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.adapter.LeaderboardRowAdapter
+import com.example.tranquitaskapp.data.Friends
+import com.example.tranquitaskapp.data.FriendsModel
 import com.example.tranquitaskapp.data.LeaderboardModel
+import com.example.tranquitaskapp.data.LeaderboardFilter
+import com.example.tranquitaskapp.data.Period
+import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Leaderboard.newInstance] factory method to
- * create an instance of this fragment.
- */
 
 class Leaderboard : Fragment() {
-    // TODO: Rename and change types of parameters
-    /*
-    private var param1: String? = null
-    private var param2: String? = null
-    private lateinit var view: View
-     */
 
     private val db = MyFirebase.getFirestoreInstance()
 
@@ -75,6 +67,8 @@ class Leaderboard : Fragment() {
     private lateinit var coinAmountFirstPlace: TextView
     private lateinit var coinAmountSecondPlace: TextView
     private lateinit var coinAmountThirdPlace: TextView
+
+    private val globalFriends = mutableListOf<FriendsModel>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -124,6 +118,55 @@ class Leaderboard : Fragment() {
         setLeaderboard()
     }
 
+    private suspend fun getFriends() {
+        // récupérer les amis
+        try {
+            val friends = withContext(Dispatchers.IO) {
+                Tasks.await(db.collection("ami").get())
+            }
+            for (friend in friends) {
+                val ami1 = friend.getDocumentReference("ami1")
+                val ami2 = friend.getDocumentReference("ami2")
+                var ami1Doc: DocumentSnapshot? = null
+                var ami2Doc: DocumentSnapshot? = null
+                try {
+                    if (ami1 != null) {
+                        ami1Doc = withContext(Dispatchers.IO) {
+                            Tasks.await(ami1.get())
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("ERROR", "Error getting ami1 : $e")
+                }
+                try {
+                    if (ami2 != null) {
+                        ami2Doc = withContext(Dispatchers.IO) {
+                            Tasks.await(ami2.get())
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("ERROR", "Error getting ami2 : $e")
+                }
+                if (ami1Doc != null && ami1Doc.id == User.id) {
+                    addFriend(ami2Doc)
+                }
+                if (ami2Doc != null && ami2Doc.id == User.id) {
+                    addFriend(ami1Doc)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("ERROR", "Error finding friend: $e")
+        }
+    }
+
+    private fun addFriend(friendDoc: DocumentSnapshot?) {
+        val name = friendDoc?.getString("username")
+        val pp = friendDoc?.getString("profile_picture")
+        if (name != null && pp != null) {
+            globalFriends.add(FriendsModel(name, pp, friendDoc.reference))
+        }
+    }
+
     private suspend fun getLeaderboard() {
         val competitors : HashMap<DocumentReference?, HashMap<DocumentReference, LeaderboardModel>> = hashMapOf()
 
@@ -133,6 +176,10 @@ class Leaderboard : Fragment() {
         for ((categoryRef, category) in CategoryDictionary.dictionary) {
             competitors[categoryRef] = hashMapOf()
             globalCategories.add((Pair(category.name, categoryRef)))
+        }
+
+        if (LeaderboardFilter.friends == Friends.FRIENDS) {
+            getFriends()
         }
 
         try {
@@ -145,25 +192,36 @@ class Leaderboard : Fragment() {
                 val userRef = transaction.getDocumentReference("user")
                 val categorieRef = transaction.getDocumentReference("categorie")
 
-                if (userRef != null) {
-                    val refs = listOf(null, categorieRef)
-                    for (ref in refs) {
-                        if (competitors[ref] != null) {
-                            if (competitors[ref]!!.containsKey(userRef)) {
-                                competitors[ref]!![userRef]!!.coin = competitors[ref]!![userRef]!!.coin + amount
-                            } else {
-                                try {
-                                    val user = withContext(Dispatchers.IO) {
-                                        Tasks.await(userRef.get())
+                val home = Home()
+
+                if (userRef != null && date != null) {
+                    if (LeaderboardFilter.friends != Friends.FRIENDS || globalFriends.find { it -> it.ref == userRef } != null) {
+                        if (
+                            LeaderboardFilter.period == Period.ALL
+                            || (LeaderboardFilter.period == Period.DAY && home.isToday(Timestamp(date)))
+                            || (LeaderboardFilter.period == Period.WEEK && home.isOnWeek(Timestamp(date)))
+                        ) {
+                            val refs = listOf(null, categorieRef)
+                            for (ref in refs) {
+                                if (competitors[ref] != null) {
+                                    if (competitors[ref]!!.containsKey(userRef)) {
+                                        competitors[ref]!![userRef]!!.coin =
+                                            competitors[ref]!![userRef]!!.coin + amount
+                                    } else {
+                                        try {
+                                            val user = withContext(Dispatchers.IO) {
+                                                Tasks.await(userRef.get())
+                                            }
+                                            competitors[ref]!![userRef] = LeaderboardModel(
+                                                pseudo = user.getString("username") ?: "",
+                                                avatar = user.getString("profile_picture") ?: "",
+                                                coin = amount,
+                                                rank = ""
+                                            )
+                                        } catch (e: Exception) {
+                                            Log.e("ERROR", "Error getting user : $e")
+                                        }
                                     }
-                                    competitors[ref]!![userRef] = LeaderboardModel(
-                                        pseudo = user.getString("username") ?: "",
-                                        avatar = user.getString("profile_picture") ?: "",
-                                        coin = amount,
-                                        rank = ""
-                                    )
-                                } catch (e : Exception) {
-                                    Log.e("ERROR", "Error getting user : $e")
                                 }
                             }
                         }

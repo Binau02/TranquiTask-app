@@ -36,7 +36,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/leaderboard"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textColor="?attr/colorPrimaryDark"
                         android:layout_weight="5"
                         android:gravity="center"
@@ -46,184 +46,287 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"/>
 
+
+                <!-- Layout for the categories -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    app:layout_constraintTop_toBottomOf="@+id/title_bar"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp">
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-
-                        <ImageView
-                            android:id="@+id/filter_leaderboardperiode"
-                            android:layout_width="60sp"
-                            android:layout_height="40sp"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/arrow_down" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
+                    <!-- Layout for one category -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4">
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp">
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp">
+                        <LinearLayout
+                            android:id="@+id/period_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/button_period"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/arrow_down" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:paddingLeft="10dp"
                                 android:text="@string/period"
-                                android:layout_centerVertical="true"
-                                android:textColor="?attr/colorPrimaryDark"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-                        </RelativeLayout>
+                                android:textSize="20sp" />
+                        </LinearLayout>
 
-                    </RelativeLayout>
+                        <View
+                            android:id="@+id/period_bar"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/period_name"/>
 
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@android:drawable/screen_background_dark" />
-
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp" />
-                </LinearLayout>
-                <ListView
-                    android:id="@+id/filterperiod"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/colorPrimaryDark"
-                    android:visibility="gone"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-
-                        <ImageView
-                            android:id="@+id/filter_leaderboardfriends"
-                            android:layout_width="60sp"
-                            android:layout_height="40sp"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/arrow_down" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4">
-
-                        <RelativeLayout
+                        <RadioGroup
+                            android:id="@+id/period_group"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp">
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:textColor="?attr/colorPrimaryDark"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/period_bar">
+
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <!-- Layout for one category -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp">
+
+                        <LinearLayout
+                            android:id="@+id/friends_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/button_friends"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/arrow_down" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:paddingLeft="10dp"
                                 android:text="@string/friends"
-                                android:layout_centerVertical="true"
-                                android:textColor="?attr/colorPrimaryDark"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-                        </RelativeLayout>
+                                android:textSize="20sp" />
+                        </LinearLayout>
 
-                    </RelativeLayout>
+                        <View
+                            android:id="@+id/friends_bar"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/period_name"/>
 
+                        <RadioGroup
+                            android:id="@+id/friends_group"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:textColor="?attr/colorPrimaryDark"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/period_bar">
+
+                        </RadioGroup>
+                    </LinearLayout>
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <RelativeLayout-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_weight="1">-->
+
+
+<!--                            <ImageView-->
+<!--                                android:id="@+id/filter_leaderboardperiode"-->
+<!--                                android:layout_width="60sp"-->
+<!--                                android:layout_height="40sp"-->
+<!--                                android:layout_centerVertical="true"-->
+<!--                                android:src="@drawable/arrow_down" />-->
+
+<!--                        </RelativeLayout>-->
+
+<!--                        <RelativeLayout-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="4">-->
+
+<!--                            <RelativeLayout-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:padding="10dp">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="@string/period"-->
+<!--                                    android:layout_centerVertical="true"-->
+<!--                                    android:textColor="?attr/colorPrimaryDark"-->
+<!--                                    android:textSize="18dp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </RelativeLayout>-->
+
+<!--                        </RelativeLayout>-->
+
+
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:paddingStart="20dp"-->
+<!--                        android:paddingEnd="20dp"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="2dp"-->
+<!--                            android:background="@android:drawable/screen_background_dark" />-->
+
+<!--                        <View-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="40dp" />-->
+<!--                    </LinearLayout>-->
+<!--                    <ListView-->
+<!--                        android:id="@+id/filterperiod"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="?attr/colorPrimaryDark"-->
+<!--                        android:visibility="gone"/>-->
+
+<!--                    <View-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="20dp"/>-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <RelativeLayout-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_weight="1">-->
+
+
+<!--                            <ImageView-->
+<!--                                android:id="@+id/filter_leaderboardfriends"-->
+<!--                                android:layout_width="60sp"-->
+<!--                                android:layout_height="40sp"-->
+<!--                                android:layout_centerVertical="true"-->
+<!--                                android:src="@drawable/arrow_down" />-->
+
+<!--                        </RelativeLayout>-->
+
+<!--                        <RelativeLayout-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="4">-->
+
+<!--                            <RelativeLayout-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:padding="10dp">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="@string/friends"-->
+<!--                                    android:layout_centerVertical="true"-->
+<!--                                    android:textColor="?attr/colorPrimaryDark"-->
+<!--                                    android:textSize="18dp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </RelativeLayout>-->
+
+<!--                        </RelativeLayout>-->
+
+
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:paddingStart="20dp"-->
+<!--                        android:paddingEnd="20dp"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="2dp"-->
+<!--                            android:background="@android:drawable/screen_background_dark" />-->
+
+<!--                        <View-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="40dp" />-->
+<!--                    </LinearLayout>-->
+<!--                    <ListView-->
+<!--                        android:id="@+id/filterfriends"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="?attr/colorPrimaryDark"-->
+<!--                        android:visibility="gone"/>-->
 
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@android:drawable/screen_background_dark" />
-
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp" />
-                </LinearLayout>
-                <ListView
-                    android:id="@+id/filterfriends"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/colorPrimaryDark"
-                    android:visibility="gone"/>
-
-
 
             </LinearLayout>
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center|bottom"
-                android:paddingBottom="15dp"
-                >
-                <androidx.cardview.widget.CardView
-                    android:layout_width="200dp"
-                    android:layout_height="60dp"
-                    app:cardCornerRadius="30dp"
-                    android:background="@color/my_primary"
-                    android:elevation="15dp">
-                    <ImageView
-                        android:id="@+id/btn_saveFilterLeaderboard"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/rounded_button"
-                        android:elevation="15dp"/>
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:gravity="center|bottom"-->
+<!--                android:paddingBottom="15dp"-->
+<!--                >-->
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:layout_width="200dp"-->
+<!--                    android:layout_height="60dp"-->
+<!--                    app:cardCornerRadius="30dp"-->
+<!--                    android:background="@color/my_primary"-->
+<!--                    android:elevation="15dp">-->
+<!--                    <ImageView-->
+<!--                        android:id="@+id/btn_saveFilterLeaderboard"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:src="@drawable/rounded_button"-->
+<!--                        android:elevation="15dp"/>-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:elevation="15dp"
-                        android:gravity="center"
-                        android:text="@string/Save"
-                        android:textSize="24dp"
-                        android:textColor="@color/my_secondary_light"
-                        android:textStyle="bold" />
-                </androidx.cardview.widget.CardView>
-            </RelativeLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:elevation="15dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="@string/Save"-->
+<!--                        android:textSize="24dp"-->
+<!--                        android:textColor="@color/my_secondary_light"-->
+<!--                        android:textStyle="bold" />-->
+<!--                </androidx.cardview.widget.CardView>-->
+<!--            </RelativeLayout>-->
         </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
