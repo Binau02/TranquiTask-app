@@ -60,9 +60,10 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener, MainActiv
         val header = findViewById<LinearLayout>(R.id.linearLayout)
 
         val isAuthFragment = fragment is SignUp || fragment is SignIn || fragment is ForgotPassword || fragment is StartTask
+        val isLeaderboard = fragment is Leaderboard
 
         bottomBar.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
-        header.visibility = if (isAuthFragment) View.GONE else View.VISIBLE
+        header.visibility = if (isAuthFragment||isLeaderboard) View.GONE else View.VISIBLE
 
         MainActivityVariables.context = this
         refreshCoins()

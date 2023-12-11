@@ -48,16 +48,32 @@
                             app:layout_constraintVertical_bias="0.51"
                             app:shapeAppearanceOverlay="@style/roundedimagehome" />
 
-                        <ImageView
-                            android:id="@+id/cameraImage"
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:layout_constraintBottom_toBottomOf="@+id/profileimage"
                             app:layout_constraintEnd_toEndOf="@+id/profileimage"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/photo_camera" />
+                            android:gravity="center"
+                            >
+                            <ImageView
+                                android:id="@+id/roundedCamera"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/rounded_button"
+                                />
+
+                            <ImageView
+                                android:id="@+id/cameraImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/photo_camera"
+                                app:layout_constraintBottom_toBottomOf="@+id/roundedCamera"
+                                app:layout_constraintEnd_toEndOf="@+id/roundedCamera"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/roundedCamera" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                         <com.example.tranquitaskapp.ui.CircularProgressBar
                             android:id="@+id/circularProgressBar2"
@@ -111,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:cardCornerRadius="30dp"
-                    app:cardBackgroundColor="?attr/colorSecondary">
+                    app:cardBackgroundColor="?attr/colorPrimary">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
