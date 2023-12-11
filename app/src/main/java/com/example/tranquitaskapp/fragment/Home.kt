@@ -211,6 +211,9 @@ class Home : Fragment() {
 
         val currentDate = Calendar.getInstance()
 
+        if (currentDate.get(Calendar.DAY_OF_WEEK) == 1) {
+            currentDate.add(Calendar.DAY_OF_WEEK, -2)
+        }
         currentDate.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         currentDate.set(Calendar.HOUR_OF_DAY, 0)
         currentDate.set(Calendar.MINUTE, 0)
