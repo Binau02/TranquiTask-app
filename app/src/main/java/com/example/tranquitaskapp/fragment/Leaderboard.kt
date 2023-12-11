@@ -192,6 +192,16 @@ class Leaderboard : Fragment() {
 
         textCategorie.text = globalCategories[categorieIndex].first
 
+        avatarFirstPlace.setImageResource(R.drawable.default_profil_picture)
+        avatarSecondPlace.setImageResource(R.drawable.default_profil_picture)
+        avatarThirdPlace.setImageResource(R.drawable.default_profil_picture)
+        pseudoFirstPlace.text = ""
+        pseudoSecondPlace.text = ""
+        pseudoThirdPlace.text = ""
+        coinAmountFirstPlace.text = "0"
+        coinAmountSecondPlace.text = "0"
+        coinAmountThirdPlace.text = "0"
+
         if (leaderboardList.isNotEmpty()) {
             val firstPlace = leaderboardList[0]
             if (firstPlace.avatar.isNotEmpty()) {
