@@ -65,7 +65,7 @@ class ModifyProfile : Fragment() {
                 }
             }
 
-        val userRef = db.collection("user").document(User.id)
+        val userRef = User.ref ?: db.collection("user").document(User.id)
         userRef.update("username", newUsername)
             .addOnSuccessListener {
                 // La mise à jour a réussi
