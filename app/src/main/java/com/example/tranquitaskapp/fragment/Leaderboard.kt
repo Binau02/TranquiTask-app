@@ -195,7 +195,11 @@ class Leaderboard : Fragment() {
                 val home = Home()
 
                 if (userRef != null && date != null) {
-                    if (LeaderboardFilter.friends != Friends.FRIENDS || globalFriends.find { it -> it.ref == userRef } != null) {
+                    if (
+                        LeaderboardFilter.friends != Friends.FRIENDS
+                        || globalFriends.find { it -> it.ref == userRef } != null
+                        || userRef == User.ref
+                    ) {
                         if (
                             LeaderboardFilter.period == Period.ALL
                             || (LeaderboardFilter.period == Period.DAY && home.isToday(Timestamp(date)))
