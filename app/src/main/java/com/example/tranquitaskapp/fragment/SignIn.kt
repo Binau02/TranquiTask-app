@@ -48,9 +48,10 @@ class SignIn : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
         sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
     }
+
+
 
     private suspend fun getInformations(email : String) {
         val packageName = this.context?.packageName

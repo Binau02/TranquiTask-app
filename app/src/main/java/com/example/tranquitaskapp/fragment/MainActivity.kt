@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener, MainActiv
         }
     }
 
+
+
     override fun setBottomBarVisibility(fragment: Fragment) {
         val bottomBar = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val header = findViewById<LinearLayout>(R.id.linearLayout)
