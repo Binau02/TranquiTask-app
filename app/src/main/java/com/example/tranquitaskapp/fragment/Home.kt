@@ -73,6 +73,22 @@ class Home : Fragment() {
 
     val options = arrayOf("Prendre une photo", "Importer depuis la galerie")
 
+    private val requestMotificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Toast.makeText(
+                    this.context,
+                    "Vous recevrez les notifications !",
+                    Toast.LENGTH_SHORT
+                ).show()            } else {
+                Toast.makeText(
+                    this.context,
+                    "Vous ne recevrez pas de notifications !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -433,6 +449,16 @@ class Home : Fragment() {
             : View
     ? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val notificationPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.POST_NOTIFICATIONS
+        )
+        if (notificationPermission != PackageManager.PERMISSION_GRANTED){
+            requestMotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
+
         rv = view.findViewById(R.id.rv)
         progressBar = view.findViewById(R.id.progressBar)
         val buttonToday = view.findViewById<TextView>(R.id.tvToday)
