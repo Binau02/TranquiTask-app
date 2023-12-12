@@ -5,10 +5,12 @@ package com.example.tranquitaskapp.fragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -45,6 +47,7 @@ import com.google.common.collect.Comparators.min
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
 import java.io.FileOutputStream
+import java.io.InputStream
 
 
 class Home : Fragment() {
@@ -56,7 +59,9 @@ class Home : Fragment() {
 
     private var day: Boolean = true
 
-    private val requestImageCapture = 1
+    private val pickImageRequest = 1
+    private val requestImageCapture = 2
+
     private lateinit var profilePhoto: ShapeableImageView
     private lateinit var imagePhoto: ImageView
 
@@ -66,12 +71,68 @@ class Home : Fragment() {
         TODAY, WEEK
     }
 
+    val options = arrayOf("Prendre une photo", "Importer depuis la galerie")
+
+    private val requestMotificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Toast.makeText(
+                    this.context,
+                    "Vous recevrez les notifications !",
+                    Toast.LENGTH_SHORT
+                ).show()            } else {
+                Toast.makeText(
+                    this.context,
+                    "Vous ne recevrez pas de notifications !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                launchCamera()
+                requestWriteExternalPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             } else {
-                Toast.makeText(this.context, "Vous devez accepter d'utiliser l'appareil photo et les fichiers externes !", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this.context,
+                    "Vous devez accepter d'utiliser l'appareil photo et les fichiers externes !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    private val requestWriteExternalPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                requestReadExternalPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            } else {
+                Toast.makeText(
+                    this.context,
+                    "Vous devez accepter d'utiliser l'appareil photo et les fichiers externes !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    private val requestReadExternalPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Choisissez une option")
+                    .setItems(options) { _, which ->
+                        when (which) {
+                            0 -> launchCamera()
+                            1 -> pickImageFromGallery()
+                        }
+                    }
+                    .show()
+            } else {
+                Toast.makeText(
+                    this.context,
+                    "Vous devez accepter d'utiliser l'appareil photo et les fichiers externes !",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -235,25 +296,37 @@ class Home : Fragment() {
     }
 
     private fun takePhoto() {
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.CAMERA
-            ) -> {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    launchCamera()
-                } else {
-                    requestCameraPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val cameraPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CAMERA
+        )
+        val storagePermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+
+        if (cameraPermission == PackageManager.PERMISSION_GRANTED && storagePermission == PackageManager.PERMISSION_GRANTED) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Choisissez une option")
+                .setItems(options) { _, which ->
+                    when (which) {
+                        0 -> launchCamera()
+                        1 -> pickImageFromGallery()
+                    }
                 }
-            }
-            else -> {
-                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
+                .show()
+        } else {
+            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            requestWriteExternalPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            requestReadExternalPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
+
+    }
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        startActivityForResult(intent, pickImageRequest)
     }
 
     @SuppressLint("QueryPermissionsNeeded")
@@ -267,73 +340,99 @@ class Home : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == requestImageCapture && resultCode == Activity.RESULT_OK) {
-
-            val imageBitmap = data?.extras?.get("data") as Bitmap?
-
-            if (imageBitmap != null) {
-                val squareBitmap = resizeBitmapToSquare(imageBitmap)
-
-                val tempFile = createTempFile("image", ".jpg", requireContext().externalCacheDir)
-                Log.d("PHOTO", "Path du fichier temporaire : ${tempFile.absolutePath}")
-
-                val outputStream = FileOutputStream(tempFile)
-                squareBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                outputStream.close()
-
-
-                val storage = Firebase.storage
-
-                val storageRef = storage.reference
-
-                val profilePictureRef = storageRef.child("profile_picture")
-
-
-                val existingImageName = User.id + ".jpg"
-
-                val existingImageRef = profilePictureRef.child(existingImageName)
-
-                existingImageRef.metadata.addOnSuccessListener {
-                    existingImageRef.putFile(Uri.fromFile(tempFile))
-                        .addOnSuccessListener {
-                            existingImageRef.downloadUrl.addOnSuccessListener { uri ->
-                                val newImageUrl = uri.toString()
-                                User.profile_picture = newImageUrl
-                                db.collection("user").document(User.id)
-                                    .update("profile_picture",newImageUrl)
-                                    .addOnSuccessListener {
-                                        Log.d("PHOTO","PHOTO MODIFIE AVEC SUCCES")
-                                    }
+        when (requestCode) {
+            pickImageRequest -> {
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    val selectedImageUri: Uri? = data.data
+                    if (selectedImageUri != null) {
+                        val inputStream: InputStream? =
+                            requireContext().contentResolver.openInputStream(selectedImageUri)
+                        if (inputStream != null) {
+                            val bitmap = BitmapFactory.decodeStream(inputStream)
+                            inputStream.close()
+                            if (bitmap != null) {
+                                val squareBitmap = resizeBitmapToSquare(bitmap)
+                                updateImageProfile(selectedImageUri, squareBitmap)
                             }
                         }
-                        .addOnFailureListener {
-                            Log.d("PHOTO", "PASSAGE premiere erreur : $it")
-                        }
-
-                }
-                    .addOnFailureListener {
-                        existingImageRef.putFile(Uri.fromFile(tempFile))
-                            .addOnSuccessListener {
-                                existingImageRef.downloadUrl.addOnSuccessListener { uri ->
-                                    val newImageUrl = uri.toString()
-                                    User.profile_picture = newImageUrl
-                                    db.collection("user").document(User.id)
-                                        .update("profile_picture",newImageUrl)
-                                        .addOnSuccessListener {
-                                            Log.d("PHOTO","PHOTO MODIFIE AVEC SUCCES")
-                                        }
-                                }
-                            }
-                            .addOnFailureListener {
-                                Log.d("PHOTO", "PASSAGE DEUXIEME erreur : $it")
-                            }
                     }
-                profilePhoto.setImageBitmap(squareBitmap)
+                }
+            }
+
+            requestImageCapture -> {
+                if (resultCode == Activity.RESULT_OK) {
+
+                    val imageBitmap = data?.extras?.get("data") as Bitmap?
+
+                    if (imageBitmap != null) {
+                        val squareBitmap = resizeBitmapToSquare(imageBitmap)
+
+                        val tempFile =
+                            createTempFile("image", ".jpg", requireContext().externalCacheDir)
+
+                        val outputStream = FileOutputStream(tempFile)
+                        squareBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                        outputStream.close()
+                        updateImageProfile(Uri.fromFile(tempFile), squareBitmap)
+
+                    }
+                }
             }
         }
     }
-    private fun resizeBitmapToSquare(bitmap: Bitmap): Bitmap {
+
+    private fun updateImageProfile(imageUri: Uri, imageBitmap: Bitmap) {
+        val storage = Firebase.storage
+
+        val storageRef = storage.reference
+
+        val profilePictureRef = storageRef.child("profile_picture")
+
+
+        val existingImageName = User.id + ".jpg"
+
+        val existingImageRef = profilePictureRef.child(existingImageName)
+
+        existingImageRef.metadata.addOnSuccessListener {
+            existingImageRef.putFile(imageUri)
+                .addOnSuccessListener {
+                    existingImageRef.downloadUrl.addOnSuccessListener { uri ->
+                        val newImageUrl = uri.toString()
+                        User.profile_picture = newImageUrl
+                        db.collection("user").document(User.id)
+                            .update("profile_picture", newImageUrl)
+                            .addOnSuccessListener {
+                                Log.d("PHOTO", "PHOTO MODIFIE AVEC SUCCES")
+                            }
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d("PHOTO", "PASSAGE premiere erreur : $it")
+                }
+
+        }
+            .addOnFailureListener {
+                existingImageRef.putFile(imageUri)
+                    .addOnSuccessListener {
+                        existingImageRef.downloadUrl.addOnSuccessListener { uri ->
+                            val newImageUrl = uri.toString()
+                            User.profile_picture = newImageUrl
+                            db.collection("user").document(User.id)
+                                .update("profile_picture", newImageUrl)
+                                .addOnSuccessListener {
+                                    Log.d("PHOTO", "PHOTO MODIFIE AVEC SUCCES")
+                                }
+                        }
+                    }
+                    .addOnFailureListener {
+                        Log.d("PHOTO", "PASSAGE DEUXIEME erreur : $it")
+                    }
+            }
+        profilePhoto.setImageBitmap(imageBitmap)
+    }
+
+    private fun resizeBitmapToSquare(bitmap: Bitmap)
+            : Bitmap {
         val size = min(bitmap.width, bitmap.height)
         val x = (bitmap.width - size) / 2
         val y = (bitmap.height - size) / 2
@@ -343,9 +442,23 @@ class Home : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle
+
+        ?
+    )
+            : View
+    ? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val notificationPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.POST_NOTIFICATIONS
+        )
+        if (notificationPermission != PackageManager.PERMISSION_GRANTED){
+            requestMotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
+
         rv = view.findViewById(R.id.rv)
         progressBar = view.findViewById(R.id.progressBar)
         val buttonToday = view.findViewById<TextView>(R.id.tvToday)
