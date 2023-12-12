@@ -28,6 +28,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.data.User
@@ -336,13 +337,13 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
         val userReference = db.collection("user").document(User.id)
 
         val transactionData = hashMapOf(
-            "amount" to task.duration - timeLeftMillis/60000,
+            "amount" to task.duration - timeLeftMillis/60000 - 1,
             "categorie" to task.category,
             "date" to Timestamp.now(),
             "user" to userReference,
         )
         val updateUser = hashMapOf(
-            "coins" to User.coins + (task.duration - timeLeftMillis/60000)
+            "coins" to User.coins + (task.duration - timeLeftMillis/60000) - 1
         )
         transactionCollection.add(transactionData)
             .addOnSuccessListener {
@@ -353,7 +354,7 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
 
         userReference.update(updateUser as Map<String, Any>)
             .addOnSuccessListener {
-                User.coins += (task.duration - timeLeftMillis/60000)
+                User.coins += (task.duration - timeLeftMillis/60000) - 1
                 mainActivityListener?.refreshCoins()
             }
             .addOnFailureListener { e ->
@@ -363,12 +364,12 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
 
     private fun onClickValidate(){
         val taskRef = task.ref
-        task.done = 100
+        ListTask.list.find { it.ref == taskRef }?.done = 100
         taskRef.update("done", 100)
             .addOnSuccessListener {
                 // La mise à jour a réussi
                 Log.d("Update", "La tache a ete modifiée")
-                Toast.makeText(this.context, "Vous avez gagné ${task.duration - timeLeftMillis/60000} coins", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Vous avez gagné ${task.duration - timeLeftMillis/60000 - 1} coins", Toast.LENGTH_SHORT).show()
                 addCoinToUser()
                 val fragment = Home()
                 val transaction = fragmentManager?.beginTransaction()
