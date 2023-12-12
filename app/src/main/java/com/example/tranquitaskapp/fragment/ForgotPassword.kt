@@ -54,17 +54,29 @@ class ForgotPassword : Fragment() {
         }
         bottomBarListener?.setBottomBarVisibility(this)
         buttonSend.setOnClickListener{
-            auth.sendPasswordResetEmail(email.text.toString())
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(context,"Un mail vous a été envoyé",Toast.LENGTH_SHORT).show()
-                        val fragment = SignIn()
-                        val transaction = fragmentManager?.beginTransaction()
-                        transaction?.replace(R.id.frameLayout, fragment)?.commit()
-                    } else {
-                        Toast.makeText(context,"La réinitialisation a échoué",Toast.LENGTH_SHORT).show()
+            val userEmail = email.text.toString().trim()
+
+            if (userEmail.isNotEmpty()) {
+                auth.sendPasswordResetEmail(userEmail)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context, "Un mail vous a été envoyé", Toast.LENGTH_SHORT)
+                                .show()
+                            val fragment = SignIn()
+                            val transaction = fragmentManager?.beginTransaction()
+                            transaction?.replace(R.id.frameLayout, fragment)?.commit()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "La réinitialisation a échoué",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                }
+            }
+            else {
+                Toast.makeText(context, "Veuillez entrer une adresse e-mail", Toast.LENGTH_SHORT).show()
+            }
         }
 
         buttonBack.setOnClickListener{

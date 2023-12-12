@@ -149,7 +149,7 @@ class SignUp : Fragment() {
                         }
                     }
             } else {
-                Toast.makeText(this.context, "Verifiez vos informations", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Vérifiez vos informations", Toast.LENGTH_SHORT).show()
             }
         }
 
