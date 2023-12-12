@@ -31,7 +31,7 @@ class ProfileAddFriend (val friendDoc : DocumentReference) : Fragment() {
             val friend = withContext(Dispatchers.IO) {
                 Tasks.await(friendDoc.get())
             }
-            pseudo = friend.getString("pseudo") ?: ""
+            pseudo = friend.getString("username") ?: ""
             pp = friend.getString("profile_picture") ?: ""
             setFriend()
         } catch (e : Exception) {
