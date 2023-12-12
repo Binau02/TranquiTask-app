@@ -105,8 +105,8 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener, MainActiv
         fragmentTransaction.commit()
     }
 
-    override fun onStop() {
+    override fun onDestroy() {
         onClickSignOut()
-        super.onStop()
+        super.onDestroy()
     }
 }
