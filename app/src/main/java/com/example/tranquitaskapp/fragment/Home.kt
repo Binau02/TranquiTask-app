@@ -257,14 +257,14 @@ class Home : Fragment() {
         )
         val storagePermission = ContextCompat.checkSelfPermission(
             requireContext(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.MANAGE_EXTERNAL_STORAGE
         )
 
         if (cameraPermission == PackageManager.PERMISSION_GRANTED && storagePermission == PackageManager.PERMISSION_GRANTED) {
             launchCamera()
         } else {
             if (cameraPermission == PackageManager.PERMISSION_GRANTED){
-                requestCameraPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestCameraPermissionLauncher.launch(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
             }else{
                 requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
