@@ -73,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="@string/add"
+        style="@style/StyleButton"
         app:layout_constraintEnd_toEndOf="@+id/tv_pseudo"
         app:layout_constraintStart_toStartOf="@+id/tv_pseudo"
         app:layout_constraintTop_toBottomOf="@+id/tv_pseudo" />
