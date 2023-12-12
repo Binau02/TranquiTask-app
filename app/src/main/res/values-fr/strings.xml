@@ -73,4 +73,5 @@
     <string name="concentration">Concentration</string>
     <string name="quit_task">Êtes-vous sûr(e) de vouloir quitter la tâche ? Vous ne recevrez pas de pièces, et votre progression sera perdue.</string>
     <string name="global">Global</string>
+    <string name="divisible">Divisible</string>
 </resources>
