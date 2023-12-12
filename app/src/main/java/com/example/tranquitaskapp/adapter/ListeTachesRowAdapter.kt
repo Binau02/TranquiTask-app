@@ -61,9 +61,6 @@ class ListeTachesRowAdapter(
         holder.buttonStart.setOnClickListener {
             onStartButtonClick(position)
         }
-        if (data[position].done == 100){
-            holder.buttonStart.isEnabled = false
-        }
         holder.imageDevelop.setOnClickListener {
             if (data[position].isDetail) {
                 holder.imageDevelop.setImageResource(R.drawable.arrow_up)
