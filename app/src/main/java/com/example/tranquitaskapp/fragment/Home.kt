@@ -251,22 +251,21 @@ class Home : Fragment() {
     }
 
     private fun takePhoto() {
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.CAMERA
-            ) -> {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    launchCamera()
-                } else {
-                    requestCameraPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                }
-            }
-            else -> {
+        val cameraPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CAMERA
+        )
+        val storagePermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        if (cameraPermission == PackageManager.PERMISSION_GRANTED && storagePermission == PackageManager.PERMISSION_GRANTED) {
+            launchCamera()
+        } else {
+            if (cameraPermission == PackageManager.PERMISSION_GRANTED){
+                requestCameraPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }else{
                 requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
