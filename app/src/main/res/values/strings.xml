@@ -73,4 +73,6 @@
     <string name="concentration">Concentration</string>
     <string name="quit_task">Are you sure you want to quit the task? You will not receive coins, and your progress will be lost.</string>
     <string name="global">Global</string>
+    <string name="divisible">Divisible</string>
+
 </resources>
