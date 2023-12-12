@@ -1,8 +1,6 @@
 package com.example.tranquitaskapp.fragment
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.transition.Slide
 import android.util.Log
@@ -11,13 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,31 +19,17 @@ import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.adapter.FriendsRowAdapter
 import com.example.tranquitaskapp.data.FriendsModel
-import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.ui.CustomPopup
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-// private const val ARG_PARAM1 = "param1"
-// private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Friends.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Friends : Fragment() {
-    // TODO: Rename and change types of parameters
-    // private var param1: String? = null
-    // private var param2: String? = null
 
     private val db = MyFirebase.getFirestoreInstance()
     private lateinit var rv: RecyclerView
@@ -279,7 +258,6 @@ class Friends : Fragment() {
     }
 
     private fun onClickFriends() {
-        //        Toast.makeText(this.context, "Le bouton Amis a été cliqué !", Toast.LENGTH_SHORT).show()
         if (!friendsSelected) {
             friendsSelected = true
             setFriends()
@@ -287,7 +265,6 @@ class Friends : Fragment() {
     }
 
     private fun onClickNewFriend() {
-        //        Toast.makeText(this.context, "Le bouton Demandes d'ami a été cliqué !", Toast.LENGTH_SHORT).show()
         if (friendsSelected) {
             friendsSelected = false
             setDemandes()
@@ -295,7 +272,6 @@ class Friends : Fragment() {
     }
 
     private fun onClickAddFriend() {
-        //        Toast.makeText(this.context, "Le bouton Ajouter un ami a été cliqué !", Toast.LENGTH_SHORT).show()
         val fragment = AddFriend(globalFriends, globalDemandes)
         val slideUp = Slide(Gravity.TOP)
         slideUp.duration = 150 // Durée de l'animation en millisecondes
@@ -350,9 +326,7 @@ class Friends : Fragment() {
         }
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-        //        rv.adapter = FriendsRowAdapter(listFriendsModel) // Initialisez avec une liste vide ou vos données
 
-        //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 
         return view
         // Inflate the layout for this fragment

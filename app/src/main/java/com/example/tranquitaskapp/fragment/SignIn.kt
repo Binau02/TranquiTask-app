@@ -213,22 +213,9 @@ class SignIn : Fragment() {
 
 
         if (storedEmail != null && storedPassword != null) {
-            // Remplir automatiquement les champs
             logUsername.setText(storedEmail)
             logPassword.setText(storedPassword)
 
-            // Tenter une connexion automatique si la checkbox est cochée
-           /* if (checkBoxStillConnected.isChecked) {
-                auth.signInWithEmailAndPassword(storedEmail, storedPassword)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            getUsersInformations(storedEmail)
-                        } else {
-                            // Gérer les erreurs lors de la connexion automatique
-                            Log.e("SignIn", "Échec de la connexion automatique")
-                        }
-                    }
-            }*/
         }
 
         buttonSignIn.setOnClickListener {
@@ -259,10 +246,6 @@ class SignIn : Fragment() {
                     sharedPreferences.edit().putBoolean("checkBoxState", false).apply()
                 }
 
-                // Connexion uniquement si l'utilisateur appuie sur le bouton de connexion
-                // (et non automatiquement au démarrage de l'application)
-                // Notez que la connexion automatique doit être désactivée côté Firebase (dans la console Firebase).
-                // Si elle est activée, l'authentification automatique peut se produire même si le code ici l'empêche.
 
                 // Tenter la connexion
                 auth.signInWithEmailAndPassword(mail, password)

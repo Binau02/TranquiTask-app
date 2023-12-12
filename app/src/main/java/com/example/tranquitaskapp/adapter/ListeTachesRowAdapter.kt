@@ -56,7 +56,6 @@ class ListeTachesRowAdapter(
         return MyViewHolder(layout)
     }
 
-    // TODO : android studio annonce une erreur ici, mais ça marche ¯\_(ツ)_/¯
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.buttonStart.setOnClickListener {
             onStartButtonClick(position)

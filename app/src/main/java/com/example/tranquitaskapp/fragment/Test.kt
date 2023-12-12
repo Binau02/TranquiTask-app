@@ -8,26 +8,13 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tranquitaskapp.data.Category
-import com.example.tranquitaskapp.data.CategoryDictionary
-import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.data.Task
-import com.example.tranquitaskapp.adapter.CategoryRowAdapter
 import com.example.tranquitaskapp.data.CategoryModel
-import com.google.firebase.firestore.DocumentReference
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.ui.CircularProgressBar
-import java.util.Calendar
-import com.bumptech.glide.Glide
-import com.example.tranquitaskapp.data.User
-import io.grpc.okhttp.internal.framed.FrameReader
 
 
 class Test : Fragment() {

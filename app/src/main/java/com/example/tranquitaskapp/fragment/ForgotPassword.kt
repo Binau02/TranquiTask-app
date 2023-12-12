@@ -16,11 +16,7 @@ import com.example.tranquitaskapp.firebase.MyFirebaseAuth
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ForgotPassword.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ForgotPassword : Fragment() {
 
     private val auth = MyFirebaseAuth.getFirestoreInstance()

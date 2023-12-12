@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Spinner
@@ -215,16 +214,13 @@ class AddTask : Fragment() {
             )
         }
 
-        // Spécification du layout déroulant à utiliser lorsque la liste apparaît
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // Récupération des ressources de chaînes et ajout à l'Adapter
         for ((ref, category) in CategoryDictionary.dictionary) {
             adapter?.add(category.name)
             listCategory[category.name] = ref
         }
 
-        // Attribution de l'Adapter au Spinner
         spinnerCategory.adapter = adapter
     }
 
@@ -236,16 +232,13 @@ class AddTask : Fragment() {
             )
         }
 
-        // Spécification du layout déroulant à utiliser lorsque la liste apparaît
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // Récupération des ressources de chaînes et ajout à l'Adapter
         for ((value, priorityName) in Priorities.dictionary) {
             adapter?.add(priorityName)
             listPriority[priorityName] = value
         }
 
-        // Attribution de l'Adapter au Spinner
         spinnerPriority.adapter = adapter
     }
 

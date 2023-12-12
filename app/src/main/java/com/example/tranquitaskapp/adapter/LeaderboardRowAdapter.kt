@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -19,6 +18,7 @@ val db = MyFirebase.getFirestoreInstance()
 
 class LeaderboardRowAdapter(val data: List<LeaderboardModel>, val fragment : Fragment, val goToUserRef: (DocumentReference) -> Unit) :
     RecyclerView.Adapter<LeaderboardRowAdapter.MyViewHolder>() {
+
     class MyViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         val imageView: ImageView = row.findViewById(R.id.avatar)
         val pseudoView: TextView = row.findViewById(R.id.pseudo)
@@ -50,7 +50,6 @@ class LeaderboardRowAdapter(val data: List<LeaderboardModel>, val fragment : Fra
                 }
         }
         holder.pseudoView.text = data[position].pseudo
-//        holder.imageView.setImageResource(data[position].avatar)
         if (data[position].avatar != "") {
             Glide.with(fragment)
                 .load(data[position].avatar)

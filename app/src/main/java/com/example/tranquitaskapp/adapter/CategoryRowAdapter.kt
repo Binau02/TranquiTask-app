@@ -38,8 +38,8 @@ class CategoryRowAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val packageName = holder.itemView.context.packageName // Nom du package de votre application
-        val imageResourceName = data[position].logoResId // Exemple de nom de la ressource
+        val packageName = holder.itemView.context.packageName
+        val imageResourceName = data[position].logoResId
         val imageResourceId = holder.itemView.context.resources.getIdentifier(imageResourceName, "drawable", packageName)
 
         holder.nameView.text = data[position].name
@@ -54,7 +54,6 @@ class CategoryRowAdapter(
                 ListTaskFilter.period = Period.WEEK
             }
             onCategoryClick()
-            Log.d("TEST","Appuie sur la categorie "+holder.nameView.text)
         }
     }
 

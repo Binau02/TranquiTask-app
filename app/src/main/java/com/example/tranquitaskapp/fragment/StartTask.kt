@@ -26,13 +26,10 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.data.Category
 import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.data.TacheModel
-import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.data.User
 import com.example.tranquitaskapp.firebase.MyFirebase
 import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
@@ -335,13 +332,6 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 Log.d("StartTask", "error with permission notification")
                 return
             }
@@ -442,7 +432,6 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
         val timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds)
         textViewTimer.text = timeFormatted
 
-        // buttonStart.text = if (timerRunning) "Pause" else "Start"
     }
 
 

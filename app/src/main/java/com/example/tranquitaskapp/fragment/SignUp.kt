@@ -10,10 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.example.tranquitaskapp.R
@@ -24,11 +22,7 @@ import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.regex.RegexPatterns
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SignUp.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class SignUp : Fragment() {
     private val auth = MyFirebaseAuth.getFirestoreInstance()
     private val db = MyFirebase.getFirestoreInstance()

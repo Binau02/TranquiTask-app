@@ -45,34 +45,19 @@ class ModifyProfile : Fragment() {
         val currentUser = auth.currentUser
         currentUser?.updateEmail(newMail)
             ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // L'adresse e-mail a été mise à jour avec succès
-                    // Vous pouvez mettre à jour localement votre interface utilisateur si nécessaire
-                } else {
-                    // Une erreur s'est produite lors de la mise à jour de l'adresse e-mail
-                    // Vous pouvez utiliser task.exception pour obtenir plus d'informations sur l'erreur
-                }
             }
 
         currentUser?.updatePassword(newPassword)
             ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Le mot de passe a été mis à jour avec succès
-                    // Vous pouvez mettre à jour localement votre interface utilisateur si nécessaire
-                } else {
-                    // Une erreur s'est produite lors de la mise à jour du mot de passe
-                    // Vous pouvez utiliser task.exception pour obtenir plus d'informations sur l'erreur
-                }
+
             }
 
         val userRef = User.ref ?: db.collection("user").document(User.id)
         userRef.update("username", newUsername)
             .addOnSuccessListener {
-                // La mise à jour a réussi
                 Log.d("Update", "ID de la tâche ajouté au tableau tasks de l'utilisateur")
             }
             .addOnFailureListener { e ->
-                // Gérer les erreurs lors de la mise à jour
                 Log.e("Update", "Erreur lors de l'ajout de l'ID de la tâche : $e")
             }
         User.username = newUsername

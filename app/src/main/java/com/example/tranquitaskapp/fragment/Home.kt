@@ -408,25 +408,21 @@ class Home : Fragment() {
 
         buttonToday.setOnClickListener {
             if (currentState != ButtonState.TODAY) {
-                // Mettez à jour l'état et les couleurs
                 currentState = ButtonState.TODAY
                 buttonToday.setBackgroundColor(colorPrimary)
                 buttonWeek.setBackgroundColor(colorDark)
                 buttonToday.setTextColor(colorDark)
                 buttonWeek.setTextColor(colorPrimary)
-                // Appel de la fonction associée au clic sur "Today"
                 onClickToday()
             }
         }
         buttonWeek.setOnClickListener {
             if (currentState != ButtonState.WEEK) {
-                // Mettez à jour l'état et les couleurs
                 currentState = ButtonState.WEEK
                 buttonWeek.setBackgroundColor(colorPrimary)
                 buttonToday.setBackgroundColor(colorDark)
                 buttonWeek.setTextColor(colorDark)
                 buttonToday.setTextColor(colorPrimary)
-                // Appel de la fonction associée au clic sur "Week"
                 onClickWeek()
             }
         }
@@ -440,7 +436,6 @@ class Home : Fragment() {
         }
 
         return view
-        // Inflate the layout for this fragment
     }
 
 }

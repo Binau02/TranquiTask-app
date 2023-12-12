@@ -7,7 +7,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -18,22 +17,11 @@ import com.example.tranquitaskapp.data.Period
 import com.example.tranquitaskapp.data.PeriodDictionary
 import com.example.tranquitaskapp.data.Priorities
 import com.example.tranquitaskapp.data.ListTaskFilter
-import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ListTaskFilter.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ListTaskFilter : Fragment() {
-    // TODO: Rename and change types of parameters
-//    private var param1: String? = null
-//    private var param2: String? = null
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

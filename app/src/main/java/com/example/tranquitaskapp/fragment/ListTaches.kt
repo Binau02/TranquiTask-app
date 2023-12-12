@@ -12,10 +12,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tranquitaskapp.data.CategoryDictionary
@@ -189,8 +187,6 @@ class ListTaches : Fragment() {
             }
 
             override fun afterTextChanged(editable: Editable?) {
-//                val searchText = editable.toString()
-//                onSearchTextChanged(searchText)
             }
         })
 
@@ -198,7 +194,6 @@ class ListTaches : Fragment() {
 
         setTasks()
 
-        //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
         val contextReference = context
         if (contextReference is BottomBarVisibilityListener) {
             bottomBarListener = contextReference
@@ -206,6 +201,5 @@ class ListTaches : Fragment() {
         bottomBarListener?.setBottomBarVisibility(this)
 
         return view
-        // Inflate the layout for this fragment
     }
 }

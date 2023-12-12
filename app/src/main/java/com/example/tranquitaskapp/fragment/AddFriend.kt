@@ -12,12 +12,8 @@ import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.firebase.MyFirebase
 import android.util.Log
 import android.view.Gravity
-import android.widget.Button
 import android.widget.Toast
 import com.example.tranquitaskapp.data.FriendsModel
-import com.example.tranquitaskapp.data.User
-import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
-import com.google.firebase.firestore.FieldValue
 
 
 class AddFriend(val friends : MutableList<FriendsModel>, val demandes : MutableList<FriendsModel>) : Fragment() {

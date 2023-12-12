@@ -32,13 +32,11 @@ class Profile : Fragment() {
         replaceFragment(ModifyProfile())
     }
     private fun onClickScenery(){
-//        Toast.makeText(this.context, "Le bouton Modifier Décor a été cliqué !", Toast.LENGTH_SHORT).show()
         val fragment = EditDecor()
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()
     }
     private fun onClickShop(){
-//        Toast.makeText(this.context, "Le bouton Boutique a été cliqué !", Toast.LENGTH_SHORT).show()
         val fragment = Shop()
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)?.commit()

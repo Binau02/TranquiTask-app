@@ -17,14 +17,12 @@ import androidx.fragment.app.Fragment
 import com.example.tranquitaskapp.R
 import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.data.ListTask
-import com.example.tranquitaskapp.data.Task
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import com.example.tranquitaskapp.data.Priorities
 import com.example.tranquitaskapp.data.TacheModel
-import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.google.firebase.firestore.DocumentReference
 import java.util.Calendar
 
@@ -182,16 +180,13 @@ class ModifyTask(private val task: TacheModel) : Fragment() {
             )
         }
 
-        // Spécification du layout déroulant à utiliser lorsque la liste apparaît
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // Récupération des ressources de chaînes et ajout à l'Adapter
         for ((category, ref) in CategoryDictionary.nameToDocumentReference) {
             adapter?.add(category)
             listCategory[category] = ref
         }
 
-        // Attribution de l'Adapter au Spinner
         spinnerCategory.adapter = adapter
     }
 
@@ -203,16 +198,13 @@ class ModifyTask(private val task: TacheModel) : Fragment() {
             )
         }
 
-        // Spécification du layout déroulant à utiliser lorsque la liste apparaît
         adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // Récupération des ressources de chaînes et ajout à l'Adapter
         for ((value, priorityName) in Priorities.dictionary) {
             adapter?.add(priorityName)
             listPriority[priorityName] = value
         }
 
-        // Attribution de l'Adapter au Spinner
         spinnerPriority.adapter = adapter
     }
 

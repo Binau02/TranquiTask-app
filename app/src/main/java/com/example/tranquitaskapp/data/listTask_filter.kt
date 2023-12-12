@@ -7,9 +7,3 @@ object ListTaskFilter {
     var category: DocumentReference? = null
     var priority: Int = -1
 }
-
-fun resetListTaskFilter(){
-    ListTaskFilter.period = Period.ALL
-    ListTaskFilter.category = null
-    ListTaskFilter.priority = -1
-}

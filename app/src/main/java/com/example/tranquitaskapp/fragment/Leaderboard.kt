@@ -1,7 +1,6 @@
 package com.example.tranquitaskapp.fragment
 
 import android.content.Context
-import android.media.Image
 import android.os.Bundle
 import android.transition.Slide
 import android.util.Log
@@ -10,11 +9,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -97,7 +94,6 @@ class Leaderboard : Fragment() {
     }
 
     private fun onClickChangeLeft(){
-//        Toast.makeText(this.context, "Le bouton < a été cliqué !", Toast.LENGTH_SHORT).show()
         categorieIndex--
         if (categorieIndex == -1) {
             categorieIndex = globalCategories.size - 1
@@ -105,7 +101,6 @@ class Leaderboard : Fragment() {
         setLeaderboard()
     }
     private fun onClickChangeRight(){
-//        Toast.makeText(this.context, "Le bouton > a été cliqué !", Toast.LENGTH_SHORT).show()
         categorieIndex++
         if (categorieIndex == globalCategories.size) {
             categorieIndex = 0
@@ -113,7 +108,6 @@ class Leaderboard : Fragment() {
         setLeaderboard()
     }
     private fun onClickText(){
-//        Toast.makeText(this.context, "Le texte a été cliqué !", Toast.LENGTH_SHORT).show()
         categorieIndex = 0
         setLeaderboard()
     }
@@ -362,34 +356,7 @@ class Leaderboard : Fragment() {
 
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-//        rv.adapter = LeaderboardRowAdapter(listLeaderboardModel) // Initialisez avec une liste vide ou vos données
-
-        //loadRecyclerViewData(rv) // Chargez les données dans la RecyclerView
 
         return view
-        // Inflate the layout for this fragment
     }
-
-    /*
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Leaderboard.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Leaderboard().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
-     */
 }
