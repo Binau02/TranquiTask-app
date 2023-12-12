@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.tranquitaskapp.fragment
 
 import android.Manifest
@@ -19,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,10 +38,13 @@ import com.example.tranquitaskapp.interfaces.BottomBarVisibilityListener
 import com.example.tranquitaskapp.ui.CircularProgressBar
 import java.util.Calendar
 import com.bumptech.glide.Glide
+import com.example.tranquitaskapp.adapter.db
 import com.example.tranquitaskapp.data.User
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.common.collect.Comparators.min
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
+import java.io.FileOutputStream
 
 
 class Home : Fragment() {
@@ -50,11 +56,11 @@ class Home : Fragment() {
 
     private var day: Boolean = true
 
-    private val REQUEST_IMAGE_CAPTURE = 1
+    private val requestImageCapture = 1
     private lateinit var profilePhoto: ShapeableImageView
     private lateinit var imagePhoto: ImageView
 
-    var currentState: ButtonState = ButtonState.TODAY
+    private var currentState: ButtonState = ButtonState.TODAY
 
     enum class ButtonState {
         TODAY, WEEK
@@ -63,11 +69,9 @@ class Home : Fragment() {
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                // La permission a été accordée, vous pouvez maintenant lancer l'appareil photo.
                 launchCamera()
             } else {
-                // La permission a été refusée.
-                // Vous pouvez afficher un message à l'utilisateur ou prendre d'autres mesures.
+                Toast.makeText(this.context, "Vous devez accepter d'utiliser l'appareil photo et les fichiers externes !", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -231,94 +235,109 @@ class Home : Fragment() {
     }
 
     private fun takePhoto() {
-        when {
+        when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                // La permission est déjà accordée, vous pouvez lancer l'appareil photo.
-                launchCamera()
+            ) -> {
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    launchCamera()
+                } else {
+                    requestCameraPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                }
             }
-
             else -> {
-                // La permission n'est pas accordée, demandez-la à l'utilisateur.
                 requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     private fun launchCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            startActivityForResult(takePictureIntent, requestImageCapture)
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val imageUri: Uri? = if (data != null && data.data != null) {
-                data.data
-            } else {
-                // Si l'URI n'est pas disponible, utilisez l'URI de l'image précédemment défini
-                // Vous pouvez le récupérer à partir de l'intent original de l'appareil photo
-                // ou d'une autre manière en fonction de votre implémentation
-                // par exemple, imageUri = Uri.fromFile(photoFile)
-                null
-            }
+        if (requestCode == requestImageCapture && resultCode == Activity.RESULT_OK) {
 
             val imageBitmap = data?.extras?.get("data") as Bitmap?
 
-            if (imageUri != null && imageBitmap != null) {
+            if (imageBitmap != null) {
+                val squareBitmap = resizeBitmapToSquare(imageBitmap)
+
+                val tempFile = createTempFile("image", ".jpg", requireContext().externalCacheDir)
+                Log.d("PHOTO", "Path du fichier temporaire : ${tempFile.absolutePath}")
+
+                val outputStream = FileOutputStream(tempFile)
+                squareBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                outputStream.close()
 
 
-                // Obtenez une référence au FirebaseStorage
                 val storage = Firebase.storage
 
-                // Créez une référence au dossier où vous souhaitez stocker l'image
-                val storageRef = storage.reference.child("profile_picture")
+                val storageRef = storage.reference
 
-                // Obtenez l'URI de votre nouvelle image (par exemple, depuis la galerie)
+                val profilePictureRef = storageRef.child("profile_picture")
 
-                // Remplacez le nom de l'image existante que vous souhaitez écraser
-                val existingImageName = User.id+".jpg"
 
-                // Créez une référence à l'image existante dans le stockage Firebase
-                val existingImageRef = storageRef.child(existingImageName)
+                val existingImageName = User.id + ".jpg"
 
-                existingImageRef.metadata.addOnSuccessListener { metadata ->
-                    if (metadata != null && metadata.sizeBytes > 0) {
-                        // L'image existe, écrasez-la avec la nouvelle image
-                        existingImageRef.putFile(imageUri)
-                            .addOnSuccessListener { taskSnapshot ->
-                                // L'upload est réussi, vous pouvez obtenir l'URL de la nouvelle image
+                val existingImageRef = profilePictureRef.child(existingImageName)
+
+                existingImageRef.metadata.addOnSuccessListener {
+                    existingImageRef.putFile(Uri.fromFile(tempFile))
+                        .addOnSuccessListener {
+                            existingImageRef.downloadUrl.addOnSuccessListener { uri ->
+                                val newImageUrl = uri.toString()
+                                User.profile_picture = newImageUrl
+                                db.collection("user").document(User.id)
+                                    .update("profile_picture",newImageUrl)
+                                    .addOnSuccessListener {
+                                        Log.d("PHOTO","PHOTO MODIFIE AVEC SUCCES")
+                                    }
+                            }
+                        }
+                        .addOnFailureListener {
+                            Log.d("PHOTO", "PASSAGE premiere erreur : $it")
+                        }
+
+                }
+                    .addOnFailureListener {
+                        existingImageRef.putFile(Uri.fromFile(tempFile))
+                            .addOnSuccessListener {
                                 existingImageRef.downloadUrl.addOnSuccessListener { uri ->
                                     val newImageUrl = uri.toString()
-                                    // Faites quelque chose avec la nouvelle URL de l'image si nécessaire
+                                    User.profile_picture = newImageUrl
+                                    db.collection("user").document(User.id)
+                                        .update("profile_picture",newImageUrl)
+                                        .addOnSuccessListener {
+                                            Log.d("PHOTO","PHOTO MODIFIE AVEC SUCCES")
+                                        }
                                 }
                             }
-                            .addOnFailureListener { exception ->
-                                // L'upload a échoué, gérer l'erreur
-                            }
-                    } else {
-                        // L'image n'existe pas, créez-la avec la nouvelle image
-                        storageRef.putFile(imageUri)
-                            .addOnSuccessListener { taskSnapshot ->
-                                // L'upload est réussi, vous pouvez obtenir l'URL de la nouvelle image
-                                storageRef.downloadUrl.addOnSuccessListener { uri ->
-                                    val newImageUrl = uri.toString()
-                                    // Faites quelque chose avec la nouvelle URL de l'image si nécessaire
-                                }
+                            .addOnFailureListener {
+                                Log.d("PHOTO", "PASSAGE DEUXIEME erreur : $it")
                             }
                     }
-                }
-
-                // La photo a été capturée avec succès. Vous pouvez récupérer l'image ici.
-                // Faites quelque chose avec l'image capturée, par exemple, l'afficher dans votre ImageView.
-                profilePhoto.setImageBitmap(imageBitmap)
+                profilePhoto.setImageBitmap(squareBitmap)
             }
         }
+    }
+    private fun resizeBitmapToSquare(bitmap: Bitmap): Bitmap {
+        val size = min(bitmap.width, bitmap.height)
+        val x = (bitmap.width - size) / 2
+        val y = (bitmap.height - size) / 2
+        return Bitmap.createBitmap(bitmap, x, y, size, size)
     }
 
 
