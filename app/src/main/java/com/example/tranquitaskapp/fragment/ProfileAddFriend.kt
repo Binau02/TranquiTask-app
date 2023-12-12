@@ -68,6 +68,12 @@ class ProfileAddFriend (val friendDoc : DocumentReference) : Fragment() {
             addFriend()
         }
 
+        view.findViewById<Button>(R.id.back2).setOnClickListener{
+            val fragment = Friends()
+            val transaction = fragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frameLayout, fragment)?.commit()
+        }
+
         lifecycleScope.launch {
             getFriend()
         }
