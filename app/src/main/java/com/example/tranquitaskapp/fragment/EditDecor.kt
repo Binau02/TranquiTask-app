@@ -93,7 +93,12 @@ class EditDecor : Fragment() {
                     i++
                     var isBought = false
                     for (bought in User.bought[category]!!) {
-                        if (item.name.replace(category, "").replace(".png", "") == bought) {
+                        if (
+                            item.name.replace(category, "")
+                                .replace(".png", "")
+                                .replace(".jpg", "")
+                            == bought
+                        ) {
                             isBought = true;
                         }
                     }
