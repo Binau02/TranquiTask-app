@@ -28,6 +28,14 @@
         app:srcCompat="@drawable/soleil_nuage" />
 
     <ImageView
+        android:id="@+id/sol"
+        android:layout_width="436dp"
+        android:layout_height="93dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/herbe_removebg" />
+
+    <ImageView
         android:id="@+id/maison"
         android:layout_width="240dp"
         android:layout_height="210dp"
@@ -37,14 +45,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/maison2_removebg" />
-
-    <ImageView
-        android:id="@+id/sol"
-        android:layout_width="436dp"
-        android:layout_height="93dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/herbe_removebg" />
 
     <ImageView
         android:id="@+id/arbre"
