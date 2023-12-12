@@ -25,7 +25,6 @@ import kotlinx.coroutines.withContext
 
 class ProfileOther (val ref : DocumentReference,val friends: Boolean): Fragment() {
     val db = MyFirebase.getFirestoreInstance()
-    private lateinit var userUsername : String
     private val decor: HashMap<String, String> = hashMapOf()
 
     private var username = ""
@@ -94,6 +93,8 @@ class ProfileOther (val ref : DocumentReference,val friends: Boolean): Fragment(
                     .into(image)
             }
         }
+
+        view.findViewById<TextView>(R.id.tv_pseudo).text = username
 
         view.findViewById<TextView>(R.id.tvcoin_profile).text = coins.toString()
     }
