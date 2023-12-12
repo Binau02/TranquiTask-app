@@ -25,7 +25,7 @@
     <string name="password">Mot de passe</string>
     <string name="RememberMe">Se souvenir de moi</string>*
     <string name="ForgotPassword">Mot de passe oublié</string>
-    <string name="signin">S inscrire</string>
+    <string name="signin">S\'inscrire</string>
     <string name="ConfirmPassword">Confirmez votre mot de passe</string>
     <string name="NewAccount">Pas encore de compte ?</string>
     <string name="login">Se connecter</string>
