@@ -28,6 +28,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.tranquitaskapp.R
+import com.example.tranquitaskapp.data.Category
+import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.data.ListTask
 import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.data.Task
@@ -354,7 +356,7 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
 
         val transactionData = hashMapOf(
             "amount" to task.duration - timeLeftMillis/60000 - 1,
-            "categorie" to task.category,
+            "categorie" to CategoryDictionary.nameToDocumentReference.get(task.category),
             "date" to Timestamp.now(),
             "user" to userReference,
         )
