@@ -28,8 +28,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.tranquitaskapp.R
-import com.example.tranquitaskapp.data.Category
-import com.example.tranquitaskapp.data.CategoryDictionary
 import com.example.tranquitaskapp.data.TacheModel
 import com.example.tranquitaskapp.data.Task
 import com.example.tranquitaskapp.data.User
@@ -55,11 +53,17 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
     private var timeLeftMillis: Long = initialMillis
     private var timerRunning = false
 
+    private lateinit var seekBar : SeekBar
+    private lateinit var seekBarTask : SeekBar
+    private lateinit var tvBreak : TextView
+    private lateinit var tvStart : TextView
+    private lateinit var tvValidate : TextView
+
+    private var areSeekBarsVisible = true  // Variable pour suivre l'état des SeekBars
+
     private var isStopOnce = false
     private var isSreenOFF_once = false
     private var mainActivityListener: MainActivityListener? = null
-
-    private var isConcentration = false
 
     private val CHANNEL_ID = "myChannel01"
 
@@ -131,34 +135,23 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
         val buttonSaveQuit = view.findViewById<Button>(R.id.button_save_quit)
         textViewTimer = view.findViewById(R.id.countdown)
 
-        val tvScreenBlock = view.findViewById<TextView>(R.id.tw_screenBlock)
-        val attention = view.findViewById<ImageView>(R.id.attention)
-        if(task.concentration) {
-            tvScreenBlock.visibility = View.VISIBLE
-            attention.visibility = View.VISIBLE
-            isConcentration = true
-        }
-        else {
-            tvScreenBlock.visibility = View.INVISIBLE
-            attention.visibility = View.INVISIBLE
-            isConcentration = false
-        }
-
         val seekBar = view.findViewById<SeekBar>(R.id.slider)
         val seekBarTask = view.findViewById<SeekBar>(R.id.slidertask)
         val tvBreak = view.findViewById<TextView>(R.id.tvBreak)
         val tvStart = view.findViewById<TextView>(R.id.tvStart)
         val tvValidate = view.findViewById<TextView>(R.id.tvValidate)
-
         screenStateReceiver = ScreenStateReceiver(this)
 
 
-        // Initialisez la visibilité des SeekBars
-        seekBar.visibility = View.VISIBLE
-        tvStart.visibility = View.VISIBLE
-        tvBreak.visibility = View.GONE
-        tvValidate.visibility = View.GONE
-        seekBarTask.visibility = View.GONE
+            if (areSeekBarsVisible) {
+                seekBar.visibility = View.VISIBLE
+                tvStart.visibility = View.VISIBLE
+                tvBreak.visibility = View.GONE
+                tvValidate.visibility = View.GONE
+                seekBarTask.visibility = View.GONE
+            }
+
+        buttonSaveQuit.visibility = View.GONE
 
         seekBar.progress = 5
         seekBarTask.progress = 50
@@ -167,6 +160,7 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
         var lastTouchTime: Long = 5
 
         val handler = Handler()
+
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -181,6 +175,8 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
                 seekBar?.let {
                     if (it.progress == it.max) {
                         startTimer()
+                        buttonSaveQuit.visibility = View.GONE
+
                         seekBar.visibility = View.GONE
                         tvStart.visibility = View.GONE
                         tvBreak.visibility = View.VISIBLE
@@ -203,10 +199,10 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
             override fun onStopTrackingTouch(seekBarTask: SeekBar?) {
 
                 seekBarTask?.let {
-                    if (it.progress == it.max) {
+                    if (it.progress == 100) {
                         timerRunning = false
                         onClickValidate()
-                    } else if (it.progress == it.min) {
+                    } else if (it.progress == 0) {
                         pauseTimer()
                         if(task.isDivisible){
                             buttonSaveQuit.visibility = View.VISIBLE
@@ -220,6 +216,7 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
                         seekBarTask.visibility = View.GONE
                         seekBar.progress = 0
                     } else if (it.progress != it.min) {
+                        buttonSaveQuit.visibility = View.GONE
                         seekBarTask.progress = 50
                     }
 
@@ -336,11 +333,11 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
 
     private fun addCoinToUser(){
         val transactionCollection = db.collection("transaction")
-        val userReference = User.ref
+        val userReference = db.collection("user").document(User.id)
 
         val transactionData = hashMapOf(
             "amount" to task.duration - timeLeftMillis/60000,
-            "categorie" to CategoryDictionary.nameToDocumentReference[task.category],
+            "categorie" to task.category,
             "date" to Timestamp.now(),
             "user" to userReference,
         )
@@ -354,12 +351,12 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
                 Log.e("ERROR", "Error adding in transactionCollection : $e")
             }
 
-        userReference?.update(updateUser as Map<String, Any>)
-            ?.addOnSuccessListener {
+        userReference.update(updateUser as Map<String, Any>)
+            .addOnSuccessListener {
                 User.coins += (task.duration - timeLeftMillis/60000)
                 mainActivityListener?.refreshCoins()
             }
-            ?.addOnFailureListener { e ->
+            .addOnFailureListener { e ->
                 Log.e("ERROR", "Error adding in transactionCollection : $e")
             }
     }
@@ -414,9 +411,9 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
         countdownTimer.cancel()
         timerRunning = false
         timeLeftMillis = initialMillis
-
         updateTimer()
     }
+
 
     private fun updateTimer() {
         val hours = ((timeLeftMillis / 1000) / 3600).toInt()
@@ -433,9 +430,23 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
     // Gérer le blockage d'écran
     override fun onResume() {
         super.onResume()
-        if (isStopOnce and timerRunning and !isSreenOFF_once and isConcentration){
+
+        val seekBar = view?.findViewById<SeekBar>(R.id.slider)
+        val seekBarTask = view?.findViewById<SeekBar>(R.id.slidertask)
+        val tvBreak = view?.findViewById<TextView>(R.id.tvBreak)
+        val tvStart = view?.findViewById<TextView>(R.id.tvStart)
+        val tvValidate = view?.findViewById<TextView>(R.id.tvValidate)
+
+
+        if (isStopOnce and timerRunning and !isSreenOFF_once){
             Toast.makeText(this.context, "Vous avez quitté l'application donc vous ne gagnez pas de coins", Toast.LENGTH_LONG).show()
             cancelTimer()
+            seekBar?.visibility = View.VISIBLE
+            seekBarTask?.visibility = View.GONE
+            tvStart?.visibility = View.VISIBLE
+            tvBreak?.visibility = View.GONE
+            tvValidate?.visibility = View.GONE
+            seekBar?.progress = 0
         }
         if (isSreenOFF_once){
             isSreenOFF_once = false
@@ -444,10 +455,11 @@ class StartTask(private val task: TacheModel) : Fragment(), ScreenStateReceiver.
 
     override fun onStop() {
         super.onStop()
-        if (timerRunning and isConcentration) {
+        if (timerRunning) {
             isStopOnce = true
             Toast.makeText(this.context, "Vous avez quitté la page donc vous ne gagnez pas de coins", Toast.LENGTH_LONG)
                 .show()
+
         }
     }
 

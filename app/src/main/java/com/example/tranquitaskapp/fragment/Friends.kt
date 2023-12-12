@@ -129,7 +129,7 @@ class Friends : Fragment() {
     private suspend fun getDemandes() {
         try {
             user = withContext(Dispatchers.IO) {
-                Tasks.await(db.collection("user").document(User.id).get())
+                Tasks.await(User.ref!!.get())
             }
             demandes = user.get("demandes") as MutableList<DocumentReference>
             for (demandeDoc in demandes) {

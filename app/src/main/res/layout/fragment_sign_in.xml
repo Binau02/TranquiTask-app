@@ -57,199 +57,219 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerInParent="true"
-                android:layout_alignParentTop="true">
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
 
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="0dp"
+                    android:background="@color/my_primary_light"
+                    android:padding="10dp">
 
-
-                    <androidx.cardview.widget.CardView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="0dp"
-                        android:padding="10dp"
-                        android:id="@+id/card_view"
-                        android:background="@color/my_primary_light">
+                        android:layout_height="match_parent"
+                        android:background="@color/my_primary_light"
+                        android:orientation="vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp">
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp" />
+
+                        <EditText
+                            android:id="@+id/log_username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/username"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/my_dark"
+                            android:textColorHint="@color/my_dark" />
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp" />
+
+                        <EditText
+                            android:id="@+id/log_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/password"
+                            android:inputType="textPassword"
+                            android:textColor="@color/my_dark"
+                            android:textColorHint="@color/my_dark" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:id="@+id/checkBoxStillConnected"
+                                style="@style/CheckBoxStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="15dp"
+                                android:alpha="0.7"
+                                android:paddingHorizontal="5dp"
+                                android:text="@string/RememberMe"
+                                android:textColor="@color/my_dark" />
+                        </RelativeLayout>
+
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp" />
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"></RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:gravity="center">
+
+                                <RelativeLayout
+                                    android:layout_width="200dp"
+                                    android:layout_height="60dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:gravity="center">
+
+                                    <androidx.cardview.widget.CardView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/my_primary"
+                                        android:elevation="15dp"
+                                        app:cardCornerRadius="30dp">
+
+                                        <ImageView
+                                            android:id="@+id/btnLogIn"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:elevation="15dp"
+                                            android:src="@drawable/rounded_button" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:elevation="15dp"
+                                            android:gravity="center"
+                                            android:text="@string/login"
+                                            android:textColor="?attr/colorPrimary"
+                                            android:textSize="24dp"
+                                            android:textStyle="bold" />
+                                    </androidx.cardview.widget.CardView>
+
+
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="10dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingStart="20dp"
-                            android:paddingEnd="20dp"
-                            android:background="@color/my_primary_light">
-                            <View
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/tvForgotPassword"
                                 android:layout_width="wrap_content"
-                                android:layout_height="10dp"/>
-                            <EditText
-                                android:id="@+id/log_username"
-                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/username"
-                                android:textColor="@color/my_dark"
-                                android:textColorHint="@color/my_dark"
-                                android:inputType="textEmailAddress"/>
-                            <View
-                                android:layout_width="wrap_content"
-                                android:layout_height="10dp"/>
-                            <EditText
-                                android:id="@+id/log_password"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/password"
-                                android:textColorHint="@color/my_dark"
-                                android:textColor="@color/my_dark"
-                                android:inputType="textPassword"
-                                />
+                                android:alpha="0.7"
+                                android:gravity="center"
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                                <CheckBox
-                                    android:id="@+id/checkBoxStillConnected"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/RememberMe"
-                                    android:textColor="@color/my_dark"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginStart="15dp"
-                                    android:alpha="0.7"
-                                    style="@style/CheckBoxStyle"
-                                    android:paddingHorizontal="5dp"/>
-                            </RelativeLayout>
-
-
-                            <View
-                                android:layout_width="wrap_content"
-                                android:layout_height="10dp"/>
-                            <LinearLayout
-                                android:id="@+id/linearLayout"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                                <RelativeLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1">
-                                </RelativeLayout>
-                                <RelativeLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="3"
-                                    android:gravity="center">
-                                    <RelativeLayout
-                                        android:layout_width="200dp"
-                                        android:layout_height="60dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:gravity="center"
-                                        >
-                                        <androidx.cardview.widget.CardView
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            app:cardCornerRadius="30dp"
-                                            android:background="@color/my_primary"
-                                            android:elevation="15dp">
-                                            <ImageView
-                                                android:id="@+id/btnLogIn"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"
-                                                android:src="@drawable/rounded_button"
-                                                android:elevation="15dp"/>
-
-                                            <TextView
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"
-                                                android:elevation="15dp"
-                                                android:gravity="center"
-                                                android:text="@string/login"
-                                                android:textSize="24dp"
-                                                android:textColor="?attr/colorPrimary"
-                                                android:textStyle="bold" />
-                                        </androidx.cardview.widget.CardView>
-
-
-                                    </RelativeLayout>
-
-                                </RelativeLayout>
-                                <ImageView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_weight="1" />
-                            </LinearLayout>
-                            <View
-                                android:layout_width="wrap_content"
-                                android:layout_height="10dp"/>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center">
-                                <TextView
-                                    android:id="@+id/tvForgotPassword"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:textColor="@color/my_dark"
-
-                                    android:text="@string/ForgotPassword"
-                                    android:alpha="0.7"/>
-                            </LinearLayout>
-                            <View
-                                android:layout_width="wrap_content"
-                                android:layout_height="20dp"/>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                                <View
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="1dp"
-                                    android:layout_weight="3"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@android:drawable/screen_background_dark" />
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="or"
-                                    android:textColor="@color/my_dark"
-
-                                    android:layout_weight="5"
-                                    android:gravity="center"/>
-                                <View
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="1dp"
-                                    android:layout_weight="3"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="@android:drawable/screen_background_dark" />
-                            </LinearLayout>
-                            <View
-                                android:layout_width="wrap_content"
-                                android:layout_height="15dp"/>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/my_dark"
-
-                                    android:text="@string/NewAccount" />
-                                <TextView
-                                    android:id="@+id/tvSignIn"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/signin"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/my_primary"/>
-                            </LinearLayout>
-
+                                android:text="@string/ForgotPassword"
+                                android:textColor="@color/my_dark" />
                         </LinearLayout>
-                    </androidx.cardview.widget.CardView>
 
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <View
+                                android:layout_width="wrap_content"
+                                android:layout_height="1dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="3"
+                                android:background="@android:drawable/screen_background_dark" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="5"
+                                android:gravity="center"
+
+                                android:text="or"
+                                android:textColor="@color/my_dark" />
+
+                            <View
+                                android:layout_width="wrap_content"
+                                android:layout_height="1dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="3"
+                                android:background="@android:drawable/screen_background_dark" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/NewAccount"
+
+                                android:textColor="@color/my_dark" />
+
+                            <TextView
+                                android:paddingStart="5dp"
+                                android:id="@+id/tvSignIn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/signin"
+                                android:textColor="@color/my_primary"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
 
             </LinearLayout>

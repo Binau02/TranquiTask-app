@@ -156,8 +156,10 @@ class EditDecor : Fragment() {
             if (s != State.LOADING) {
                 val name = stateToName[s] ?: ""
 
-                User.ref?.update(name, selected[s]?.image)
-                User.decor[name] = selected[s]?.image ?: ""
+                if (selected[s] != null) {
+                    User.ref?.update(name, selected[s]?.image)
+                    User.decor[name] = selected[s]?.image ?: ""
+                }
             }
         }
 
