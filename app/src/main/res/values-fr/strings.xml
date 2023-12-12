@@ -23,7 +23,7 @@
     <string name="textLogin">Veuillez vous connecter avec vos informations</string>
     <string name="username">Nom d utilisateur</string>
     <string name="password">Mot de passe</string>
-    <string name="RememberMe">Se souvenir de moi</string>*
+    <string name="RememberMe">Se souvenir de moi</string>
     <string name="ForgotPassword">Mot de passe oublié</string>
     <string name="signin">S\'inscrire</string>
     <string name="ConfirmPassword">Confirmez votre mot de passe</string>
