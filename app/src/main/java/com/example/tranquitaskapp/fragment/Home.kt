@@ -75,6 +75,22 @@ class Home : Fragment() {
             }
         }
 
+    private val requestNotificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Toast.makeText(
+                    this.context,
+                    "Vous recevrez les notifications !",
+                    Toast.LENGTH_SHORT
+                ).show()            } else {
+                Toast.makeText(
+                    this.context,
+                    "Vous ne recevrez pas de notifications !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
     // Définissez les couleurs
     private var colorPrimary: Int = 0
     private var colorDark: Int = 0
@@ -345,6 +361,15 @@ class Home : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val notificationPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.POST_NOTIFICATIONS
+        )
+        if (notificationPermission != PackageManager.PERMISSION_GRANTED){
+            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         rv = view.findViewById(R.id.rv)
         progressBar = view.findViewById(R.id.progressBar)
