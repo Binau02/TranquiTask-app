@@ -3,6 +3,7 @@ package com.example.tranquitaskapp.fragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.Slide
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
@@ -102,5 +103,10 @@ class MainActivity : AppCompatActivity(), BottomBarVisibilityListener, MainActiv
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout,fragment)
         fragmentTransaction.commit()
+    }
+
+    override fun onStop() {
+        onClickSignOut()
+        super.onStop()
     }
 }
