@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Bouton radio sélectionné -->
+    <item android:drawable="@drawable/custom_radio_button_selected" android:state_checked="true"/>
+    <!-- Bouton radio non sélectionné -->
+    <item android:drawable="@drawable/custom_radio_button"/>
+</selector>

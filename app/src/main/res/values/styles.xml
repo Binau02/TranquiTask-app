@@ -31,4 +31,13 @@
         <item name="android:textColor">?attr/colorPrimary</item>
 
     </style>
+
+    <style name="DatePickerDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">#000000</item> <!-- Couleur de l'accent (sélection) -->
+        <item name="android:textColorPrimary">#000000</item> <!-- Couleur du texte principal -->
+        <item name="android:textColorPrimaryInverse">#FFFFFF</item> <!-- Couleur du texte principal en mode inverse -->
+        <item name="materialButtonOutlinedStyle">@style/Widget.MaterialComponents.Button.OutlinedButton</item>
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+    </style>
+
 </resources>

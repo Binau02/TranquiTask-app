@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.Test">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,7 +74,7 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                        <com.example.tranquitaskapp.ui.CircularProgressBar
+                        <tranquitaskstudio.project.tranquitaskapp.ui.CircularProgressBar
                             android:id="@+id/circularProgressBar2"
                             android:layout_width="250dp"
                             android:layout_height="250dp"
@@ -89,7 +88,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:percentage="100.01" />
 
-                        <com.example.tranquitaskapp.ui.CircularProgressBar
+                        <tranquitaskstudio.project.tranquitaskapp.ui.CircularProgressBar
                             android:id="@+id/progressBar"
                             android:layout_width="250dp"
                             android:layout_height="250dp"
