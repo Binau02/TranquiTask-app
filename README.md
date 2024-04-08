@@ -1,4 +1,3 @@
 # TranquiTask-app
 
-Voici un lien vers notre application si vous souhaitez la tester!
-https://play.google.com/store/apps/details?id=tranquitaskstudio.project.tranquitaskapp
+Vous pouvez télécharger notre application ici : https://drive.google.com/file/d/1ukZbeRVI4F9cyfeUDHL7io1c36ptWszf/view?usp=sharing !
